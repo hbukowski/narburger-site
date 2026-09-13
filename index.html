@@ -202,7 +202,8 @@
     <div class="modalActions">
       <button class="btn" onclick="closeCheckout()">Geri</button>
       <button class="btn" onclick="copyOrder()">Siparişi Kopyala</button>
-      <a class="btn primary" href="tel:+904622030606">Dükkânı Ara</a>
+      <button class="btn primary" onclick="sendWhatsApp()">WhatsApp'tan Sipariş Gönder</button>
+      <a class="btn" href="tel:+904622030606">Dükkânı Ara</a>
     </div>
   </div>
 </div>
@@ -262,6 +263,25 @@
     try{ await navigator.clipboard.writeText(orderText()); alert('Sipariş özeti kopyalandı.'); }
     catch(e){ alert('Kopyalama yapılamadı. Sipariş özetini seçip kopyalayabilirsin.'); }
   }
+
+  function sendWhatsApp(){
+    if(!cart.length){ alert('Sepetin boş.'); return; }
+
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+
+    if(!name || !phone || !address){
+      alert('Lütfen ad soyad, telefon ve adres bilgilerini doldur.');
+      return;
+    }
+
+    const whatsappNumber = '904622030606';
+    const text = encodeURIComponent(orderText());
+    const url = `https://wa.me/${whatsappNumber}?text=${text}`;
+    window.open(url, '_blank');
+  }
+
   document.getElementById('openCart').onclick = ()=>drawer.classList.add('open');
   renderCart();
 </script>
