@@ -1151,24 +1151,12 @@ return;
 }
 
 
-const whatsappNumber=
-"904622030606";
+const whatsappNumber = "904622030606";
+const text = encodeURIComponent(orderText());
 
+const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${text}`;
 
-const text=
-encodeURIComponent(
-orderText()
-);
-
-
-const url=
-`https://wa.me/${whatsappNumber}?text=${text}`;
-
-
-window.open(
-url,
-"_blank"
-);
+window.location.href = url;
 
 }
 
