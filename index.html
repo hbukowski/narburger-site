@@ -1,289 +1,1190 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#080808" />
-  <title>Narburger | Online Sipariş</title>
-  <meta name="description" content="Narburger Ayasofya Trabzon. Burger siparişini hızlıca oluştur, sepetine ekle ve siparişini tamamla." />
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="apple-touch-icon" href="favicon.png" />
-  <style>
-    :root{
-      --bg:#080808; --card:#111; --card2:#171717; --line:#2a2a2a;
-      --text:#fff; --muted:#aaa; --red:#ee2b33; --red2:#ff4b52;
-      --shadow:0 18px 60px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    button,input,textarea,select{font:inherit}
-    a{color:inherit;text-decoration:none}
-    .wrap{width:min(1180px,calc(100% - 28px));margin:auto}
-    .top{position:sticky;top:0;z-index:30;background:rgba(8,8,8,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-    .nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{height:52px;width:auto;display:block}
-    .cartBtn{border:0;background:#fff;color:#111;font-weight:900;border-radius:999px;padding:13px 18px;cursor:pointer}
-    .hero{padding:34px 0 18px}
-    .heroGrid{display:grid;grid-template-columns:1.45fr .75fr;gap:18px}
-    .heroCard,.promo{border:1px solid var(--line);border-radius:30px;overflow:hidden;box-shadow:var(--shadow)}
-    .heroCard{min-height:500px;padding:46px;display:flex;flex-direction:column;justify-content:space-between;background:
-      radial-gradient(circle at 92% 20%,rgba(238,43,51,.32),transparent 32%),
-      linear-gradient(135deg,#151515,#0d0d0d 65%)}
-    .location{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.18em;font-size:13px}
-    .location img{width:42px;height:42px;object-fit:contain}
-    .kicker{color:#ff7075;font-weight:900;letter-spacing:.2em;font-size:13px;margin:32px 0 12px}
-    h1{font-size:clamp(58px,8vw,108px);line-height:.84;letter-spacing:-.075em;margin:0 0 22px}
-    .lead{color:#c9c9c9;font-size:20px;line-height:1.45;max-width:740px}
-    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-    .btn{border:1px solid var(--line);background:#161616;color:#fff;border-radius:15px;padding:15px 22px;font-weight:900;cursor:pointer}
-    .btn.primary{background:var(--red);border-color:var(--red)}
-    .promo{padding:38px;background:
-      radial-gradient(circle at 90% 0,rgba(238,43,51,.25),transparent 35%),#121010;
-      display:flex;flex-direction:column;justify-content:space-between;min-height:500px}
-    .badge{display:inline-block;background:var(--red);padding:9px 13px;border-radius:999px;font-size:12px;font-weight:900;letter-spacing:.15em}
-    .promo h2{font-size:42px;line-height:1.02;margin:18px 0 14px}
-    .promo p{color:var(--muted);font-size:17px}
-    .price{font-size:70px;font-weight:1000;letter-spacing:-.05em;margin-top:32px}
-    .infoBar{margin:18px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .infoPill{border:1px solid var(--line);background:#101010;border-radius:18px;padding:18px 20px}
-    .infoPill b{display:block;margin-bottom:5px}
-    .infoPill span{color:var(--muted)}
-    .sectionHead{display:flex;align-items:end;justify-content:space-between;margin:50px 0 18px;gap:16px}
-    .sectionHead .mini{color:#ff7075;font-size:12px;font-weight:900;letter-spacing:.2em}
-    .sectionHead h2{font-size:38px;margin:6px 0 0}
-    .sectionHead p{color:var(--muted);margin:0}
-    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-    .item{border:1px solid var(--line);border-radius:24px;background:var(--card);padding:22px;display:flex;flex-direction:column;min-height:310px}
-    .item .emoji{font-size:52px}
-    .item h3{font-size:24px;margin:18px 0 8px}
-    .item p{color:var(--muted);line-height:1.45;flex:1}
-    .itemBottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}
-    .itemPrice{font-size:25px;font-weight:900}
-    .add{border:0;background:#fff;color:#111;border-radius:12px;padding:11px 14px;font-weight:900;cursor:pointer}
-    .note{margin:18px 0 50px;border:1px solid var(--line);background:#0f0f0f;border-radius:20px;padding:20px;color:#cfcfcf}
-    footer{border-top:1px solid var(--line);padding:34px 0 46px;text-align:center;color:var(--muted)}
-    footer img{width:78px;margin-bottom:12px}
-    .drawer{position:fixed;inset:0;z-index:50;pointer-events:none}
-    .overlay{position:absolute;inset:0;background:rgba(0,0,0,.72);opacity:0;transition:.2s}
-    .panel{position:absolute;top:0;right:0;width:min(470px,100%);height:100%;background:#101010;border-left:1px solid var(--line);transform:translateX(100%);transition:.25s;padding:22px;overflow:auto}
-    .drawer.open{pointer-events:auto}.drawer.open .overlay{opacity:1}.drawer.open .panel{transform:none}
-    .panelHead{display:flex;align-items:center;justify-content:space-between}
-    .close{border:1px solid var(--line);background:#181818;color:#fff;border-radius:10px;padding:8px 11px;cursor:pointer}
-    .cartLine{display:grid;grid-template-columns:1fr auto;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
-    .qty{display:flex;align-items:center;gap:8px}
-    .qty button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:#181818;color:#fff}
-    .total{display:flex;justify-content:space-between;font-size:24px;font-weight:900;padding:20px 0}
-    .modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.78);display:none;place-items:center;padding:16px}
-    .modal.open{display:grid}
-    .modalCard{width:min(650px,100%);max-height:94vh;overflow:auto;background:#111;border:1px solid var(--line);border-radius:24px;padding:24px}
-    .modalCard h2{margin-top:0}
-    .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
-    .field label{font-size:13px;color:#ddd;font-weight:800}
-    .field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#181818;color:#fff;border-radius:12px;padding:13px}
-    .field textarea{min-height:90px;resize:vertical}
-    .summary{background:#0c0c0c;border:1px solid var(--line);border-radius:14px;padding:15px;white-space:pre-wrap;color:#ddd}
-    .modalActions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
-    @media(max-width:900px){
-      .heroGrid{grid-template-columns:1fr}.promo{min-height:360px}.grid{grid-template-columns:repeat(2,1fr)}
-      .infoBar{grid-template-columns:1fr}.heroCard{padding:30px;min-height:430px}.promo{padding:30px}
-    }
-    @media(max-width:560px){
-      .grid{grid-template-columns:1fr}.brand img{height:44px}.heroCard{padding:24px}
-      h1{font-size:58px}.promo h2{font-size:34px}.price{font-size:58px}.formGrid{grid-template-columns:1fr}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>Narburger | Online Sipariş</title>
+
+<link rel="icon" href="favicon.png">
+
+<style>
+:root{
+--bg:#080808;
+--card:#111;
+--line:#2a2a2a;
+--text:#fff;
+--muted:#aaa;
+--red:#ee2b33;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:Arial,sans-serif
+}
+
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+.wrap{
+width:min(1180px,calc(100% - 28px));
+margin:auto
+}
+
+.top{
+position:sticky;
+top:0;
+z-index:30;
+background:#080808;
+border-bottom:1px solid var(--line)
+}
+
+.nav{
+height:78px;
+display:flex;
+align-items:center;
+justify-content:space-between
+}
+
+.brand img{
+height:52px
+}
+
+.cartBtn{
+border:0;
+background:#fff;
+color:#111;
+font-weight:900;
+border-radius:999px;
+padding:13px 18px
+}
+
+.hero{
+padding:34px 0 18px
+}
+
+.heroGrid{
+display:grid;
+grid-template-columns:1.45fr .75fr;
+gap:18px
+}
+
+.heroCard,.promo{
+border:1px solid var(--line);
+border-radius:30px;
+overflow:hidden
+}
+
+.heroCard{
+min-height:500px;
+padding:46px;
+background:
+radial-gradient(circle at 92% 20%,rgba(238,43,51,.32),transparent 32%),
+linear-gradient(135deg,#151515,#0d0d0d 65%)
+}
+
+.location{
+display:flex;
+align-items:center;
+gap:12px;
+font-weight:900;
+letter-spacing:.18em
+}
+
+.location img{
+width:42px
+}
+
+.kicker{
+color:#ff7075;
+font-weight:900;
+letter-spacing:.2em;
+margin:32px 0 12px
+}
+
+h1{
+font-size:clamp(58px,8vw,108px);
+line-height:.84;
+letter-spacing:-.06em;
+margin:0 0 22px
+}
+
+.lead{
+color:#ccc;
+font-size:20px;
+line-height:1.45
+}
+
+.actions{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:28px
+}
+
+.btn{
+border:1px solid var(--line);
+background:#161616;
+color:white;
+border-radius:15px;
+padding:15px 22px;
+font-weight:900
+}
+
+.primary{
+background:var(--red);
+border-color:var(--red)
+}
+
+.promo{
+padding:38px;
+background:#121010;
+display:flex;
+flex-direction:column;
+justify-content:space-between
+}
+
+.badge{
+display:inline-block;
+background:var(--red);
+padding:9px 13px;
+border-radius:999px;
+font-weight:900
+}
+
+.promo h2{
+font-size:42px
+}
+
+.price{
+font-size:70px;
+font-weight:900
+}
+
+.infoBar{
+margin-top:18px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
+}
+
+.infoPill{
+border:1px solid var(--line);
+background:#101010;
+border-radius:18px;
+padding:18px
+}
+
+.infoPill b{display:block}
+.infoPill span{color:var(--muted)}
+
+.sectionHead{
+margin:50px 0 18px
+}
+
+.sectionHead h2{
+font-size:38px
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px
+}
+
+.item{
+border:1px solid var(--line);
+border-radius:24px;
+background:#111;
+padding:22px
+}
+
+.item h3{
+font-size:24px
+}
+
+.item p{
+color:var(--muted);
+min-height:70px
+}
+
+.itemBottom{
+display:flex;
+align-items:center;
+justify-content:space-between
+}
+
+.itemPrice{
+font-size:25px;
+font-weight:900
+}
+
+.add{
+border:0;
+background:white;
+color:#111;
+border-radius:12px;
+padding:11px 14px;
+font-weight:900
+}
+
+.drawer{
+position:fixed;
+inset:0;
+z-index:50;
+pointer-events:none
+}
+
+.overlay{
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.72);
+opacity:0
+}
+
+.panel{
+position:absolute;
+right:0;
+top:0;
+width:min(470px,100%);
+height:100%;
+background:#101010;
+padding:22px;
+transform:translateX(100%);
+transition:.25s
+}
+
+.drawer.open{
+pointer-events:auto
+}
+
+.drawer.open .overlay{
+opacity:1
+}
+
+.drawer.open .panel{
+transform:none
+}
+
+.cartLine{
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid var(--line);
+padding:16px 0
+}
+
+.qty{
+display:flex;
+align-items:center;
+gap:8px
+}
+
+.qty button{
+background:#222;
+color:white;
+border:1px solid var(--line);
+border-radius:8px
+}
+
+.total{
+display:flex;
+justify-content:space-between;
+font-size:24px;
+font-weight:900;
+padding:20px 0
+}
+
+.modal{
+position:fixed;
+inset:0;
+z-index:80;
+background:rgba(0,0,0,.8);
+display:none;
+place-items:center;
+padding:16px
+}
+
+.modal.open{
+display:grid
+}
+
+.modalCard{
+width:min(650px,100%);
+max-height:94vh;
+overflow:auto;
+background:#111;
+border:1px solid var(--line);
+border-radius:24px;
+padding:24px
+}
+
+.formGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px
+}
+
+.field{
+display:flex;
+flex-direction:column;
+gap:7px
+}
+
+.field.full{
+grid-column:1/-1
+}
+
+.field input,
+.field textarea,
+.field select{
+width:100%;
+border:1px solid var(--line);
+background:#181818;
+color:white;
+border-radius:12px;
+padding:13px
+}
+
+.field textarea{
+min-height:85px
+}
+
+.summary{
+background:#080808;
+padding:15px;
+white-space:pre-wrap;
+border-radius:12px
+}
+
+.modalActions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:16px
+}
+
+footer{
+margin-top:50px;
+padding:35px;
+text-align:center;
+border-top:1px solid var(--line);
+color:#aaa
+}
+
+@media(max-width:900px){
+
+.heroGrid{
+grid-template-columns:1fr
+}
+
+.grid{
+grid-template-columns:repeat(2,1fr)
+}
+
+.infoBar{
+grid-template-columns:1fr
+}
+
+}
+
+@media(max-width:560px){
+
+.grid{
+grid-template-columns:1fr
+}
+
+.formGrid{
+grid-template-columns:1fr
+}
+
+.heroCard{
+padding:24px
+}
+
+}
+</style>
 </head>
+
 <body>
+
 <header class="top">
-  <div class="wrap nav">
-    <a class="brand" href="#"><img src="logo-full.png" alt="Narburger" /></a>
-    <button class="cartBtn" id="openCart">Sepet · <span id="cartCount">0</span></button>
-  </div>
+<div class="wrap nav">
+
+<a class="brand">
+<img src="logo-full.png" alt="Narburger">
+</a>
+
+<button class="cartBtn" id="openCart">
+Sepet · <span id="cartCount">0</span>
+</button>
+
+</div>
 </header>
 
+
 <main>
-  <section class="hero">
-    <div class="wrap heroGrid">
-      <article class="heroCard">
-        <div>
-          <div class="location"><img src="logo-mark.png" alt=""><span>AYASOFYA · TRABZON</span></div>
-          <div class="kicker">NARBURGER ONLINE SİPARİŞ</div>
-          <h1>BİR ISIRIK<br>YETER.</h1>
-          <p class="lead">Gerçek Narburger lezzeti şimdi birkaç dokunuş uzağında. Favorini seç, sepetine ekle, siparişini oluştur.</p>
-          <div class="actions">
-            <a class="btn primary" href="#menu">Menüyü Gör</a>
-            <a class="btn" href="tel:+904622030606">0462 203 06 06</a>
-          </div>
-        </div>
-      </article>
 
-      <aside class="promo">
-        <div>
-          <span class="badge">KAMPANYA</span>
-          <h2>Paylaşılamayan<br>Narburger 2’li</h2>
-          <p>2 Narburger · İçecek dahil değildir</p>
-        </div>
-        <div>
-          <div class="price">650₺</div>
-          <button class="btn primary" onclick="addItem('Paylaşılamayan Narburger 2’li',650)">Siparişe ekle →</button>
-        </div>
-      </aside>
-    </div>
+<section class="hero">
 
-    <div class="wrap infoBar">
-      <div class="infoPill"><b>📍 Ayasofya Şubesi</b><span>Trabzon · Paket servis & gel-al</span></div>
-      <div class="infoPill"><b>🛵 Hızlı Teslimat</b><span>Teslimat bölgesine göre süre değişebilir</span></div>
-      <div class="infoPill"><b>💳 Kapıda Ödeme</b><span>Kart veya nakit</span></div>
-    </div>
-  </section>
+<div class="wrap heroGrid">
 
-  <section id="menu" class="wrap">
-    <div class="sectionHead">
-      <div><div class="mini">NARBURGER MENÜ</div><h2>Favorini seç</h2></div>
-      <p>Sepete ekle, siparişini oluştur.</p>
-    </div>
+<div class="heroCard">
 
-    <div class="grid">
-      <article class="item">
-        <div class="emoji">🍔</div><h3>Narburger</h3>
-        <p>100 gr köfte, marul, turşu ve Narburger dokunuşu.</p>
-        <div class="itemBottom"><span class="itemPrice">399₺</span><button class="add" onclick="addItem('Narburger',399)">Ekle</button></div>
-      </article>
-      <article class="item">
-        <div class="emoji">🧀</div><h3>Cheese</h3>
-        <p>100 gr köfte, cheddar, marul ve turşu.</p>
-        <div class="itemBottom"><span class="itemPrice">419₺</span><button class="add" onclick="addItem('Cheese',419)">Ekle</button></div>
-      </article>
-      <article class="item">
-        <div class="emoji">🧅</div><h3>Mix</h3>
-        <p>100 gr köfte, cheddar ve bol karamelize soğan.</p>
-        <div class="itemBottom"><span class="itemPrice">429₺</span><button class="add" onclick="addItem('Mix',429)">Ekle</button></div>
-      </article>
-      <article class="item">
-        <div class="emoji">🥩</div><h3>Steak</h3>
-        <p>100 gr köfte, cheddar, dana füme ve karamelize soğan.</p>
-        <div class="itemBottom"><span class="itemPrice">469₺</span><button class="add" onclick="addItem('Steak',469)">Ekle</button></div>
-      </article>
-    </div>
+<div class="location">
+<img src="logo-mark.png">
+<span>AYASOFYA · TRABZON</span>
+</div>
 
-    <div class="note"><b>Not:</b> Ürün ve fiyatları istediğimiz zaman buradan güncelleyebiliriz. Sipariş altyapısını bir sonraki adımda WhatsApp veya doğrudan dükkân ekranına bağlayabiliriz.</div>
-  </section>
+<div class="kicker">
+NARBURGER ONLINE SİPARİŞ
+</div>
+
+<h1>
+BİR ISIRIK<br>
+YETER.
+</h1>
+
+<p class="lead">
+Gerçek Narburger lezzeti şimdi birkaç dokunuş uzağında.
+Favorini seç, sepetine ekle, siparişini oluştur.
+</p>
+
+<div class="actions">
+
+<a href="#menu" class="btn primary">
+Menüyü Gör
+</a>
+
+<a href="tel:+904622030606" class="btn">
+0462 203 06 06
+</a>
+
+</div>
+
+</div>
+
+
+<div class="promo">
+
+<div>
+
+<span class="badge">
+KAMPANYA
+</span>
+
+<h2>
+Paylaşılamayan<br>
+Narburger 2'li
+</h2>
+
+<p>
+2 Narburger · İçecek dahil değildir
+</p>
+
+</div>
+
+<div>
+
+<div class="price">
+650₺
+</div>
+
+<button class="btn primary"
+onclick="addItem('Paylaşılamayan Narburger 2li',650)">
+Siparişe ekle →
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="wrap infoBar">
+
+<div class="infoPill">
+<b>📍 Ayasofya Şubesi</b>
+<span>Trabzon · Paket servis & gel-al</span>
+</div>
+
+<div class="infoPill">
+<b>🛵 Hızlı Teslimat</b>
+<span>Teslimat bölgesine göre süre değişebilir</span>
+</div>
+
+<div class="infoPill">
+<b>💳 Kapıda Ödeme</b>
+<span>Kart veya nakit</span>
+</div>
+
+</div>
+
+</section>
+
+
+<section id="menu" class="wrap">
+
+<div class="sectionHead">
+<h2>Favorini seç</h2>
+</div>
+
+
+<div class="grid">
+
+<div class="item">
+
+<h3>Narburger</h3>
+
+<p>
+100 gr köfte, marul, turşu ve Narburger dokunuşu.
+</p>
+
+<div class="itemBottom">
+
+<span class="itemPrice">
+399₺
+</span>
+
+<button class="add"
+onclick="addItem('Narburger',399)">
+Ekle
+</button>
+
+</div>
+
+</div>
+
+
+<div class="item">
+
+<h3>Cheese</h3>
+
+<p>
+100 gr köfte, cheddar, marul ve turşu.
+</p>
+
+<div class="itemBottom">
+
+<span class="itemPrice">
+419₺
+</span>
+
+<button class="add"
+onclick="addItem('Cheese',419)">
+Ekle
+</button>
+
+</div>
+
+</div>
+
+
+<div class="item">
+
+<h3>Mix</h3>
+
+<p>
+100 gr köfte, cheddar ve karamelize soğan.
+</p>
+
+<div class="itemBottom">
+
+<span class="itemPrice">
+429₺
+</span>
+
+<button class="add"
+onclick="addItem('Mix',429)">
+Ekle
+</button>
+
+</div>
+
+</div>
+
+
+<div class="item">
+
+<h3>Steak</h3>
+
+<p>
+100 gr köfte, cheddar, dana füme ve karamelize soğan.
+</p>
+
+<div class="itemBottom">
+
+<span class="itemPrice">
+469₺
+</span>
+
+<button class="add"
+onclick="addItem('Steak',469)">
+Ekle
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
 </main>
 
+
 <footer>
-  <img src="logo-mark.png" alt="Narburger">
-  <div>© 2026 Narburger · Ayasofya / Trabzon</div>
+
+Narburger · Ayasofya / Trabzon
+
 </footer>
 
+
 <div class="drawer" id="drawer">
-  <div class="overlay" onclick="closeCart()"></div>
-  <aside class="panel">
-    <div class="panelHead"><h2>Sepetin</h2><button class="close" onclick="closeCart()">Kapat</button></div>
-    <div id="cartLines"></div>
-    <div class="total"><span>Toplam</span><span id="cartTotal">0₺</span></div>
-    <button class="btn primary" style="width:100%" onclick="openCheckout()">Siparişi Tamamla</button>
-  </aside>
+
+<div class="overlay"
+onclick="closeCart()">
 </div>
 
-<div class="modal" id="checkoutModal">
-  <div class="modalCard">
-    <h2>Sipariş Bilgileri</h2>
-    <div class="formGrid">
-      <div class="field"><label>Ad Soyad</label><input id="name" placeholder="Adınız Soyadınız"></div>
-      <div class="field"><label>Telefon</label><input id="phone" inputmode="tel" placeholder="05xx xxx xx xx"></div>
-      <div class="field full"><label>Adres</label><textarea id="address" placeholder="Mahalle, sokak, bina, daire..."></textarea></div>
-      <div class="field full"><label>Sipariş notu</label><textarea id="note" placeholder="Örn: soğansız, az turşu..."></textarea></div>
-      <div class="field full"><label>Ödeme</label><select id="payment"><option>Kapıda kredi/banka kartı</option><option>Nakit</option></select></div>
-      <div class="field full"><label>Sipariş özeti</label><div id="summary" class="summary"></div></div>
-    </div>
-    <div class="modalActions">
-      <button class="btn" onclick="closeCheckout()">Geri</button>
-      <button class="btn" onclick="copyOrder()">Siparişi Kopyala</button>
-      <button class="btn primary" onclick="sendWhatsApp()">WhatsApp'tan Sipariş Gönder</button>
-      <a class="btn" href="tel:+904622030606">Dükkânı Ara</a>
-    </div>
-  </div>
+<div class="panel">
+
+<h2>Sepetin</h2>
+
+<div id="cartLines">
 </div>
+
+<div class="total">
+
+<span>Toplam</span>
+
+<span id="cartTotal">
+0₺
+</span>
+
+</div>
+
+<button
+class="btn primary"
+style="width:100%"
+onclick="openCheckout()">
+
+Siparişi Tamamla
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="modal"
+id="checkoutModal">
+
+<div class="modalCard">
+
+<h2>
+Sipariş Bilgileri
+</h2>
+
+
+<div class="formGrid">
+
+
+<div class="field">
+
+<label>
+Ad Soyad *
+</label>
+
+<input
+id="name"
+placeholder="Adınız Soyadınız">
+
+</div>
+
+
+<div class="field">
+
+<label>
+Telefon *
+</label>
+
+<input
+id="phone"
+inputmode="tel"
+placeholder="05xx xxx xx xx">
+
+</div>
+
+
+<div class="field full">
+
+<label>
+Mahalle *
+</label>
+
+<input
+id="district"
+placeholder="Mahallenizi yazınız">
+
+</div>
+
+
+<div class="field full">
+
+<label>
+Açık Adres *
+</label>
+
+<textarea
+id="address"
+placeholder="Sokak, bina, daire ve adres tarifi...">
+</textarea>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+Sipariş Notu
+</label>
+
+<textarea
+id="note"
+placeholder="Örn: soğansız, az turşu...">
+</textarea>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+Ödeme Yöntemi *
+</label>
+
+<select id="payment">
+
+<option value="">
+Ödeme yöntemini seçiniz
+</option>
+
+<option>
+Kapıda kredi/banka kartı
+</option>
+
+<option>
+Nakit
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+Sipariş Özeti
+</label>
+
+<div
+id="summary"
+class="summary">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="modalActions">
+
+<button
+class="btn"
+onclick="closeCheckout()">
+
+Geri
+
+</button>
+
+
+<button
+class="btn"
+onclick="copyOrder()">
+
+Siparişi Kopyala
+
+</button>
+
+
+<button
+class="btn primary"
+onclick="sendWhatsApp()">
+
+WhatsApp'tan Sipariş Gönder
+
+</button>
+
+
+<a
+class="btn"
+href="tel:+904622030606">
+
+Dükkanı Ara
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
-  const cart = [];
-  const drawer = document.getElementById('drawer');
-  const modal = document.getElementById('checkoutModal');
 
-  function addItem(name, price){
-    const found = cart.find(x => x.name === name && x.price === price);
-    if(found) found.qty++;
-    else cart.push({name,price,qty:1});
-    renderCart();
-    drawer.classList.add('open');
-  }
-  function changeQty(i, delta){
-    cart[i].qty += delta;
-    if(cart[i].qty <= 0) cart.splice(i,1);
-    renderCart();
-  }
-  function renderCart(){
-    const lines = document.getElementById('cartLines');
-    const count = cart.reduce((s,x)=>s+x.qty,0);
-    const total = cart.reduce((s,x)=>s+x.price*x.qty,0);
-    document.getElementById('cartCount').textContent = count;
-    document.getElementById('cartTotal').textContent = total + '₺';
-    if(!cart.length){ lines.innerHTML = '<p style="color:#aaa">Sepetin henüz boş.</p>'; return; }
-    lines.innerHTML = cart.map((x,i)=>`
-      <div class="cartLine">
-        <div><b>${x.name}</b><div style="color:#aaa;margin-top:5px">${x.price}₺</div></div>
-        <div class="qty"><button onclick="changeQty(${i},-1)">−</button><b>${x.qty}</b><button onclick="changeQty(${i},1)">+</button></div>
-      </div>`).join('');
-  }
-  function closeCart(){drawer.classList.remove('open')}
-  function openCheckout(){
-    if(!cart.length){alert('Sepetin boş.'); return;}
-    closeCart(); updateSummary(); modal.classList.add('open');
-  }
-  function closeCheckout(){modal.classList.remove('open')}
-  function orderText(){
-    const total = cart.reduce((s,x)=>s+x.price*x.qty,0);
-    const items = cart.map(x=>`${x.qty} x ${x.name} — ${x.price*x.qty}₺`).join('\n');
-    const name = document.getElementById('name').value || '-';
-    const phone = document.getElementById('phone').value || '-';
-    const address = document.getElementById('address').value || '-';
-    const note = document.getElementById('note').value || '-';
-    const payment = document.getElementById('payment').value;
-    return `NARBURGER SİPARİŞ\n\n${items}\n\nToplam: ${total}₺\n\nAd Soyad: ${name}\nTelefon: ${phone}\nAdres: ${address}\nÖdeme: ${payment}\nNot: ${note}`;
-  }
-  function updateSummary(){document.getElementById('summary').textContent = orderText()}
-  ['name','phone','address','note','payment'].forEach(id=>{
-    document.getElementById(id).addEventListener('input',updateSummary);
-    document.getElementById(id).addEventListener('change',updateSummary);
-  });
-  async function copyOrder(){
-    try{ await navigator.clipboard.writeText(orderText()); alert('Sipariş özeti kopyalandı.'); }
-    catch(e){ alert('Kopyalama yapılamadı. Sipariş özetini seçip kopyalayabilirsin.'); }
-  }
+const cart=[];
 
-  function sendWhatsApp(){
-    if(!cart.length){ alert('Sepetin boş.'); return; }
+const drawer=
+document.getElementById("drawer");
 
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const address = document.getElementById('address').value.trim();
+const modal=
+document.getElementById("checkoutModal");
 
-    if(!name || !phone || !address){
-      alert('Lütfen ad soyad, telefon ve adres bilgilerini doldur.');
-      return;
-    }
 
-    const whatsappNumber = '904622030606';
-    const text = encodeURIComponent(orderText());
-    const url = `https://wa.me/${whatsappNumber}?text=${text}`;
-    window.open(url, '_blank');
-  }
+function addItem(name,price){
 
-  document.getElementById('openCart').onclick = ()=>drawer.classList.add('open');
-  renderCart();
+const found=
+cart.find(x=>x.name===name);
+
+if(found){
+
+found.qty++;
+
+}else{
+
+cart.push({
+name:name,
+price:price,
+qty:1
+});
+
+}
+
+renderCart();
+
+drawer.classList.add("open");
+
+}
+
+
+function changeQty(i,d){
+
+cart[i].qty+=d;
+
+if(cart[i].qty<=0){
+
+cart.splice(i,1);
+
+}
+
+renderCart();
+
+}
+
+
+function renderCart(){
+
+const lines=
+document.getElementById("cartLines");
+
+const count=
+cart.reduce((s,x)=>s+x.qty,0);
+
+const total=
+cart.reduce((s,x)=>s+x.price*x.qty,0);
+
+
+document.getElementById("cartCount").textContent=count;
+
+document.getElementById("cartTotal").textContent=total+"₺";
+
+
+if(!cart.length){
+
+lines.innerHTML=
+"<p>Sepetin henüz boş.</p>";
+
+return;
+
+}
+
+
+lines.innerHTML=
+cart.map((x,i)=>`
+
+<div class="cartLine">
+
+<div>
+
+<b>${x.name}</b>
+
+<br>
+
+${x.price}₺
+
+</div>
+
+
+<div class="qty">
+
+<button onclick="changeQty(${i},-1)">
+−
+</button>
+
+<b>
+${x.qty}
+</b>
+
+<button onclick="changeQty(${i},1)">
++
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+function closeCart(){
+
+drawer.classList.remove("open");
+
+}
+
+
+function openCheckout(){
+
+if(!cart.length){
+
+alert("Sepetin boş.");
+
+return;
+
+}
+
+closeCart();
+
+updateSummary();
+
+modal.classList.add("open");
+
+}
+
+
+function closeCheckout(){
+
+modal.classList.remove("open");
+
+}
+
+
+function orderText(){
+
+const total=
+cart.reduce((s,x)=>s+x.price*x.qty,0);
+
+
+const items=
+cart.map(x=>
+
+`${x.qty} x ${x.name} - ${x.price*x.qty}₺`
+
+).join("\n");
+
+
+const name=
+document.getElementById("name").value.trim() || "-";
+
+const phone=
+document.getElementById("phone").value.trim() || "-";
+
+const district=
+document.getElementById("district").value.trim() || "-";
+
+const address=
+document.getElementById("address").value.trim() || "-";
+
+const note=
+document.getElementById("note").value.trim() || "-";
+
+const payment=
+document.getElementById("payment").value || "-";
+
+
+return `🍔 NARBURGER SİPARİŞ
+
+${items}
+
+TOPLAM: ${total}₺
+
+👤 Ad Soyad: ${name}
+📞 Telefon: ${phone}
+📍 Mahalle: ${district}
+🏠 Açık Adres: ${address}
+💳 Ödeme: ${payment}
+📝 Sipariş Notu: ${note}`;
+
+}
+
+
+function updateSummary(){
+
+document.getElementById("summary").textContent=
+orderText();
+
+}
+
+
+[
+"name",
+"phone",
+"district",
+"address",
+"note",
+"payment"
+].forEach(id=>{
+
+document
+.getElementById(id)
+.addEventListener(
+"input",
+updateSummary
+);
+
+document
+.getElementById(id)
+.addEventListener(
+"change",
+updateSummary
+);
+
+});
+
+
+async function copyOrder(){
+
+try{
+
+await navigator.clipboard.writeText(
+orderText()
+);
+
+alert(
+"Sipariş özeti kopyalandı."
+);
+
+}catch(e){
+
+alert(
+"Sipariş kopyalanamadı."
+);
+
+}
+
+}
+
+
+function sendWhatsApp(){
+
+if(!cart.length){
+
+alert("Sepetin boş.");
+
+return;
+
+}
+
+
+const name=
+document.getElementById("name").value.trim();
+
+const phone=
+document.getElementById("phone").value.trim();
+
+const district=
+document.getElementById("district").value.trim();
+
+const address=
+document.getElementById("address").value.trim();
+
+const payment=
+document.getElementById("payment").value;
+
+
+if(
+!name ||
+!phone ||
+!district ||
+!address ||
+!payment
+){
+
+alert(
+"Lütfen ad soyad, telefon, mahalle, açık adres ve ödeme bilgilerini doldurun."
+);
+
+return;
+
+}
+
+
+const whatsappNumber=
+"904622030606";
+
+
+const text=
+encodeURIComponent(
+orderText()
+);
+
+
+const url=
+`https://wa.me/${whatsappNumber}?text=${text}`;
+
+
+window.open(
+url,
+"_blank"
+);
+
+}
+
+
+document
+.getElementById("openCart")
+.onclick=()=>{
+
+drawer.classList.add("open");
+
+};
+
+
+renderCart();
+
 </script>
+
 </body>
 </html>
