@@ -1742,7 +1742,7 @@ function updateSummary(){
 });
 
 
-function sendWhatsApp(){
+async function sendWhatsApp(){
 
   if(!cart.length){
 
@@ -1799,7 +1799,19 @@ function sendWhatsApp(){
 
   }
 
+const total = cart.reduce((s,x)=>s+x.price*x.qty,0);
 
+await supabaseClient
+  .from("orders")
+  .insert([{
+    customer_name: name,
+    phone: phone,
+    address: district + " - " + address,
+    items: cart,
+    total: total,
+    payment: payment,
+    status: "new"
+  }]);
   const whatsappNumber=
   "904622030606";
 
@@ -1831,6 +1843,16 @@ document
 renderCart();
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+const SUPABASE_URL = "https://ffztqlyodruwcjtsyekj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_m6pYevfC1_i_-df0rADYKQ_HT27Yc1e";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
 </body>
 </html>
