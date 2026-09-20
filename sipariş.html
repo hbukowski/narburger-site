@@ -903,7 +903,27 @@ setInterval(
   },
   5000
 );
+<script src="https://cdn.jsdelivr.net/npm/qz-tray@2.2.5/qz-tray.min.js"></script>
 
+<script>
+async function qzBaglan() {
+  try {
+    if (!qz.websocket.isActive()) {
+      await qz.websocket.connect();
+    }
+
+    const yazici = await qz.printers.find("Narburger Mutfak Yazıcısı");
+    console.log("Narburger yazıcı bulundu:", yazici);
+    alert("Yazıcı bağlantısı başarılı: " + yazici);
+
+  } catch (err) {
+    console.error("QZ / Yazıcı hatası:", err);
+    alert("Yazıcı bağlantı hatası: " + err);
+  }
+}
+
+qzBaglan();
+</script>
 
 </body>
 </html>
