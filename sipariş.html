@@ -20,190 +20,175 @@ body{
 
 header{
   background:#000;
-  border-bottom:3px solid #e52b33;
-  padding:18px 25px;
+  border-bottom:1px solid #292929;
+  padding:18px 24px;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
-.logo{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.logo img{
+header img{
   height:55px;
 }
 
-.logo h1{
-  margin:0;
-  font-size:25px;
-}
-
-.online{
+.status{
   background:#163d22;
-  color:#6cff8d;
+  color:#7dff9d;
   padding:9px 15px;
-  border-radius:20px;
+  border-radius:25px;
   font-weight:bold;
 }
 
 .container{
-  max-width:1400px;
+  max-width:1200px;
   margin:auto;
-  padding:25px;
+  padding:30px 20px;
 }
 
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:25px;
+h1{
+  margin:0 0 5px;
+  font-size:32px;
 }
 
-.top h2{
-  margin:0;
-  font-size:30px;
-}
-
-.refresh{
-  background:#e52b33;
-  color:white;
-  border:0;
-  padding:12px 18px;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-bottom:25px;
-}
-
-.stat{
-  background:#161616;
-  border:1px solid #292929;
-  border-radius:14px;
-  padding:18px;
-}
-
-.stat small{
-  color:#aaa;
-}
-
-.stat strong{
-  display:block;
-  margin-top:8px;
-  font-size:27px;
+.subtitle{
+  color:#999;
+  margin-bottom:30px;
 }
 
 #orders{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
   gap:20px;
 }
 
 .order{
-  background:#171717;
-  border:1px solid #333;
-  border-radius:18px;
-  overflow:hidden;
+  background:#161616;
+  border:1px solid #292929;
+  border-radius:20px;
+  padding:22px;
 }
 
 .order.new{
-  border:2px solid #e52b33;
+  border:2px solid #e52b32;
 }
 
-.orderHeader{
-  background:#222;
-  padding:16px;
+.orderTop{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:10px;
+  border-bottom:1px solid #333;
+  padding-bottom:15px;
+  margin-bottom:15px;
 }
 
-.orderHeader strong{
-  font-size:20px;
+.orderNumber{
+  font-size:21px;
+  font-weight:900;
 }
 
 .badge{
-  background:#e52b33;
-  padding:6px 10px;
+  background:#e52b32;
+  padding:7px 11px;
   border-radius:20px;
   font-size:12px;
   font-weight:bold;
 }
 
-.orderBody{
-  padding:18px;
+.customer{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:8px;
 }
 
-.row{
-  margin-bottom:13px;
+.info{
+  color:#ccc;
+  line-height:1.6;
 }
 
-.label{
-  color:#999;
-  font-size:12px;
-  text-transform:uppercase;
-  margin-bottom:4px;
-}
-
-.value{
-  font-size:16px;
-  line-height:1.5;
-  word-break:break-word;
-}
-
-.items{
+.products{
   background:#0d0d0d;
-  padding:12px;
-  border-radius:10px;
+  padding:15px;
+  border-radius:12px;
+  margin:17px 0;
+}
+
+.product{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
 }
 
 .total{
   font-size:25px;
-  color:#ff4048;
+  font-weight:900;
+  color:#fff;
+  text-align:right;
+  margin:15px 0;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+button{
+  border:0;
+  padding:12px 8px;
+  border-radius:10px;
+  cursor:pointer;
   font-weight:bold;
+  font-size:14px;
+}
+
+.preparing{
+  background:#f1b933;
+  color:#111;
+}
+
+.delivery{
+  background:#2386df;
+  color:white;
+}
+
+.completed{
+  background:#28a745;
+  color:white;
+}
+
+.cancel{
+  background:#333;
+  color:#ddd;
 }
 
 .empty{
+  padding:50px;
   text-align:center;
-  color:#aaa;
-  padding:70px 20px;
+  background:#151515;
+  border-radius:20px;
+  color:#999;
   grid-column:1/-1;
 }
 
-.error{
-  background:#4b1115;
-  padding:15px;
-  border-radius:10px;
-  grid-column:1/-1;
-}
-
-@media(max-width:700px){
-
-  .stats{
-    grid-template-columns:1fr;
+@media(max-width:600px){
+  header img{
+    height:42px;
   }
 
-  .top{
-    align-items:flex-start;
-    gap:15px;
-    flex-direction:column;
+  .container{
+    padding:20px 12px;
+  }
+
+  h1{
+    font-size:26px;
   }
 
   #orders{
     grid-template-columns:1fr;
-  }
-
-  .logo h1{
-    font-size:19px;
   }
 }
 </style>
@@ -212,62 +197,20 @@ header{
 <body>
 
 <header>
-
-<div class="logo">
   <img src="logo-full.png" alt="Narburger">
-  <h1>Sipariş Paneli</h1>
-</div>
-
-<div class="online">
-● CANLI
-</div>
-
+  <div class="status">● SİPARİŞ SİSTEMİ AÇIK</div>
 </header>
-
 
 <div class="container">
 
-<div class="top">
+  <h1>🍔 Siparişler</h1>
+  <div class="subtitle">Narburger Sipariş Yönetim Paneli</div>
 
-<h2>🍔 Gelen Siparişler</h2>
-
-<button class="refresh" onclick="loadOrders()">
-Yenile
-</button>
-
-</div>
-
-
-<div class="stats">
-
-<div class="stat">
-<small>Toplam Sipariş</small>
-<strong id="totalOrders">0</strong>
-</div>
-
-<div class="stat">
-<small>Yeni Sipariş</small>
-<strong id="newOrders">0</strong>
-</div>
-
-<div class="stat">
-<small>Son Güncelleme</small>
-<strong id="lastUpdate">--:--</strong>
-</div>
+  <div id="orders">
+    <div class="empty">Siparişler yükleniyor...</div>
+  </div>
 
 </div>
-
-
-<div id="orders">
-
-<div class="empty">
-Siparişler yükleniyor...
-</div>
-
-</div>
-
-</div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -281,18 +224,12 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
-
 function escapeHtml(value){
-
-  if(value === null || value === undefined){
-    return "-";
-  }
-
-  return String(value)
+  return String(value ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -300,135 +237,73 @@ function escapeHtml(value){
     .replaceAll("'","&#039;");
 }
 
-
-function formatItems(items){
-
-  if(!items){
-    return "-";
-  }
+function productHTML(items){
 
   if(typeof items === "string"){
     try{
       items = JSON.parse(items);
     }catch(e){
-      return escapeHtml(items);
+      return `<div>${escapeHtml(items)}</div>`;
     }
   }
 
   if(!Array.isArray(items)){
-    return escapeHtml(JSON.stringify(items));
+    return "<div>Ürün bilgisi yok</div>";
   }
 
   return items.map(item => {
 
-    const name =
-      escapeHtml(item.name || "Ürün");
-
-    const qty =
-      escapeHtml(item.qty || 1);
-
-    const price =
-      Number(item.price || 0);
+    const name = escapeHtml(item.name || "Ürün");
+    const qty = Number(item.qty || 1);
+    const price = Number(item.price || 0);
 
     return `
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        padding:6px 0;
-        border-bottom:1px solid #222;
-      ">
+      <div class="product">
         <span>${qty} × ${name}</span>
-        <span>${price * Number(item.qty || 1)}₺</span>
+        <strong>${price * qty}₺</strong>
       </div>
     `;
 
   }).join("");
-
 }
 
+function statusText(status){
 
-function formatDate(date){
+  if(status === "preparing") return "HAZIRLANIYOR";
+  if(status === "delivery") return "YOLA ÇIKTI";
+  if(status === "completed") return "TAMAMLANDI";
+  if(status === "cancelled") return "İPTAL";
 
-  if(!date){
-    return "-";
-  }
-
-  const d = new Date(date);
-
-  return d.toLocaleString(
-    "tr-TR",
-    {
-      day:"2-digit",
-      month:"2-digit",
-      hour:"2-digit",
-      minute:"2-digit"
-    }
-  );
+  return "YENİ SİPARİŞ";
 }
-
 
 async function loadOrders(){
 
-  const ordersBox =
-    document.getElementById("orders");
+  const { data, error } =
+  await supabaseClient
+    .from("orders")
+    .select("*")
+    .order("created_at", { ascending:false });
 
-  const {data,error} =
-    await supabaseClient
-      .from("orders")
-      .select("*")
-      .order("created_at",{
-        ascending:false
-      });
-
+  const box =
+  document.getElementById("orders");
 
   if(error){
 
     console.error(error);
 
-    ordersBox.innerHTML =
-    `<div class="error">
-      Siparişler alınamadı:<br>
+    box.innerHTML =
+    `<div class="empty">
+      Siparişler yüklenemedi.<br><br>
       ${escapeHtml(error.message)}
     </div>`;
 
     return;
   }
 
+  if(!data || !data.length){
 
-  document
-    .getElementById("totalOrders")
-    .textContent =
-    data.length;
-
-
-  const newCount =
-    data.filter(order =>
-      !order.status ||
-      order.status === "new"
-    ).length;
-
-
-  document
-    .getElementById("newOrders")
-    .textContent =
-    newCount;
-
-
-  document
-    .getElementById("lastUpdate")
-    .textContent =
-    new Date().toLocaleTimeString(
-      "tr-TR",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
-
-
-  if(!data.length){
-
-    ordersBox.innerHTML =
+    box.innerHTML =
     `<div class="empty">
       Henüz sipariş yok.
     </div>`;
@@ -436,106 +311,80 @@ async function loadOrders(){
     return;
   }
 
-
-  ordersBox.innerHTML =
-  data.map((order,index)=>{
+  box.innerHTML =
+  data.map(order => {
 
     const status =
       order.status || "new";
-
-    const total =
-      Number(order.total || 0);
 
     return `
 
     <div class="order ${status === "new" ? "new" : ""}">
 
-      <div class="orderHeader">
+      <div class="orderTop">
 
-        <strong>
-        Sipariş #${data.length-index}
-        </strong>
+        <div class="orderNumber">
+          Sipariş #${order.id}
+        </div>
 
-        <span class="badge">
-        ${status === "new" ? "YENİ" : escapeHtml(status)}
-        </span>
+        <div class="badge">
+          ${statusText(status)}
+        </div>
 
       </div>
 
+      <div class="customer">
+        👤 ${escapeHtml(order.customer_name || "-")}
+      </div>
 
-      <div class="orderBody">
+      <div class="info">
 
-        <div class="row">
-          <div class="label">Sipariş Saati</div>
-          <div class="value">
-            ${formatDate(order.created_at)}
-          </div>
-        </div>
+        📞 ${escapeHtml(order.phone || "-")}
+        <br>
 
+        📍 ${escapeHtml(order.address || "-")}
 
-        <div class="row">
-          <div class="label">Müşteri</div>
-          <div class="value">
-            <strong>
-            ${escapeHtml(order.customer_name)}
-            </strong>
-          </div>
-        </div>
+        <br>
 
+        💳 ${escapeHtml(order.payment || "-")}
 
-        <div class="row">
-          <div class="label">Telefon</div>
-          <div class="value">
-            ${escapeHtml(order.phone)}
-          </div>
-        </div>
+      </div>
 
+      <div class="products">
 
-        <div class="row">
-          <div class="label">Adres</div>
-          <div class="value">
-            ${escapeHtml(order.address)}
-          </div>
-        </div>
+        ${productHTML(order.items)}
 
+      </div>
 
-        <div class="row">
+      <div class="total">
+        Toplam: ${Number(order.total || 0)}₺
+      </div>
 
-          <div class="label">
-          Ürünler
-          </div>
+      <div class="buttons">
 
-          <div class="items">
-          ${formatItems(order.items)}
-          </div>
+        <button
+        class="preparing"
+        onclick="changeStatus('${order.id}','preparing')">
+        Hazırlanıyor
+        </button>
 
-        </div>
+        <button
+        class="delivery"
+        onclick="changeStatus('${order.id}','delivery')">
+        Yola Çıktı
+        </button>
 
+        <button
+        class="completed"
+        onclick="changeStatus('${order.id}','completed')">
+        Tamamlandı
+        </button>
 
-        <div class="row">
-
-          <div class="label">
-          Ödeme
-          </div>
-
-          <div class="value">
-          ${escapeHtml(order.payment)}
-          </div>
-
-        </div>
-
-
-        <div class="row">
-
-          <div class="label">
-          Toplam
-          </div>
-
-          <div class="total">
-          ${total}₺
-          </div>
-
-        </div>
+        <button
+        class="cancel"
+        onclick="changeStatus('${order.id}','cancelled')">
+        İptal
+        </button>
 
       </div>
 
@@ -547,12 +396,55 @@ async function loadOrders(){
 
 }
 
+async function changeStatus(id,status){
+
+  const { error } =
+  await supabaseClient
+    .from("orders")
+    .update({
+      status:status
+    })
+    .eq("id",id);
+
+  if(error){
+
+    alert(
+      "Durum değiştirilemedi: " +
+      error.message
+    );
+
+    return;
+  }
+
+  loadOrders();
+}
+
+/* Yeni siparişleri otomatik yenile */
+
+supabaseClient
+.channel("narburger-orders")
+.on(
+  "postgres_changes",
+  {
+    event:"*",
+    schema:"public",
+    table:"orders"
+  },
+  () => {
+    loadOrders();
+  }
+)
+.subscribe();
+
+/* İlk açılış */
 
 loadOrders();
 
+/* Her 15 saniyede yedek yenileme */
+
 setInterval(
   loadOrders,
-  10000
+  15000
 );
 
 </script>
