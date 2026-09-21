@@ -103,7 +103,8 @@ button{
 <option value="Soslar">Soslar</option>
 <option value="Menüler">Menüler</option>
 </select>
-
+<input id="newCategory" placeholder="Yeni kategori adı">
+<button type="button" onclick="addCategory()">+ KATEGORİ EKLE</button>
 <input id="imageFile" type="file" accept="image/*">
 
 <button class="add" onclick="addProduct()">ÜRÜNÜ EKLE</button>
@@ -188,7 +189,23 @@ async function loadProducts(){
     area.appendChild(div);
   });
 }
+function addCategory(){
+  const input = document.getElementById("newCategory");
+  const name = input.value.trim();
 
+  if(!name){
+    alert("Kategori adı gir.");
+    return;
+  }
+
+  const select = document.getElementById("category");
+  const option = document.createElement("option");
+  option.value = name;
+  option.textContent = name;
+  select.appendChild(option);
+  select.value = name;
+  input.value = "";
+}
 async function addProduct(){
 
   const name=document.getElementById("name").value.trim();
