@@ -198,15 +198,15 @@ async function addProduct(){
     alert("Ürün adı ve fiyat gir.");
     return;
   }
-const photoFile = document.getElementById("photoFile")?.files[0];
+const photoFile = document.getElementById("imageFile")?.files[0];
 
-let imageUrl = document.getElementById("image").value.trim();
+let imageUrl = "";
 
 if (photoFile) {
   const fileName = Date.now() + "-" + photoFile.name;
 
   const { error: uploadError } = await db.storage
-    .from("urunler")
+    .from("product-images")
     .upload(fileName, photoFile);
 
   if (uploadError) {
@@ -215,7 +215,7 @@ if (photoFile) {
   }
 
   const { data: publicData } = db.storage
-    .from("urunler")
+    .from("product-images")
     .getPublicUrl(fileName);
 
   imageUrl = publicData.publicUrl;
@@ -237,7 +237,7 @@ if (photoFile) {
 
   document.getElementById("name").value="";
   document.getElementById("price").value="";
-  document.getElementById("image").value="";
+ document.getElementById("imageFile").value="";
 
   loadProducts();
 }
