@@ -1853,7 +1853,7 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-  async function loadMenuProducts() {
+async function loadMenuProducts() {
   const { data: products, error } = await supabaseClient
     .from("products")
     .select("*")
@@ -1865,61 +1865,74 @@ const supabaseClient = supabase.createClient(
     return;
   }
 
-  console.log("Narburger ürünleri:", products);
-    const burgerGrid = document.getElementById("burgerGrid");
-const menuContainer = burgerGrid.parentElement;
-if (burgerGrid) {
-  const burgers = products.filter(p => p.category === "Burgerler");
+  const menuWrap = document.querySelector("#menu .wrap");
+  if (!menuWrap) return;
 
-  burgerGrid.innerHTML = "";
+  const firstMenuTitle = menuWrap.querySelector(".menuTitle");
+  if (firstMenuTitle) {
+    let node = firstMenuTitle;
+    while (node) {
+      const next = node.nextSibling;
+      node.remove();
+      node = next;
+    }
+  }
 
-  burgers.forEach(p => {
-    burgerGrid.innerHTML += `
-      <article class="item">
-        <img class="productPhoto" src="${p.image_url || 'logo-mark.png'}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <div class="itemBottom">
-          <span class="itemPrice">${p.price}₺</span>
-          <button class="add" onclick='addItem(${JSON.stringify(p.name)}, ${p.price})'>Ekle</button>
-        </div>
-      </article>
-    `;
+  if (!products || !products.length) {
+    const empty = document.createElement("p");
+    empty.style.color = "#aaa";
+    empty.textContent = "Şu anda satışta ürün bulunmuyor.";
+    menuWrap.appendChild(empty);
+    return;
+  }
+
+  const categories = [...new Set(
+    products.map(p => (p.category || "Diğer").trim()).filter(Boolean)
+  )];
+
+  categories.forEach((category, i) => {
+    const title = document.createElement("h2");
+    title.className = "menuTitle";
+    title.id = "dynamic-category-" + i;
+    title.textContent = category;
+
+    const grid = document.createElement("div");
+    grid.className = "grid";
+
+    products.filter(p => (p.category || "Diğer").trim() === category).forEach(p => {
+      const article = document.createElement("article");
+      article.className = "item";
+
+      const img = document.createElement("img");
+      img.className = "productPhoto";
+      img.src = p.image_url || "logo-mark.png";
+      img.alt = p.name || "Narburger";
+      img.onerror = () => { img.src = "logo-mark.png"; };
+
+      const name = document.createElement("h3");
+      name.textContent = p.name || "Ürün";
+
+      const bottom = document.createElement("div");
+      bottom.className = "itemBottom";
+
+      const price = document.createElement("span");
+      price.className = "itemPrice";
+      price.textContent = (Number(p.price) || 0) + "₺";
+
+      const button = document.createElement("button");
+      button.className = "add";
+      button.textContent = "Ekle";
+      button.onclick = () => addItem(p.name || "Ürün", Number(p.price) || 0);
+
+      bottom.append(price, button);
+      article.append(img, name, bottom);
+      grid.appendChild(article);
+    });
+
+    menuWrap.append(title, grid);
   });
 }
 
-const extraCategories = [...new Set(products.map(p => p.category))]
-  .filter(cat => cat && cat !== "Burgerler");
-
-extraCategories.forEach(category => {
-  const categoryProducts = products.filter(p => p.category === category);
-  if (!categoryProducts.length) return;
-
-  const title = document.createElement("h2");
-  title.className = "menuTitle";
-  title.textContent = category;
-
-  const grid = document.createElement("div");
-  grid.className = "grid";
-
-  categoryProducts.forEach(p => {
-    grid.innerHTML += `
-      <article class="item">
-        <img class="productPhoto" src="${p.image_url || 'logo-mark.png'}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <div class="itemBottom">
-          <span class="itemPrice">${p.price}₺</span>
-          <button class="add" onclick='addItem(${JSON.stringify(p.name)}, ${p.price})'>Ekle</button>
-        </div>
-      </article>
-    `;
-  });
-
-  menuContainer.appendChild(title);
-  menuContainer.appendChild(grid);
-});
-
-  
-}
 loadMenuProducts();
 </script>
 </body>
