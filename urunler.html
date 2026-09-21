@@ -103,7 +103,7 @@ button{
 <option value="Soslar">Soslar</option>
 </select>
 
-<input id="image" placeholder="Fotoğraf adresi (ör: mix.png)">
+<input id="imageFile" type="file" accept="image/*">
 
 <button class="add" onclick="addProduct()">ÜRÜNÜ EKLE</button>
 </div>
@@ -193,20 +193,40 @@ async function addProduct(){
   const name=document.getElementById("name").value.trim();
   const price=Number(document.getElementById("price").value);
   const category=document.getElementById("category").value;
-  const image_url=document.getElementById("image").value.trim();
-
+ 
   if(!name || !price){
     alert("Ürün adı ve fiyat gir.");
     return;
   }
+const photoFile = document.getElementById("photoFile")?.files[0];
 
+let imageUrl = document.getElementById("image").value.trim();
+
+if (photoFile) {
+  const fileName = Date.now() + "-" + photoFile.name;
+
+  const { error: uploadError } = await db.storage
+    .from("urunler")
+    .upload(fileName, photoFile);
+
+  if (uploadError) {
+    alert("Fotoğraf yüklenemedi: " + uploadError.message);
+    return;
+  }
+
+  const { data: publicData } = db.storage
+    .from("urunler")
+    .getPublicUrl(fileName);
+
+  imageUrl = publicData.publicUrl;
+}
   const {error}=await db
     .from("products")
     .insert({
       name,
       price,
       category,
-      image_url,
+      image_url: imageUrl,
       active:true
     });
 
