@@ -1853,6 +1853,22 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+  async function loadMenuProducts() {
+  const { data: products, error } = await supabaseClient
+    .from("products")
+    .select("*")
+    .eq("active", true)
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error("Ürünler yüklenemedi:", error);
+    return;
+  }
+
+  console.log("Narburger ürünleri:", products);
+}
+
+loadMenuProducts();
 </script>
 </body>
 </html>
