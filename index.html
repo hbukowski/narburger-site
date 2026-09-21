@@ -1886,36 +1886,10 @@ if (burgerGrid) {
     `;
   });
 }
-}
-const extraCategories = [...new Set(products.map(p => p.category))]
-  .filter(cat => cat && cat !== "Burgerler");
 
-extraCategories.forEach(category => {
-  const categoryProducts = products.filter(p => p.category === category);
-  if (!categoryProducts.length) return;
 
-  const title = document.createElement("h2");
-  title.className = "menuTitle";
-  title.textContent = category;
 
-  const grid = document.createElement("div");
-  grid.className = "grid";
-
-  categoryProducts.forEach(p => {
-    grid.innerHTML += `
-      <article class="item">
-        <img class="productPhoto" src="${p.image_url || 'logo-mark.png'}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <div class="itemBottom">
-          <span class="itemPrice">${p.price}₺</span>
-          <button class="add" onclick='addItem(${JSON.stringify(p.name)}, ${p.price})'>Ekle</button>
-        </div>
-      </article>
-    `;
-  });
-
-  burgerGrid.parentElement.appendChild(title);
-  burgerGrid.parentElement.appendChild(grid);
+  
 });
 loadMenuProducts();
 </script>
