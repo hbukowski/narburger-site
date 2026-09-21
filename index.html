@@ -901,7 +901,7 @@ footer img{
     Burgerler
   </h2>
 
-  <div class="grid">
+ <div class="grid" id="burgerGrid">
 
 
     <article class="item">
@@ -1866,6 +1866,26 @@ const supabaseClient = supabase.createClient(
   }
 
   console.log("Narburger ürünleri:", products);
+    const burgerGrid = document.getElementById("burgerGrid");
+
+if (burgerGrid) {
+  const burgers = products.filter(p => p.category === "Burgerler");
+
+  burgerGrid.innerHTML = "";
+
+  burgers.forEach(p => {
+    burgerGrid.innerHTML += `
+      <article class="item">
+        <img class="productPhoto" src="${p.image_url || 'logo-mark.png'}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <div class="itemBottom">
+          <span class="itemPrice">${p.price}₺</span>
+          <button class="add" onclick='addItem(${JSON.stringify(p.name)}, ${p.price})'>Ekle</button>
+        </div>
+      </article>
+    `;
+  });
+}
 }
 
 loadMenuProducts();
