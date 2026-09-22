@@ -2433,5 +2433,68 @@ async function startDynamicMenu(){
 startDynamicMenu();
 
 </script>
+<script>
+async function checkStoreStatusOnSite() {
+  const { data, error } = await db
+    .from("store_status")
+    .select("*")
+    .eq("id", 1)
+    .single();
+
+  if (error || !data) {
+    console.error("Sipariş durumu alınamadı:", error);
+    return;
+  }
+
+  if (!data.is_open) {
+    const style = document.createElement("style");
+    style.innerHTML = `
+      #storeClosedBox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.92);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+      }
+      #storeClosedBox .closed-card {
+        max-width: 520px;
+        width: 100%;
+        background: #151515;
+        border: 1px solid #333;
+        border-radius: 22px;
+        padding: 35px 25px;
+        text-align: center;
+        color: white;
+      }
+      #storeClosedBox h2 {
+        color: #ff3131;
+        font-size: 32px;
+        margin: 0 0 15px;
+      }
+      #storeClosedBox p {
+        font-size: 18px;
+        line-height: 1.5;
+        margin: 0;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const box = document.createElement("div");
+    box.id = "storeClosedBox";
+    box.innerHTML = `
+      <div class="closed-card">
+        <h2>🔴 Sipariş Sistemi Kapalı</h2>
+        <p>${data.message || "Şu anda sipariş alamıyoruz."}</p>
+      </div>
+    `;
+    document.body.appendChild(box);
+  }
+}
+
+checkStoreStatusOnSite();
+</script>
 </body>
 </html>  
