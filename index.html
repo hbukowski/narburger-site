@@ -1854,127 +1854,336 @@ const supabaseClient = supabase.createClient(
   SUPABASE_KEY
 );
 async function loadMenuProducts() {
-  const { data: products, error } = await supabaseClient
-    .from("products")
-    .select("*")
-    .eq("active", true)
-    .order("id", { ascending: true });
 
-  if (error) {
-    console.error("Ürünler yüklenemedi:", error);
+  const [
+    productsResult,
+    categoriesResult
+  ] = await Promise.all([
+
+    supabaseClient
+      .from("products")
+      .select("*")
+      .eq("active", true)
+      .order("sort_order", {
+        ascending: true,
+        nullsFirst: false
+      })
+      .order("id", {
+        ascending: true
+      }),
+
+    supabaseClient
+      .from("categories")
+      .select("*")
+      .eq("active", true)
+      .order("sort_order", {
+        ascending: true,
+        nullsFirst: false
+      })
+      .order("id", {
+        ascending: true
+      })
+
+  ]);
+
+
+  if (productsResult.error) {
+
+    console.error(
+      "Ürünler yüklenemedi:",
+      productsResult.error
+    );
+
     return;
   }
 
-  const burgerGrid = document.getElementById("burgerGrid");
 
-  // Burgerler Supabase'den güncellensin.
-  if (burgerGrid) {
-    const burgers = products.filter(p => (p.category || "").trim() === "Burgerler");
+  if (categoriesResult.error) {
 
-    if (burgers.length) {
-      burgerGrid.innerHTML = "";
+    console.error(
+      "Kategoriler yüklenemedi:",
+      categoriesResult.error
+    );
 
-      burgers.forEach(p => {
-        const article = document.createElement("article");
-        article.className = "item";
+    return;
+  }
 
-        const img = document.createElement("img");
-        img.className = "productPhoto";
-        img.src = p.image_url || "logo-mark.png";
-        img.alt = p.name || "Narburger";
-        img.onerror = () => { img.src = "logo-mark.png"; };
 
-        const name = document.createElement("h3");
-        name.textContent = p.name || "Ürün";
+  const products =
+    productsResult.data || [];
 
-        const bottom = document.createElement("div");
-        bottom.className = "itemBottom";
+  const categoryRows =
+    categoriesResult.data || [];
 
-        const price = document.createElement("span");
-        price.className = "itemPrice";
-        price.textContent = (Number(p.price) || 0) + "₺";
 
-        const button = document.createElement("button");
-        button.className = "add";
-        button.textContent = "Ekle";
-        button.onclick = () => addItem(p.name || "Ürün", Number(p.price) || 0);
+  const menuWrap =
+    document.querySelector(
+      "#menu .wrap"
+    );
 
-        bottom.append(price, button);
-        article.append(img, name, bottom);
-        burgerGrid.appendChild(article);
-      });
+  if (!menuWrap) return;
+
+
+  // Sayfadaki eski sabit menüyü kaldır.
+  const firstMenuTitle =
+    menuWrap.querySelector(
+      ".menuTitle"
+    );
+
+  if (firstMenuTitle) {
+
+    let node =
+      firstMenuTitle;
+
+    while (node) {
+
+      const next =
+        node.nextSibling;
+
+      node.remove();
+
+      node = next;
     }
   }
 
-  // Bunlar sayfada zaten sabit olarak var; silinmez ve tekrar eklenmez.
-  const fixedCategories = new Set([
-    "Burgerler",
-    "Double Burgerler",
-    "Tostlar",
-    "İçecekler",
-    "Soslar"
-  ]);
 
-  // TATLILAR gibi sonradan eklenen kategorileri menünün sonuna otomatik ekle.
-  const menuWrap = document.querySelector("#menu .wrap");
-  if (!menuWrap) return;
+  if (!products.length) {
 
-  menuWrap.querySelectorAll(".dynamic-category-title, .dynamic-category-grid")
-    .forEach(el => el.remove());
+    const empty =
+      document.createElement("p");
 
-  const extraCategories = [...new Set(
-    products
-      .map(p => (p.category || "").trim())
-      .filter(cat => cat && !fixedCategories.has(cat))
-  )];
+    empty.style.color =
+      "#aaa";
 
-  extraCategories.forEach(category => {
-    const categoryProducts = products.filter(
-      p => (p.category || "").trim() === category
+    empty.textContent =
+      "Şu anda satışta ürün bulunmuyor.";
+
+    menuWrap.appendChild(
+      empty
     );
 
-    if (!categoryProducts.length) return;
+    return;
+  }
 
-    const title = document.createElement("h2");
-    title.className = "menuTitle dynamic-category-title";
-    title.textContent = category;
 
-    const grid = document.createElement("div");
-    grid.className = "grid dynamic-category-grid";
+  // Supabase kategori sırasını al.
+  const categoryNames = [];
+
+  categoryRows.forEach(c => {
+
+    const name =
+      (c.name || "").trim();
+
+    if (
+      name &&
+      !categoryNames.includes(name)
+    ) {
+
+      categoryNames.push(name);
+    }
+  });
+
+
+  // Kategori tablosunda olmayan
+  // ama üründe bulunan kategori varsa
+  // en sona ekle.
+  products.forEach(p => {
+
+    const name =
+      (p.category || "Diğer")
+      .trim();
+
+    if (
+      name &&
+      !categoryNames.includes(name)
+    ) {
+
+      categoryNames.push(name);
+    }
+  });
+
+
+  function categoryId(name) {
+
+    const known = {
+      "Burgerler": "burgerler",
+      "Double Burgerler": "double",
+      "Menüler": "menuler",
+      "Tostlar": "tostlar",
+      "Hot Dog": "hotdog",
+      "İçecekler": "icecekler",
+      "Soslar": "soslar",
+      "Tatlılar": "tatlilar"
+    };
+
+    if (known[name]) {
+      return known[name];
+    }
+
+    return "kategori-" +
+      name
+        .toLocaleLowerCase("tr-TR")
+        .replace(/ı/g,"i")
+        .replace(/ğ/g,"g")
+        .replace(/ü/g,"u")
+        .replace(/ş/g,"s")
+        .replace(/ö/g,"o")
+        .replace(/ç/g,"c")
+        .replace(/[^a-z0-9]+/g,"-")
+        .replace(/^-+|-+$/g,"");
+  }
+
+
+  categoryNames.forEach(category => {
+
+    const categoryProducts =
+      products.filter(
+        p =>
+        (p.category || "Diğer")
+          .trim()
+        === category
+      );
+
+
+    // Ürün yoksa kategori
+    // müşteriye gösterilmez.
+    if (!categoryProducts.length) {
+      return;
+    }
+
+
+    const title =
+      document.createElement("h2");
+
+    title.className =
+      "menuTitle";
+
+    title.id =
+      categoryId(category);
+
+    title.textContent =
+      category;
+
+
+    const grid =
+      document.createElement("div");
+
+    grid.className =
+      "grid";
+
 
     categoryProducts.forEach(p => {
-      const article = document.createElement("article");
-      article.className = "item";
 
-      const img = document.createElement("img");
-      img.className = "productPhoto";
-      img.src = p.image_url || "logo-mark.png";
-      img.alt = p.name || "Narburger";
-      img.onerror = () => { img.src = "logo-mark.png"; };
+      const article =
+        document.createElement(
+          "article"
+        );
 
-      const name = document.createElement("h3");
-      name.textContent = p.name || "Ürün";
+      article.className =
+        "item";
 
-      const bottom = document.createElement("div");
-      bottom.className = "itemBottom";
 
-      const price = document.createElement("span");
-      price.className = "itemPrice";
-      price.textContent = (Number(p.price) || 0) + "₺";
+      const img =
+        document.createElement(
+          "img"
+        );
 
-      const button = document.createElement("button");
-      button.className = "add";
-      button.textContent = "Ekle";
-      button.onclick = () => addItem(p.name || "Ürün", Number(p.price) || 0);
+      img.className =
+        "productPhoto";
 
-      bottom.append(price, button);
-      article.append(img, name, bottom);
-      grid.appendChild(article);
+      img.src =
+        p.image_url ||
+        "logo-mark.png";
+
+      img.alt =
+        p.name ||
+        "Narburger";
+
+      img.onerror = () => {
+        img.src =
+          "logo-mark.png";
+      };
+
+
+      const name =
+        document.createElement(
+          "h3"
+        );
+
+      name.textContent =
+        p.name ||
+        "Ürün";
+
+
+      const bottom =
+        document.createElement(
+          "div"
+        );
+
+      bottom.className =
+        "itemBottom";
+
+
+      const price =
+        document.createElement(
+          "span"
+        );
+
+      price.className =
+        "itemPrice";
+
+      price.textContent =
+        (Number(p.price) || 0)
+        + "₺";
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.className =
+        "add";
+
+      button.textContent =
+        "Ekle";
+
+      button.onclick = () =>
+        addItem(
+          p.name || "Ürün",
+          Number(p.price) || 0
+        );
+
+
+      bottom.append(
+        price,
+        button
+      );
+
+
+      article.append(
+        img,
+        name,
+        bottom
+      );
+
+
+      grid.appendChild(
+        article
+      );
+
     });
 
-    menuWrap.append(title, grid);
+
+    menuWrap.append(
+      title,
+      grid
+    );
+
   });
+
 }
+
 
 loadMenuProducts();
 </script>
