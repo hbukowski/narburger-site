@@ -2134,10 +2134,28 @@ async function loadCategoryButtons(){
 
   area.innerHTML="";
 
-  const categoryImages={
-    "Burgerler":"F0545BD9-F400-4D5C-BC1F-1E143B124C8C.png",
-    "Double Burgerler":"B4FFE979-14C9-4A7B-B6E1-7CA2900458A9.png",
-    "Tostlar":"A2000BEA-0989-4B97-AE44-9186FF0E9D22.png"
+const {data:products}=await supabaseClient
+  .from("products")
+  .select("category,image_url,sort_order,id")
+  .eq("active",true)
+  .order("sort_order",{ascending:true,nullsFirst:false})
+  .order("id",{ascending:true});
+
+const firstImageByCategory={};
+
+(products || []).forEach(p=>{
+
+  const category=(p.category || "").trim();
+
+  if(
+    category &&
+    p.image_url &&
+    !firstImageByCategory[category]
+  ){
+    firstImageByCategory[category]=p.image_url;
+  }
+
+});
   };
 
   function categoryId(name){
@@ -2173,10 +2191,10 @@ async function loadCategoryButtons(){
     a.className="cat";
     a.href="#"+categoryId(c.name);
 
-    if(categoryImages[c.name]){
+    if(firstImageByCategory[c.name]){
 
       const img=document.createElement("img");
-      img.src=categoryImages[c.name];
+      img.src=firstImageByCategory[c.name];
       img.alt=c.name;
       a.appendChild(img);
 
