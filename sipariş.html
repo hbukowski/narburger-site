@@ -139,7 +139,7 @@ header{
   <div class="headerInner">
     <img src="logo-full.png" alt="Narburger">
     <div>
-      🟢 SİPARİŞ SİSTEMİ AÇIK
+<button id="orderStoreStatus" onclick="toggleOrderStoreStatus()" style="border:0;border-radius:10px;padding:12px 18px;color:white;font-weight:bold;font-size:16px;cursor:pointer;">🟢 SİPARİŞ SİSTEMİ AÇIK</button>
       <button class="logout" onclick="logout()">Çıkış</button>
     </div>
   </div>
@@ -161,7 +161,60 @@ const db = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+async function loadOrderStoreStatus(){
+  const {data,error}=await db
+    .from("store_status")
+    .select("*")
+    .eq("id",1)
+    .single();
 
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  const status=document.getElementById("orderStoreStatus");
+
+  if(data.is_open){
+    status.innerHTML="🟢 SİPARİŞ SİSTEMİ AÇIK";
+    status.style.background="#19a75a";
+  }else{
+    status.innerHTML="🔴 SİPARİŞ SİSTEMİ KAPALI";
+    status.style.background="#e51d48";
+  }
+}
+
+async function toggleOrderStoreStatus(){
+  const {data,error}=await db
+    .from("store_status")
+    .select("*")
+    .eq("id",1)
+    .single();
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  const newStatus=!data.is_open;
+
+  const result=await db
+    .from("store_status")
+    .update({
+      is_open:newStatus,
+      message:newStatus
+        ? "Sipariş sistemi açık"
+        : "Şu anda sipariş alamıyoruz."
+    })
+    .eq("id",1);
+
+  if(result.error){
+    alert(result.error.message);
+    return;
+  }
+
+  await loadOrderStoreStatus();
+}
 async function login(){
 
   const email =
@@ -393,7 +446,7 @@ setInterval(async()=>{
   }
 
 },5000);
-
+loadOrderStoreStatus();
 </script>
 
 </body>
