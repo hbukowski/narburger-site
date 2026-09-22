@@ -51,6 +51,11 @@ button{
   background:#e51d48;
   color:white;
 }
+.categoryAdd{
+  background:#fff;
+  color:#1674d1;
+  margin:4px 0 8px;
+}
 .product{
   display:flex;
   align-items:center;
@@ -79,9 +84,31 @@ button{
   background:#e51d48;
   color:white;
 }
-.edit{background:#f0a500;color:#111}
-.actions{display:flex;gap:7px;flex-wrap:wrap}
-@media(max-width:650px){.product{align-items:flex-start;flex-wrap:wrap}.product img{width:76px;height:60px}.actions{width:100%}.actions button{flex:1}}
+.edit{
+  background:#f0a500;
+  color:#111;
+}
+.actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+@media(max-width:650px){
+  .product{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+  .product img{
+    width:76px;
+    height:60px;
+  }
+  .actions{
+    width:100%;
+  }
+  .actions button{
+    flex:1;
+  }
+}
 </style>
 </head>
 
@@ -97,18 +124,18 @@ button{
 <input id="name" placeholder="Ürün adı">
 <input id="price" type="number" placeholder="Fiyat">
 
-<select id="category">
-<option value="Burgerler">Burgerler</option>
-<option value="Double Burgerler">Double Burgerler</option>
-<option value="Tostlar">Tostlar</option>
-<option value="Hot Dog">Hot Dog</option>
-<option value="İçecekler">İçecekler</option>
-<option value="Soslar">Soslar</option>
-<option value="Menüler">Menüler</option>
-</select>
+<select id="category"></select>
+
 <input id="newCategory" placeholder="Yeni kategori adı">
-<button type="button" onclick="addCategory()">+ KATEGORİ EKLE</button>
-<div style="font-size:13px;color:#aaa;margin-top:6px">Eklediğin kategoriler bu cihazda kalıcı olarak saklanır.</div>
+
+<button class="categoryAdd" onclick="addCategory()">
++ KATEGORİ EKLE
+</button>
+
+<div style="font-size:13px;color:#aaa;margin-top:2px;margin-bottom:7px">
+Eklediğin kategoriler bu cihazda kalıcı olarak saklanır.
+</div>
+
 <input id="imageFile" type="file" accept="image/*">
 
 <button class="add" onclick="addProduct()">ÜRÜNÜ EKLE</button>
@@ -120,6 +147,7 @@ button{
 </div>
 
 <script>
+
 const SUPABASE_URL =
 "https://ffztqlyodruwcjtsyekj.supabase.co";
 
@@ -131,176 +159,531 @@ const db = supabase.createClient(
   SUPABASE_KEY
 );
 
+const DEFAULT_CATEGORIES=[
+  "Burgerler",
+  "Double Burgerler",
+  "Menüler",
+  "Tostlar",
+  "Hot Dog",
+  "İçecekler",
+  "Soslar",
+  "Tatlılar"
+];
+
+function getCategories(){
+  try{
+    const saved=
+      JSON.parse(
+        localStorage.getItem("narburger_categories") || "[]"
+      );
+
+    return [...new Set([
+      ...DEFAULT_CATEGORIES,
+      ...saved
+    ])];
+
+  }catch(e){
+    return DEFAULT_CATEGORIES;
+  }
+}
+
+function renderCategories(selected){
+
+  const select=document.getElementById("category");
+
+  select.innerHTML="";
+
+  getCategories().forEach(name=>{
+
+    const option=document.createElement("option");
+
+    option.value=name;
+    option.textContent=name;
+
+    select.appendChild(option);
+
+  });
+
+  if(
+    selected &&
+    getCategories().includes(selected)
+  ){
+    select.value=selected;
+  }
+}
+
+function addCategory(){
+
+  const input=
+    document.getElementById("newCategory");
+
+  const name=input.value.trim();
+
+  if(!name){
+    alert("Kategori adı gir.");
+    return;
+  }
+
+  const categories=getCategories();
+
+  if(!categories.includes(name)){
+
+    let custom=[];
+
+    try{
+      custom=JSON.parse(
+        localStorage.getItem("narburger_categories") || "[]"
+      );
+    }catch(e){
+      custom=[];
+    }
+
+    custom.push(name);
+
+    localStorage.setItem(
+      "narburger_categories",
+      JSON.stringify(custom)
+    );
+  }
+
+  renderCategories(name);
+
+  input.value="";
+
+  alert(name + " kategorisi eklendi.");
+}
+
 async function loadProducts(){
 
-  const {data,error} = await db
+  const {data,error}=await db
     .from("products")
     .select("*")
-    .order("id",{ascending:false});
+    .order("sort_order",{
+      ascending:true,
+      nullsFirst:false
+    })
+    .order("id",{ascending:true});
 
   if(error){
-    document.getElementById("products").textContent =
+
+    document.getElementById("products")
+      .textContent=
       "Ürünler yüklenemedi: " + error.message;
+
     return;
   }
 
-  const area = document.getElementById("products");
+  const area=
+    document.getElementById("products");
 
-  if(!data.length){
-    area.innerHTML = "Henüz ürün eklenmedi.";
+  if(!data || !data.length){
+
+    area.innerHTML="Henüz ürün eklenmedi.";
+
     return;
   }
 
-  area.innerHTML = "";
+  area.innerHTML="";
 
   data.forEach(p=>{
 
     const div=document.createElement("div");
-    div.className="product " + (p.active ? "" : "off");
+
+    div.className=
+      "product " + (p.active ? "" : "off");
 
     const img=document.createElement("img");
+
     img.src=p.image_url || "logo-mark.png";
-    img.onerror=()=>img.src="logo-mark.png";
+
+    img.onerror=()=>{
+      img.src="logo-mark.png";
+    };
 
     const info=document.createElement("div");
+
     info.className="info";
 
     const title=document.createElement("h3");
+
     title.textContent=p.name || "";
 
     const detail=document.createElement("div");
+
     detail.textContent=
-      (p.category || "")+" • "+Number(p.price || 0)+" ₺";
+      (p.category || "") +
+      " • " +
+      Number(p.price || 0) +
+      " ₺";
 
     info.appendChild(title);
     info.appendChild(detail);
 
     const actions=document.createElement("div");
+
     actions.className="actions";
 
+    const up=document.createElement("button");
+
+    up.className="edit";
+    up.textContent="↑";
+    up.title="Yukarı taşı";
+
+    up.onclick=()=>{
+      moveProduct(p.id,-1);
+    };
+
+    const down=document.createElement("button");
+
+    down.className="edit";
+    down.textContent="↓";
+    down.title="Aşağı taşı";
+
+    down.onclick=()=>{
+      moveProduct(p.id,1);
+    };
+
     const edit=document.createElement("button");
+
     edit.className="edit";
     edit.textContent="DÜZENLE";
-    edit.onclick=()=>editProduct(p);
+
+    edit.onclick=()=>{
+      editProduct(p);
+    };
 
     const toggle=document.createElement("button");
+
     toggle.className="toggle";
-    toggle.textContent=p.active ? "SATIŞTA" : "KAPALI";
-    toggle.onclick=()=>toggleProduct(p.id,!p.active);
+
+    toggle.textContent=
+      p.active ? "SATIŞTA" : "KAPALI";
+
+    toggle.onclick=()=>{
+      toggleProduct(p.id,!p.active);
+    };
 
     const del=document.createElement("button");
+
     del.className="delete";
     del.textContent="SİL";
-    del.onclick=()=>deleteProduct(p.id);
 
+    del.onclick=()=>{
+      deleteProduct(p.id);
+    };
+
+    actions.appendChild(up);
+    actions.appendChild(down);
     actions.appendChild(edit);
     actions.appendChild(toggle);
     actions.appendChild(del);
+
     div.appendChild(img);
     div.appendChild(info);
     div.appendChild(actions);
 
     area.appendChild(div);
+
   });
-}
-const DEFAULT_CATEGORIES=["Burgerler","Double Burgerler","Menüler","Tostlar","Hot Dog","İçecekler","Soslar"];
-
-function getCategories(){
-  try{
-    const saved=JSON.parse(localStorage.getItem("narburger_categories")||"[]");
-    return [...new Set([...DEFAULT_CATEGORIES,...saved])];
-  }catch(e){ return DEFAULT_CATEGORIES; }
-}
-
-function renderCategories(selected){
-  const select=document.getElementById("category");
-  select.innerHTML="";
-  getCategories().forEach(name=>{
-    const option=document.createElement("option");
-    option.value=name; option.textContent=name;
-    select.appendChild(option);
-  });
-  if(selected && getCategories().includes(selected)) select.value=selected;
-}
-
-function addCategory(){
-  const input=document.getElementById("newCategory");
-  const name=input.value.trim();
-  if(!name){ alert("Kategori adı gir."); return; }
-  const categories=getCategories();
-  if(!categories.includes(name)){
-    const custom=JSON.parse(localStorage.getItem("narburger_categories")||"[]");
-    custom.push(name);
-    localStorage.setItem("narburger_categories",JSON.stringify(custom));
-  }
-  renderCategories(name);
-  input.value="";
 }
 
 async function editProduct(p){
-  const name=prompt("Ürün adı",p.name||"");
-  if(name===null || !name.trim()) return;
-  const priceText=prompt("Fiyat",Number(p.price||0));
+
+  const name=
+    prompt("Ürün adı",p.name || "");
+
+  if(
+    name===null ||
+    !name.trim()
+  ) return;
+
+  const priceText=
+    prompt(
+      "Fiyat",
+      Number(p.price || 0)
+    );
+
   if(priceText===null) return;
+
   const price=Number(priceText);
-  if(!price){ alert("Geçerli fiyat gir."); return; }
-  const category=prompt("Kategori",p.category||"Burgerler");
-  if(category===null || !category.trim()) return;
-  const {error}=await db.from("products").update({name:name.trim(),price,category:category.trim()}).eq("id",p.id);
-  if(error){ alert("Ürün güncellenemedi: "+error.message); return; }
+
+  if(!price){
+    alert("Geçerli fiyat gir.");
+    return;
+  }
+
+  const category=
+    prompt(
+      "Kategori",
+      p.category || "Burgerler"
+    );
+
+  if(
+    category===null ||
+    !category.trim()
+  ) return;
+
+  const {error}=await db
+    .from("products")
+    .update({
+      name:name.trim(),
+      price,
+      category:category.trim()
+    })
+    .eq("id",p.id);
+
+  if(error){
+
+    alert(
+      "Ürün güncellenemedi: " +
+      error.message
+    );
+
+    return;
+  }
+
   loadProducts();
 }
 
 async function addProduct(){
 
-  const name=document.getElementById("name").value.trim();
-  const price=Number(document.getElementById("price").value);
-  const category=document.getElementById("category").value;
- 
+  const name=
+    document
+      .getElementById("name")
+      .value
+      .trim();
+
+  const price=
+    Number(
+      document
+        .getElementById("price")
+        .value
+    );
+
+  const category=
+    document
+      .getElementById("category")
+      .value;
+
   if(!name || !price){
+
     alert("Ürün adı ve fiyat gir.");
-    return;
-  }
-const photoFile = document.getElementById("imageFile")?.files[0];
 
-let imageUrl = "";
-
-if (photoFile) {
-  const fileName = Date.now() + "-" + photoFile.name;
-
-  const { error: uploadError } = await db.storage
-    .from("product-images")
-    .upload(fileName, photoFile);
-
-  if (uploadError) {
-    alert("Fotoğraf yüklenemedi: " + uploadError.message);
     return;
   }
 
-  const { data: publicData } = db.storage
-    .from("product-images")
-    .getPublicUrl(fileName);
+  const photoFile=
+    document
+      .getElementById("imageFile")
+      ?.files[0];
 
-  imageUrl = publicData.publicUrl;
-}
+  let imageUrl="";
+
+  if(photoFile){
+
+    const fileName=
+      Date.now() +
+      "-" +
+      photoFile.name;
+
+    const {error:uploadError}=
+      await db.storage
+        .from("product-images")
+        .upload(
+          fileName,
+          photoFile
+        );
+
+    if(uploadError){
+
+      alert(
+        "Fotoğraf yüklenemedi: " +
+        uploadError.message
+      );
+
+      return;
+    }
+
+    const {data:publicData}=
+      db.storage
+        .from("product-images")
+        .getPublicUrl(fileName);
+
+    imageUrl=
+      publicData.publicUrl;
+  }
+
+  const {data:existing}=await db
+    .from("products")
+    .select("sort_order")
+    .order(
+      "sort_order",
+      {
+        ascending:false,
+        nullsFirst:false
+      }
+    )
+    .limit(1);
+
+  let nextOrder=1;
+
+  if(
+    existing &&
+    existing.length &&
+    existing[0].sort_order
+  ){
+    nextOrder=
+      Number(existing[0].sort_order)+1;
+  }
+
   const {error}=await db
     .from("products")
     .insert({
       name,
       price,
       category,
-      image_url: imageUrl,
-      active:true
+      image_url:imageUrl,
+      active:true,
+      sort_order:nextOrder
     });
 
   if(error){
-    alert("Ürün eklenemedi: "+error.message);
+
+    alert(
+      "Ürün eklenemedi: " +
+      error.message
+    );
+
     return;
   }
 
-  document.getElementById("name").value="";
-  document.getElementById("price").value="";
- document.getElementById("imageFile").value="";
+  document
+    .getElementById("name")
+    .value="";
+
+  document
+    .getElementById("price")
+    .value="";
+
+  document
+    .getElementById("imageFile")
+    .value="";
+
+  loadProducts();
+}
+
+async function moveProduct(id,direction){
+
+  const {data,error}=await db
+    .from("products")
+    .select("id,sort_order")
+    .order(
+      "sort_order",
+      {
+        ascending:true,
+        nullsFirst:false
+      }
+    )
+    .order("id",{ascending:true});
+
+  if(error){
+
+    alert(
+      "Sıralama hatası: " +
+      error.message
+    );
+
+    return;
+  }
+
+  const items=(data || []).map(
+    (x,i)=>({
+      id:x.id,
+      sort_order:
+        Number.isFinite(
+          Number(x.sort_order)
+        )
+        ? Number(x.sort_order)
+        : i+1
+    })
+  );
+
+  const i=
+    items.findIndex(
+      x=>x.id===id
+    );
+
+  const j=i+direction;
+
+  if(
+    i<0 ||
+    j<0 ||
+    j>=items.length
+  ) return;
+
+  for(
+    let k=0;
+    k<items.length;
+    k++
+  ){
+
+    if(
+      Number(items[k].sort_order)
+      !==
+      k+1
+    ){
+
+      const r=await db
+        .from("products")
+        .update({
+          sort_order:k+1
+        })
+        .eq(
+          "id",
+          items[k].id
+        );
+
+      if(r.error){
+
+        alert(r.error.message);
+
+        return;
+      }
+
+      items[k].sort_order=k+1;
+    }
+  }
+
+  const a=items[i];
+  const b=items[j];
+
+  let r=await db
+    .from("products")
+    .update({
+      sort_order:j+1
+    })
+    .eq("id",a.id);
+
+  if(r.error){
+
+    alert(r.error.message);
+
+    return;
+  }
+
+  r=await db
+    .from("products")
+    .update({
+      sort_order:i+1
+    })
+    .eq("id",b.id);
+
+  if(r.error){
+
+    alert(r.error.message);
+
+    return;
+  }
 
   loadProducts();
 }
@@ -313,7 +696,9 @@ async function toggleProduct(id,active){
     .eq("id",id);
 
   if(error){
+
     alert(error.message);
+
     return;
   }
 
@@ -322,7 +707,11 @@ async function toggleProduct(id,active){
 
 async function deleteProduct(id){
 
-  if(!confirm("Bu ürünü silmek istiyor musun?")) return;
+  if(
+    !confirm(
+      "Bu ürünü silmek istiyor musun?"
+    )
+  ) return;
 
   const {error}=await db
     .from("products")
@@ -330,7 +719,9 @@ async function deleteProduct(id){
     .eq("id",id);
 
   if(error){
+
     alert(error.message);
+
     return;
   }
 
@@ -339,6 +730,7 @@ async function deleteProduct(id){
 
 renderCategories();
 loadProducts();
+
 </script>
 
 </body>
