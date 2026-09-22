@@ -2114,7 +2114,6 @@ async function loadMenuProducts() {
   });
 
 }
-
 async function loadCategoryButtons(){
 
   const {data:categories,error}=await supabaseClient
@@ -2130,32 +2129,15 @@ async function loadCategoryButtons(){
   }
 
   const area=document.querySelector(".categories");
+
   if(!area) return;
 
   area.innerHTML="";
 
-const {data:products}=await supabaseClient
-  .from("products")
-  .select("category,image_url,sort_order,id")
-  .eq("active",true)
-  .order("sort_order",{ascending:true,nullsFirst:false})
-  .order("id",{ascending:true});
-
-const firstImageByCategory={};
-
-(products || []).forEach(p=>{
-
-  const category=(p.category || "").trim();
-
-  if(
-    category &&
-    p.image_url &&
-    !firstImageByCategory[category]
-  ){
-    firstImageByCategory[category]=p.image_url;
-  }
-
-});
+  const categoryImages={
+    "Burgerler":"F0545BD9-F400-4D5C-BC1F-1E143B124C8C.png",
+    "Double Burgerler":"B4FFE979-14C9-4A7B-B6E1-7CA2900458A9.png",
+    "Tostlar":"A2000BEA-0989-4B97-AE44-9186FF0E9D22.png"
   };
 
   function categoryId(name){
@@ -2171,7 +2153,9 @@ const firstImageByCategory={};
       "Tatlılar":"tatlilar"
     };
 
-    if(known[name]) return known[name];
+    if(known[name]){
+      return known[name];
+    }
 
     return "kategori-"+name
       .toLocaleLowerCase("tr-TR")
@@ -2185,30 +2169,46 @@ const firstImageByCategory={};
       .replace(/^-+|-+$/g,"");
   }
 
-  categories.forEach(c=>{
+  (categories || []).forEach(c=>{
 
     const a=document.createElement("a");
+
     a.className="cat";
     a.href="#"+categoryId(c.name);
 
-    if(firstImageByCategory[c.name]){
+    if(categoryImages[c.name]){
 
       const img=document.createElement("img");
-      img.src=firstImageByCategory[c.name];
+
+      img.src=categoryImages[c.name];
       img.alt=c.name;
+
       a.appendChild(img);
 
     }else{
 
       const icon=document.createElement("div");
+
       icon.style.fontSize="62px";
 
-      if(c.name==="İçecekler") icon.textContent="🥤";
-      else if(c.name==="Soslar") icon.textContent="🥣";
-      else if(c.name==="Tatlılar") icon.textContent="🍰";
-      else if(c.name==="Hot Dog") icon.textContent="🌭";
-      else if(c.name==="Menüler") icon.textContent="🍔";
-      else icon.textContent="🍽️";
+      if(c.name==="İçecekler"){
+        icon.textContent="🥤";
+      }
+      else if(c.name==="Soslar"){
+        icon.textContent="🥣";
+      }
+      else if(c.name==="Tatlılar"){
+        icon.textContent="🍰";
+      }
+      else if(c.name==="Hot Dog"){
+        icon.textContent="🌭";
+      }
+      else if(c.name==="Menüler"){
+        icon.textContent="🍔";
+      }
+      else{
+        icon.textContent="🍽️";
+      }
 
       a.appendChild(icon);
     }
@@ -2223,6 +2223,7 @@ const firstImageByCategory={};
     sub.textContent="Menüyü gör →";
 
     text.append(title,sub);
+
     a.appendChild(text);
 
     area.appendChild(a);
