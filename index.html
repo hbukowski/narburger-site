@@ -1993,10 +1993,9 @@ async function startDynamicMenu(){
 }
 
 startDynamicMenu();
-
-</script>
-
 <script>
+
+let storeIsOpen = true;
 
 async function checkStoreStatusOnSite() {
 
@@ -2004,10 +2003,10 @@ async function checkStoreStatusOnSite() {
     await supabaseClient
       .from("store_status")
       .select("*")
-      .eq("id",1)
+      .eq("id", 1)
       .single();
 
-  if(error || !data){
+  if (error || !data) {
 
     console.error(
       "Sipariş durumu alınamadı:",
@@ -2017,77 +2016,108 @@ async function checkStoreStatusOnSite() {
     return;
   }
 
-  if(!data.is_open){
+  storeIsOpen = data.is_open;
+
+  if (!storeIsOpen) {
+
+    /* ÜST UYARI BANDI */
 
     const style =
-      document.createElement(
-        "style"
-      );
+      document.createElement("style");
 
     style.innerHTML = `
-      #storeClosedBox {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.92);
-        z-index: 999999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 25px;
+
+      #storeClosedBanner {
+        background:#b3141b;
+        color:#fff;
+        width:100%;
+        padding:12px 20px;
+        text-align:center;
+        font-weight:900;
+        font-size:15px;
+        letter-spacing:.2px;
+        border-bottom:1px solid #d92b33;
       }
 
-      #storeClosedBox .closed-card {
-        max-width: 520px;
-        width: 100%;
-        background: #151515;
-        border: 1px solid #333;
-        border-radius: 22px;
-        padding: 35px 25px;
-        text-align: center;
-        color: white;
+      #storeClosedBanner span {
+        opacity:.85;
+        font-weight:600;
+        margin-left:6px;
       }
 
-      #storeClosedBox h2 {
-        color: #ff3131;
-        font-size: 32px;
-        margin: 0 0 15px;
+      .add.store-disabled {
+        background:#333 !important;
+        color:#999 !important;
+        cursor:not-allowed !important;
       }
 
-      #storeClosedBox p {
-        font-size: 18px;
-        line-height: 1.5;
-        margin: 0;
-      }
     `;
 
-    document.head.appendChild(
-      style
-    );
+    document.head.appendChild(style);
 
-    const box =
-      document.createElement(
-        "div"
+
+    const banner =
+      document.createElement("div");
+
+    banner.id =
+      "storeClosedBanner";
+
+    banner.innerHTML = `
+      🔴 Şu anda siparişe kapalıyız
+      <span>
+        ${data.message || "Menümüzü incelemeye devam edebilirsiniz."}
+      </span>
+    `;
+
+
+    const header =
+      document.querySelector(".top");
+
+    if(header){
+
+      header.insertAdjacentElement(
+        "afterend",
+        banner
       );
 
-    box.id =
-      "storeClosedBox";
+    }else{
 
-    box.innerHTML = `
-      <div class="closed-card">
-        <h2>🔴 Sipariş Sistemi Kapalı</h2>
-        <p>${data.message || "Şu anda sipariş alamıyoruz."}</p>
-      </div>
-    `;
+      document.body.prepend(
+        banner
+      );
 
-    document.body.appendChild(
-      box
-    );
+    }
+
+
+    /* EKLE BUTONLARINI KAPAT */
+
+    setTimeout(()=>{
+
+      document
+        .querySelectorAll(".add")
+        .forEach(button=>{
+
+          button.disabled = true;
+
+          button.classList.add(
+            "store-disabled"
+          );
+
+          button.textContent =
+            "Şu an kapalı";
+
+        });
+
+    },500);
 
   }
 
 }
 
 checkStoreStatusOnSite();
+
+
+
 
 </script>
 
