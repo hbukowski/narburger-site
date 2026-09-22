@@ -2440,6 +2440,51 @@ async function startDynamicMenu(){
 startDynamicMenu();
 
 </script>
+async function showStoreStatus(){
 
+  const { data, error } =
+    await supabaseClient
+      .from("store_status")
+      .select("*")
+      .eq("id",1)
+      .single();
+
+  if(error || !data){
+    console.error("Durum alınamadı:", error);
+    return;
+  }
+
+  const badge =
+    document.createElement("div");
+
+  badge.style.position = "fixed";
+  badge.style.bottom = "20px";
+  badge.style.right = "20px";
+  badge.style.zIndex = "9999";
+  badge.style.padding = "11px 18px";
+  badge.style.borderRadius = "999px";
+  badge.style.fontWeight = "900";
+  badge.style.boxShadow = "0 5px 20px rgba(0,0,0,.35)";
+
+  if(data.is_open){
+
+    badge.textContent = "🟢 Sipariş Açık";
+    badge.style.background = "#16803c";
+    badge.style.color = "#fff";
+
+  }else{
+
+    badge.textContent = "🔴 Sipariş Kapalı";
+    badge.style.background = "#b3141b";
+    badge.style.color = "#fff";
+
+  }
+
+  document.body.appendChild(badge);
+}
+
+showStoreStatus();
+ </script> 
+  
 </body>
 </html>
