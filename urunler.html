@@ -158,6 +158,114 @@ button{
 <div class="container">
 
 <h1>🍔 Narburger Ürün Yönetimi</h1>
+  <div style="
+  background:#151515;
+  border:1px solid #333;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+  text-align:center;
+">
+
+  <h2 style="margin-top:0;">
+    Sipariş Sistemi
+  </h2>
+
+  <button
+    id="storeStatusBtn"
+    onclick="toggleStoreStatus()"
+    style="
+      width:100%;
+      padding:18px;
+      border:0;
+      border-radius:12px;
+      font-size:20px;
+      font-weight:bold;
+      background:#19a75a;
+      color:white;
+    "
+  >
+    🟢 AÇIK
+  </button>
+
+</div>
+
+<script>
+
+async function loadStoreStatus(){
+
+  const {data,error}=await db
+    .from("store_status")
+    .select("*")
+    .eq("id",1)
+    .single();
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  const btn=
+    document.getElementById(
+      "storeStatusBtn"
+    );
+
+  if(data.is_open){
+
+    btn.innerHTML="🟢 AÇIK";
+    btn.style.background="#19a75a";
+
+  }else{
+
+    btn.innerHTML="🔴 KAPALI";
+    btn.style.background="#e51d48";
+
+  }
+}
+
+
+async function toggleStoreStatus(){
+
+  const {data,error}=await db
+    .from("store_status")
+    .select("*")
+    .eq("id",1)
+    .single();
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  const newStatus=
+    !data.is_open;
+
+  const result=
+    await db
+      .from("store_status")
+      .update({
+        is_open:newStatus,
+        message:newStatus
+          ? "Sipariş sistemi açık"
+          : "Şu anda sipariş alamıyoruz."
+      })
+      .eq("id",1);
+
+  if(result.error){
+    alert(result.error.message);
+    return;
+  }
+
+  await loadStoreStatus();
+}
+
+
+window.addEventListener(
+  "load",
+  loadStoreStatus
+);
+
+</script>
 
 <div class="box">
 
