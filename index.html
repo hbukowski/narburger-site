@@ -1865,41 +1865,84 @@ async function loadMenuProducts() {
     return;
   }
 
-  const menuWrap = document.querySelector("#menu .wrap");
-  if (!menuWrap) return;
+  const burgerGrid = document.getElementById("burgerGrid");
 
-  const firstMenuTitle = menuWrap.querySelector(".menuTitle");
-  if (firstMenuTitle) {
-    let node = firstMenuTitle;
-    while (node) {
-      const next = node.nextSibling;
-      node.remove();
-      node = next;
+  // Burgerler Supabase'den güncellensin.
+  if (burgerGrid) {
+    const burgers = products.filter(p => (p.category || "").trim() === "Burgerler");
+
+    if (burgers.length) {
+      burgerGrid.innerHTML = "";
+
+      burgers.forEach(p => {
+        const article = document.createElement("article");
+        article.className = "item";
+
+        const img = document.createElement("img");
+        img.className = "productPhoto";
+        img.src = p.image_url || "logo-mark.png";
+        img.alt = p.name || "Narburger";
+        img.onerror = () => { img.src = "logo-mark.png"; };
+
+        const name = document.createElement("h3");
+        name.textContent = p.name || "Ürün";
+
+        const bottom = document.createElement("div");
+        bottom.className = "itemBottom";
+
+        const price = document.createElement("span");
+        price.className = "itemPrice";
+        price.textContent = (Number(p.price) || 0) + "₺";
+
+        const button = document.createElement("button");
+        button.className = "add";
+        button.textContent = "Ekle";
+        button.onclick = () => addItem(p.name || "Ürün", Number(p.price) || 0);
+
+        bottom.append(price, button);
+        article.append(img, name, bottom);
+        burgerGrid.appendChild(article);
+      });
     }
   }
 
-  if (!products || !products.length) {
-    const empty = document.createElement("p");
-    empty.style.color = "#aaa";
-    empty.textContent = "Şu anda satışta ürün bulunmuyor.";
-    menuWrap.appendChild(empty);
-    return;
-  }
+  // Bunlar sayfada zaten sabit olarak var; silinmez ve tekrar eklenmez.
+  const fixedCategories = new Set([
+    "Burgerler",
+    "Double Burgerler",
+    "Tostlar",
+    "İçecekler",
+    "Soslar"
+  ]);
 
-  const categories = [...new Set(
-    products.map(p => (p.category || "Diğer").trim()).filter(Boolean)
+  // TATLILAR gibi sonradan eklenen kategorileri menünün sonuna otomatik ekle.
+  const menuWrap = document.querySelector("#menu .wrap");
+  if (!menuWrap) return;
+
+  menuWrap.querySelectorAll(".dynamic-category-title, .dynamic-category-grid")
+    .forEach(el => el.remove());
+
+  const extraCategories = [...new Set(
+    products
+      .map(p => (p.category || "").trim())
+      .filter(cat => cat && !fixedCategories.has(cat))
   )];
 
-  categories.forEach((category, i) => {
+  extraCategories.forEach(category => {
+    const categoryProducts = products.filter(
+      p => (p.category || "").trim() === category
+    );
+
+    if (!categoryProducts.length) return;
+
     const title = document.createElement("h2");
-    title.className = "menuTitle";
-    title.id = "dynamic-category-" + i;
+    title.className = "menuTitle dynamic-category-title";
     title.textContent = category;
 
     const grid = document.createElement("div");
-    grid.className = "grid";
+    grid.className = "grid dynamic-category-grid";
 
-    products.filter(p => (p.category || "Diğer").trim() === category).forEach(p => {
+    categoryProducts.forEach(p => {
       const article = document.createElement("article");
       article.className = "item";
 
