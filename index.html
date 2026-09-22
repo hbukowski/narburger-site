@@ -770,75 +770,6 @@ footer img{
 
 
 <section class="categories">
-
-  <a class="cat" href="#burgerler">
-
-    <img
-      src="F0545BD9-F400-4D5C-BC1F-1E143B124C8C.png"
-      alt="Burgerler"
-    >
-
-    <div class="catText">
-      <b>Burgerler</b>
-      <span>Efsane lezzetler →</span>
-    </div>
-
-  </a>
-
-
-  <a class="cat" href="#double">
-
-    <img
-      src="B4FFE979-14C9-4A7B-B6E1-7CA2900458A9.png"
-      alt="Double Burgerler"
-    >
-
-    <div class="catText">
-      <b>Double Burgerler</b>
-      <span>Daha fazlası →</span>
-    </div>
-
-  </a>
-
-
-  <a class="cat" href="#tostlar">
-
-    <img
-      src="A2000BEA-0989-4B97-AE44-9186FF0E9D22.png"
-      alt="Tostlar"
-    >
-
-    <div class="catText">
-      <b>Tostlar</b>
-      <span>Sıcak lezzetler →</span>
-    </div>
-
-  </a>
-
-
-  <a class="cat" href="#icecekler">
-
-    <div style="font-size:62px">🥤</div>
-
-    <div class="catText">
-      <b>İçecekler</b>
-      <span>Serinleten tatlar →</span>
-    </div>
-
-  </a>
-
-
-  <a class="cat" href="#soslar">
-
-    <div style="font-size:62px">🥣</div>
-
-    <div class="catText">
-      <b>Soslar</b>
-      <span>Lezzete lezzet →</span>
-    </div>
-
-  </a>
-
 </section>
 
 
@@ -2184,8 +2115,108 @@ async function loadMenuProducts() {
 
 }
 
+async function loadCategoryButtons(){
+
+  const {data:categories,error}=await supabaseClient
+    .from("categories")
+    .select("*")
+    .eq("active",true)
+    .order("sort_order",{ascending:true,nullsFirst:false})
+    .order("id",{ascending:true});
+
+  if(error){
+    console.error("Kategori tuşları yüklenemedi:",error);
+    return;
+  }
+
+  const area=document.querySelector(".categories");
+  if(!area) return;
+
+  area.innerHTML="";
+
+  const categoryImages={
+    "Burgerler":"F0545BD9-F400-4D5C-BC1F-1E143B124C8C.png",
+    "Double Burgerler":"B4FFE979-14C9-4A7B-B6E1-7CA2900458A9.png",
+    "Tostlar":"A2000BEA-0989-4B97-AE44-9186FF0E9D22.png"
+  };
+
+  function categoryId(name){
+
+    const known={
+      "Burgerler":"burgerler",
+      "Double Burgerler":"double",
+      "Menüler":"menuler",
+      "Tostlar":"tostlar",
+      "Hot Dog":"hotdog",
+      "İçecekler":"icecekler",
+      "Soslar":"soslar",
+      "Tatlılar":"tatlilar"
+    };
+
+    if(known[name]) return known[name];
+
+    return "kategori-"+name
+      .toLocaleLowerCase("tr-TR")
+      .replace(/ı/g,"i")
+      .replace(/ğ/g,"g")
+      .replace(/ü/g,"u")
+      .replace(/ş/g,"s")
+      .replace(/ö/g,"o")
+      .replace(/ç/g,"c")
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-+|-+$/g,"");
+  }
+
+  categories.forEach(c=>{
+
+    const a=document.createElement("a");
+    a.className="cat";
+    a.href="#"+categoryId(c.name);
+
+    if(categoryImages[c.name]){
+
+      const img=document.createElement("img");
+      img.src=categoryImages[c.name];
+      img.alt=c.name;
+      a.appendChild(img);
+
+    }else{
+
+      const icon=document.createElement("div");
+      icon.style.fontSize="62px";
+
+      if(c.name==="İçecekler") icon.textContent="🥤";
+      else if(c.name==="Soslar") icon.textContent="🥣";
+      else if(c.name==="Tatlılar") icon.textContent="🍰";
+      else if(c.name==="Hot Dog") icon.textContent="🌭";
+      else if(c.name==="Menüler") icon.textContent="🍔";
+      else icon.textContent="🍽️";
+
+      a.appendChild(icon);
+    }
+
+    const text=document.createElement("div");
+    text.className="catText";
+
+    const title=document.createElement("b");
+    title.textContent=c.name;
+
+    const sub=document.createElement("span");
+    sub.textContent="Menüyü gör →";
+
+    text.append(title,sub);
+    a.appendChild(text);
+
+    area.appendChild(a);
+  });
+}
 
 loadMenuProducts();
+loadCategoryButtons();
+
+</script>
+</body>
+</html>  
 </script>
 </body>
 </html>
