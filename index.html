@@ -1774,17 +1774,63 @@ document
 renderCart();
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://ffztqlyodruwcjtsyekj.supabase.co";
-const SUPABASE_KEY = "sb_publishable_m6pYevfC1_i_-df0rADYKQ_HT27Yc1e";
+const SUPABASE_URL =
+"https://ffztqlyodruwcjtsyekj.supabase.co";
 
-const supabaseClient = supabase.createClient(
+const SUPABASE_KEY =
+"sb_publishable_m6pYevfC1_i_-df0rADYKQ_HT27Yc1e";
+
+const supabaseClient =
+supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-async function loadMenuProducts() {
+
+
+// ==================================
+// KATEGORİ ID
+// ==================================
+
+function categoryId(name){
+
+  const known={
+    "Burgerler":"burgerler",
+    "Double Burgerler":"double",
+    "Menüler":"menuler",
+    "Tostlar":"tostlar",
+    "Hot Dog":"hotdog",
+    "İçecekler":"icecekler",
+    "Soslar":"soslar",
+    "Tatlılar":"tatlilar"
+  };
+
+  if(known[name]){
+    return known[name];
+  }
+
+  return "kategori-" +
+    String(name || "")
+      .toLocaleLowerCase("tr-TR")
+      .replace(/ı/g,"i")
+      .replace(/ğ/g,"g")
+      .replace(/ü/g,"u")
+      .replace(/ş/g,"s")
+      .replace(/ö/g,"o")
+      .replace(/ç/g,"c")
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-+|-+$/g,"");
+}
+
+
+// ==================================
+// MÜŞTERİ MENÜSÜ
+// ==================================
+
+async function loadMenuProducts(){
 
   const [
     productsResult,
@@ -1794,31 +1840,39 @@ async function loadMenuProducts() {
     supabaseClient
       .from("products")
       .select("*")
-      .eq("active", true)
-      .order("sort_order", {
-        ascending: true,
-        nullsFirst: false
-      })
-      .order("id", {
-        ascending: true
-      }),
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "id",
+        {ascending:true}
+      ),
 
     supabaseClient
       .from("categories")
       .select("*")
-      .eq("active", true)
-      .order("sort_order", {
-        ascending: true,
-        nullsFirst: false
-      })
-      .order("id", {
-        ascending: true
-      })
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "id",
+        {ascending:true}
+      )
 
   ]);
 
 
-  if (productsResult.error) {
+  if(productsResult.error){
 
     console.error(
       "Ürünler yüklenemedi:",
@@ -1829,7 +1883,7 @@ async function loadMenuProducts() {
   }
 
 
-  if (categoriesResult.error) {
+  if(categoriesResult.error){
 
     console.error(
       "Kategoriler yüklenemedi:",
@@ -1843,7 +1897,7 @@ async function loadMenuProducts() {
   const products =
     productsResult.data || [];
 
-  const categoryRows =
+  const categories =
     categoriesResult.data || [];
 
 
@@ -1852,258 +1906,257 @@ async function loadMenuProducts() {
       "#menu .wrap"
     );
 
-  if (!menuWrap) return;
+  if(!menuWrap){
+    return;
+  }
 
 
-  // Sayfadaki eski sabit menüyü kaldır.
+  // Eski sabit ürünleri kaldır.
   const firstMenuTitle =
     menuWrap.querySelector(
       ".menuTitle"
     );
 
-  if (firstMenuTitle) {
+  if(firstMenuTitle){
 
     let node =
       firstMenuTitle;
 
-    while (node) {
+    while(node){
 
       const next =
         node.nextSibling;
 
       node.remove();
 
-      node = next;
+      node=next;
     }
   }
 
 
-  if (!products.length) {
+  // Kategori sırası
+  const categoryNames=[];
 
-    const empty =
+
+  categories.forEach(c=>{
+
+    const name=
+      String(c.name || "")
+      .trim();
+
+    if(
+      name &&
+      !categoryNames.includes(name)
+    ){
+      categoryNames.push(name);
+    }
+
+  });
+
+
+  // Kategori tablosunda yoksa
+  // üründeki kategoriyi de ekle.
+  products.forEach(p=>{
+
+    const name=
+      String(
+        p.category || "Diğer"
+      ).trim();
+
+    if(
+      name &&
+      !categoryNames.includes(name)
+    ){
+      categoryNames.push(name);
+    }
+
+  });
+
+
+  if(!categoryNames.length){
+
+    const empty=
       document.createElement("p");
 
-    empty.style.color =
-      "#aaa";
+    empty.style.color="#aaa";
 
-    empty.textContent =
-      "Şu anda satışta ürün bulunmuyor.";
+    empty.textContent=
+      "Şu anda menü bulunmuyor.";
 
-    menuWrap.appendChild(
-      empty
-    );
+    menuWrap.appendChild(empty);
 
     return;
   }
 
 
-  // Supabase kategori sırasını al.
-  const categoryNames = [];
+  categoryNames.forEach(category=>{
 
-  categoryRows.forEach(c => {
-
-    const name =
-      (c.name || "").trim();
-
-    if (
-      name &&
-      !categoryNames.includes(name)
-    ) {
-
-      categoryNames.push(name);
-    }
-  });
-
-
-  // Kategori tablosunda olmayan
-  // ama üründe bulunan kategori varsa
-  // en sona ekle.
-  products.forEach(p => {
-
-    const name =
-      (p.category || "Diğer")
-      .trim();
-
-    if (
-      name &&
-      !categoryNames.includes(name)
-    ) {
-
-      categoryNames.push(name);
-    }
-  });
-
-
-  function categoryId(name) {
-
-    const known = {
-      "Burgerler": "burgerler",
-      "Double Burgerler": "double",
-      "Menüler": "menuler",
-      "Tostlar": "tostlar",
-      "Hot Dog": "hotdog",
-      "İçecekler": "icecekler",
-      "Soslar": "soslar",
-      "Tatlılar": "tatlilar"
-    };
-
-    if (known[name]) {
-      return known[name];
-    }
-
-    return "kategori-" +
-      name
-        .toLocaleLowerCase("tr-TR")
-        .replace(/ı/g,"i")
-        .replace(/ğ/g,"g")
-        .replace(/ü/g,"u")
-        .replace(/ş/g,"s")
-        .replace(/ö/g,"o")
-        .replace(/ç/g,"c")
-        .replace(/[^a-z0-9]+/g,"-")
-        .replace(/^-+|-+$/g,"");
-  }
-
-
-  categoryNames.forEach(category => {
-
-    const categoryProducts =
+    const categoryProducts=
       products.filter(
-        p =>
-        (p.category || "Diğer")
-          .trim()
-        === category
+        p=>
+          String(
+            p.category || "Diğer"
+          ).trim()
+          === category
       );
 
 
-    // Ürün yoksa kategori
-    // müşteriye gösterilmez.
-    if (!categoryProducts.length) {
-      return;
-    }
-
-
-    const title =
+    const title=
       document.createElement("h2");
 
-    title.className =
+    title.className=
       "menuTitle";
 
-    title.id =
+    title.id=
       categoryId(category);
 
-    title.textContent =
+    title.textContent=
       category;
 
 
-    const grid =
+    const grid=
       document.createElement("div");
 
-    grid.className =
-      "grid";
+    grid.className="grid";
 
 
-    categoryProducts.forEach(p => {
+    // Kategori boşsa da başlık kalsın.
+    if(!categoryProducts.length){
 
-      const article =
+      const emptyCard=
         document.createElement(
           "article"
         );
 
-      article.className =
-        "item";
+      emptyCard.className="item";
 
+      const emptyTitle=
+        document.createElement("h3");
 
-      const img =
-        document.createElement(
-          "img"
-        );
+      emptyTitle.textContent=
+        category;
 
-      img.className =
-        "productPhoto";
+      const emptyText=
+        document.createElement("p");
 
-      img.src =
-        p.image_url ||
-        "logo-mark.png";
+      emptyText.textContent=
+        "Henüz ürün eklenmedi.";
 
-      img.alt =
-        p.name ||
-        "Narburger";
-
-      img.onerror = () => {
-        img.src =
-          "logo-mark.png";
-      };
-
-
-      const name =
-        document.createElement(
-          "h3"
-        );
-
-      name.textContent =
-        p.name ||
-        "Ürün";
-
-
-      const bottom =
-        document.createElement(
-          "div"
-        );
-
-      bottom.className =
-        "itemBottom";
-
-
-      const price =
-        document.createElement(
-          "span"
-        );
-
-      price.className =
-        "itemPrice";
-
-      price.textContent =
-        (Number(p.price) || 0)
-        + "₺";
-
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-      button.className =
-        "add";
-
-      button.textContent =
-        "Ekle";
-
-      button.onclick = () =>
-        addItem(
-          p.name || "Ürün",
-          Number(p.price) || 0
-        );
-
-
-      bottom.append(
-        price,
-        button
+      emptyCard.append(
+        emptyTitle,
+        emptyText
       );
-
-
-      article.append(
-        img,
-        name,
-        bottom
-      );
-
 
       grid.appendChild(
-        article
+        emptyCard
       );
 
-    });
+    }else{
+
+      categoryProducts.forEach(p=>{
+
+        const article=
+          document.createElement(
+            "article"
+          );
+
+        article.className=
+          "item";
+
+
+        const img=
+          document.createElement(
+            "img"
+          );
+
+        img.className=
+          "productPhoto";
+
+        img.src=
+          p.image_url ||
+          "logo-mark.png";
+
+        img.alt=
+          p.name ||
+          "Narburger";
+
+        img.onerror=()=>{
+          img.src=
+            "logo-mark.png";
+        };
+
+
+        const name=
+          document.createElement(
+            "h3"
+          );
+
+        name.textContent=
+          p.name ||
+          "Ürün";
+
+
+        const bottom=
+          document.createElement(
+            "div"
+          );
+
+        bottom.className=
+          "itemBottom";
+
+
+        const price=
+          document.createElement(
+            "span"
+          );
+
+        price.className=
+          "itemPrice";
+
+        price.textContent=
+          (Number(p.price) || 0)
+          + "₺";
+
+
+        const button=
+          document.createElement(
+            "button"
+          );
+
+        button.className=
+          "add";
+
+        button.textContent=
+          "Ekle";
+
+        button.onclick=()=>{
+
+          addItem(
+            p.name || "Ürün",
+            Number(p.price) || 0
+          );
+
+        };
+
+
+        bottom.append(
+          price,
+          button
+        );
+
+        article.append(
+          img,
+          name,
+          bottom
+        );
+
+        grid.appendChild(
+          article
+        );
+
+      });
+
+    }
 
 
     menuWrap.append(
@@ -2114,97 +2167,207 @@ async function loadMenuProducts() {
   });
 
 }
+
+
+// ==================================
+// ÜST KATEGORİ KARTLARI
+// ==================================
+
 async function loadCategoryButtons(){
 
-  const {data:categories,error}=await supabaseClient
-    .from("categories")
-    .select("*")
-    .eq("active",true)
-    .order("sort_order",{ascending:true,nullsFirst:false})
-    .order("id",{ascending:true});
+  const [
+    categoriesResult,
+    productsResult
+  ] = await Promise.all([
 
-  if(error){
-    console.error("Kategori tuşları yüklenemedi:",error);
+    supabaseClient
+      .from("categories")
+      .select("*")
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "id",
+        {ascending:true}
+      ),
+
+    supabaseClient
+      .from("products")
+      .select(
+        "id,category,image_url,sort_order"
+      )
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "id",
+        {ascending:true}
+      )
+
+  ]);
+
+
+  if(categoriesResult.error){
+
+    console.error(
+      "Kategori tuşları yüklenemedi:",
+      categoriesResult.error
+    );
+
     return;
   }
 
-  const area=document.querySelector(".categories");
 
-  if(!area) return;
+  const categories=
+    categoriesResult.data || [];
+
+  const products=
+    productsResult.data || [];
+
+
+  const area=
+    document.querySelector(
+      ".categories"
+    );
+
+  if(!area){
+    return;
+  }
+
 
   area.innerHTML="";
 
-  const categoryImages={
-    "Burgerler":"F0545BD9-F400-4D5C-BC1F-1E143B124C8C.png",
-    "Double Burgerler":"B4FFE979-14C9-4A7B-B6E1-7CA2900458A9.png",
-    "Tostlar":"A2000BEA-0989-4B97-AE44-9186FF0E9D22.png"
-  };
 
-  function categoryId(name){
+  // Her kategorinin ilk ürün fotoğrafı
+  const firstImageByCategory={};
 
-    const known={
-      "Burgerler":"burgerler",
-      "Double Burgerler":"double",
-      "Menüler":"menuler",
-      "Tostlar":"tostlar",
-      "Hot Dog":"hotdog",
-      "İçecekler":"icecekler",
-      "Soslar":"soslar",
-      "Tatlılar":"tatlilar"
-    };
 
-    if(known[name]){
-      return known[name];
+  products.forEach(p=>{
+
+    const category=
+      String(
+        p.category || ""
+      ).trim();
+
+    if(
+      category &&
+      p.image_url &&
+      !firstImageByCategory[
+        category
+      ]
+    ){
+
+      firstImageByCategory[
+        category
+      ]=p.image_url;
     }
 
-    return "kategori-"+name
-      .toLocaleLowerCase("tr-TR")
-      .replace(/ı/g,"i")
-      .replace(/ğ/g,"g")
-      .replace(/ü/g,"u")
-      .replace(/ş/g,"s")
-      .replace(/ö/g,"o")
-      .replace(/ç/g,"c")
-      .replace(/[^a-z0-9]+/g,"-")
-      .replace(/^-+|-+$/g,"");
-  }
+  });
 
-  (categories || []).forEach(c=>{
 
-    const a=document.createElement("a");
+  categories.forEach(c=>{
+
+    const categoryName=
+      String(
+        c.name || ""
+      ).trim();
+
+    if(!categoryName){
+      return;
+    }
+
+
+    const a=
+      document.createElement(
+        "a"
+      );
 
     a.className="cat";
-    a.href="#"+categoryId(c.name);
 
-    if(categoryImages[c.name]){
+    a.href=
+      "#" +
+      categoryId(
+        categoryName
+      );
 
-      const img=document.createElement("img");
 
-      img.src=categoryImages[c.name];
-      img.alt=c.name;
+    const photo=
+      firstImageByCategory[
+        categoryName
+      ];
+
+
+    if(photo){
+
+      const img=
+        document.createElement(
+          "img"
+        );
+
+      img.src=photo;
+
+      img.alt=
+        categoryName;
+
+      img.onerror=()=>{
+
+        img.style.display=
+          "none";
+
+      };
 
       a.appendChild(img);
 
     }else{
 
-      const icon=document.createElement("div");
+      const icon=
+        document.createElement(
+          "div"
+        );
 
-      icon.style.fontSize="62px";
+      icon.style.fontSize=
+        "62px";
 
-      if(c.name==="İçecekler"){
+      if(
+        categoryName==="İçecekler"
+      ){
         icon.textContent="🥤";
       }
-      else if(c.name==="Soslar"){
+      else if(
+        categoryName==="Soslar"
+      ){
         icon.textContent="🥣";
       }
-      else if(c.name==="Tatlılar"){
+      else if(
+        categoryName==="Tatlılar"
+      ){
         icon.textContent="🍰";
       }
-      else if(c.name==="Hot Dog"){
+      else if(
+        categoryName==="Hot Dog"
+      ){
         icon.textContent="🌭";
       }
-      else if(c.name==="Menüler"){
+      else if(
+        categoryName==="Menüler"
+      ){
         icon.textContent="🍔";
+      }
+      else if(
+        categoryName===
+        "Tostlar"
+      ){
+        icon.textContent="🥪";
       }
       else{
         icon.textContent="🍽️";
@@ -2213,26 +2376,62 @@ async function loadCategoryButtons(){
       a.appendChild(icon);
     }
 
-    const text=document.createElement("div");
-    text.className="catText";
 
-    const title=document.createElement("b");
-    title.textContent=c.name;
+    const text=
+      document.createElement(
+        "div"
+      );
 
-    const sub=document.createElement("span");
-    sub.textContent="Menüyü gör →";
+    text.className=
+      "catText";
 
-    text.append(title,sub);
+
+    const title=
+      document.createElement(
+        "b"
+      );
+
+    title.textContent=
+      categoryName;
+
+
+    const sub=
+      document.createElement(
+        "span"
+      );
+
+    sub.textContent=
+      "Menüyü gör →";
+
+
+    text.append(
+      title,
+      sub
+    );
 
     a.appendChild(text);
 
     area.appendChild(a);
+
   });
+
 }
 
-loadMenuProducts();
-loadCategoryButtons();
+
+// ==================================
+// BAŞLAT
+// ==================================
+
+async function startDynamicMenu(){
+
+  await loadMenuProducts();
+
+  await loadCategoryButtons();
+
+}
+
+startDynamicMenu();
 
 </script>
 </body>
-</html>
+</html>  
