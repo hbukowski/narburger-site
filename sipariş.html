@@ -400,6 +400,9 @@ async function loadOrders(){
             onclick="changeStatus('${order.id}','İptal')">
             İptal
           </button>
+          <button class="cancel" onclick="deleteOrder('${order.id}')">
+  🗑 SİL
+</button>
         </div>
       </div>
     `;
@@ -421,7 +424,21 @@ async function changeStatus(id,status){
 
   loadOrders();
 }
+async function deleteOrder(id){
+  if(!confirm("Bu siparişi kalıcı olarak silmek istiyor musunuz?")) return;
 
+  const {error}=await db
+    .from("orders")
+    .delete()
+    .eq("id",id);
+
+  if(error){
+    alert("Sipariş silinemedi: "+error.message);
+    return;
+  }
+
+  await loadOrders();
+}
 async function start(){
 
   const {
