@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Narburger Muhasebe</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f4f4f4;
+  color:#222;
+}
+
+header{
+  background:#111;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+header h1{
+  color:#e63946;
+  font-size:28px;
+}
+
+header p{
+  color:#ccc;
+  margin-top:5px;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.card small{
+  color:#777;
+}
+
+.card h2{
+  margin-top:8px;
+  font-size:25px;
+}
+
+.green{
+  color:#159447;
+}
+
+.red{
+  color:#d62828;
+}
+
+.orange{
+  color:#e67e22;
+}
+
+.section{
+  background:white;
+  margin-bottom:20px;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+.section h3{
+  margin-bottom:15px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:10px;
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:16px;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:13px 18px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.btn-income{
+  background:#198754;
+  color:white;
+}
+
+.btn-expense{
+  background:#dc3545;
+  color:white;
+}
+
+.btn-debt{
+  background:#111;
+  color:white;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+th,td{
+  padding:11px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  font-size:14px;
+}
+
+.delete{
+  background:#eee;
+  padding:6px 10px;
+  font-size:13px;
+}
+
+.debt-bar{
+  width:100%;
+  height:22px;
+  background:#eee;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.debt-fill{
+  height:100%;
+  background:#e63946;
+  width:0%;
+}
+
+.bottom-space{
+  height:50px;
+}
+
+@media(max-width:600px){
+  .container{
+    padding:12px;
+  }
+
+  header h1{
+    font-size:23px;
+  }
+
+  th,td{
+    font-size:12px;
+    padding:8px 4px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>NARBURGER</h1>
+  <p>Muhasebe & İşletme Paneli</p>
+</header>
+
+<div class="container">
+
+  <div class="cards">
+
+    <div class="card">
+      <small>Toplam Gelir</small>
+      <h2 class="green" id="totalIncome">0 ₺</h2>
+    </div>
+
+    <div class="card">
+      <small>Toplam Gider</small>
+      <h2 class="red" id="totalExpense">0 ₺</h2>
+    </div>
+
+    <div class="card">
+      <small>Net Kasa</small>
+      <h2 id="netCash">0 ₺</h2>
+    </div>
+
+    <div class="card">
+      <small>Kalan Borç</small>
+      <h2 class="orange" id="remainingDebt">3.000.000 ₺</h2>
+    </div>
+
+  </div>
+
+
+  <div class="section">
+    <h3>💰 Gelir Ekle</h3>
+
+    <div class="form-grid">
+      <input type="date" id="incomeDate">
+
+      <select id="incomeSource">
+        <option>Dükkan</option>
+        <option>WhatsApp</option>
+        <option>Trendyol</option>
+        <option>Yemeksepeti</option>
+        <option>Migros</option>
+        <option>Diğer</option>
+      </select>
+
+      <input type="number" id="incomeAmount" placeholder="Tutar ₺">
+
+      <input type="text" id="incomeNote" placeholder="Açıklama">
+
+      <button class="btn-income" onclick="addIncome()">
+        Gelir Ekle
+      </button>
+    </div>
+  </div>
+
+
+  <div class="section">
+    <h3>💸 Gider Ekle</h3>
+
+    <div class="form-grid">
+
+      <input type="date" id="expenseDate">
+
+      <select id="expenseCategory">
+        <option>Ürün Alımı</option>
+        <option>Personel</option>
+        <option>Kurye</option>
+        <option>Kira</option>
+        <option>Elektrik</option>
+        <option>Doğalgaz</option>
+        <option>Ambalaj</option>
+        <option>Vergi</option>
+        <option>Diğer</option>
+      </select>
+
+      <input type="number" id="expenseAmount" placeholder="Tutar ₺">
+
+      <input type="text" id="expenseNote" placeholder="Açıklama">
+
+      <button class="btn-expense" onclick="addExpense()">
+        Gider Ekle
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+    <h3>🏦 Borç Takibi</h3>
+
+    <p>
+      Başlangıç Borcu:
+      <strong>3.000.000 ₺</strong>
+    </p>
+
+    <div class="debt-bar">
+      <div class="debt-fill" id="debtFill"></div>
+    </div>
+
+    <p style="margin-top:8px">
+      Ödenen:
+      <strong id="paidDebt">0 ₺</strong>
+    </p>
+
+    <div class="form-grid" style="margin-top:15px">
+
+      <input type="number"
+             id="debtPayment"
+             placeholder="Borç ödeme tutarı">
+
+      <input type="text"
+             id="debtNote"
+             placeholder="Kime / açıklama">
+
+      <button class="btn-debt"
+              onclick="addDebtPayment()">
+        Borç Ödemesi Ekle
+      </button>
+
+    </div>
+  </div>
+
+
+  <div class="section">
+    <h3>📊 Son İşlemler</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tarih</th>
+          <th>Tür</th>
+          <th>Kategori</th>
+          <th>Tutar</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody id="transactionList"></tbody>
+    </table>
+
+  </div>
+
+  <div class="bottom-space"></div>
+
+</div>
+
+
+<script>
+
+const START_DEBT = 3000000;
+
+let transactions =
+JSON.parse(localStorage.getItem("nar_transactions")) || [];
+
+let debtPayments =
+JSON.parse(localStorage.getItem("nar_debt")) || [];
+
+
+function money(number){
+
+  return Number(number).toLocaleString(
+    "tr-TR",
+    {
+      style:"currency",
+      currency:"TRY",
+      maximumFractionDigits:0
+    }
+  );
+
+}
+
+
+function today(){
+
+  return new Date().toISOString().split("T")[0];
+
+}
+
+
+document.getElementById("incomeDate").value = today();
+document.getElementById("expenseDate").value = today();
+
+
+function addIncome(){
+
+  const amount =
+  Number(document.getElementById("incomeAmount").value);
+
+  if(!amount){
+    alert("Gelir tutarı gir.");
+    return;
+  }
+
+  transactions.push({
+
+    id:Date.now(),
+
+    date:
+    document.getElementById("incomeDate").value,
+
+    type:"Gelir",
+
+    category:
+    document.getElementById("incomeSource").value,
+
+    amount:amount,
+
+    note:
+    document.getElementById("incomeNote").value
+
+  });
+
+  save();
+
+  document.getElementById("incomeAmount").value="";
+  document.getElementById("incomeNote").value="";
+
+}
+
+
+function addExpense(){
+
+  const amount =
+  Number(document.getElementById("expenseAmount").value);
+
+  if(!amount){
+    alert("Gider tutarı gir.");
+    return;
+  }
+
+  transactions.push({
+
+    id:Date.now(),
+
+    date:
+    document.getElementById("expenseDate").value,
+
+    type:"Gider",
+
+    category:
+    document.getElementById("expenseCategory").value,
+
+    amount:amount,
+
+    note:
+    document.getElementById("expenseNote").value
+
+  });
+
+  save();
+
+  document.getElementById("expenseAmount").value="";
+  document.getElementById("expenseNote").value="";
+
+}
+
+
+function addDebtPayment(){
+
+  const amount =
+  Number(document.getElementById("debtPayment").value);
+
+  if(!amount){
+    alert("Ödeme tutarı gir.");
+    return;
+  }
+
+  debtPayments.push({
+
+    id:Date.now(),
+
+    amount:amount,
+
+    note:
+    document.getElementById("debtNote").value
+
+  });
+
+  saveDebt();
+
+  document.getElementById("debtPayment").value="";
+  document.getElementById("debtNote").value="";
+
+}
+
+
+function deleteTransaction(id){
+
+  if(confirm("Bu işlemi silmek istiyor musun?")){
+
+    transactions =
+    transactions.filter(x => x.id !== id);
+
+    save();
+
+  }
+
+}
+
+
+function save(){
+
+  localStorage.setItem(
+    "nar_transactions",
+    JSON.stringify(transactions)
+  );
+
+  render();
+
+}
+
+
+function saveDebt(){
+
+  localStorage.setItem(
+    "nar_debt",
+    JSON.stringify(debtPayments)
+  );
+
+  render();
+
+}
+
+
+function render(){
+
+  let income = 0;
+  let expense = 0;
+
+  transactions.forEach(item=>{
+
+    if(item.type==="Gelir"){
+      income += item.amount;
+    }
+
+    if(item.type==="Gider"){
+      expense += item.amount;
+    }
+
+  });
+
+
+  document.getElementById("totalIncome")
+  .innerText = money(income);
+
+  document.getElementById("totalExpense")
+  .innerText = money(expense);
+
+  document.getElementById("netCash")
+  .innerText = money(income-expense);
+
+
+
+  let paid =
+  debtPayments.reduce(
+    (sum,item)=>sum+item.amount,
+    0
+  );
+
+  let remaining =
+  Math.max(0,START_DEBT-paid);
+
+  document.getElementById("paidDebt")
+  .innerText = money(paid);
+
+  document.getElementById("remainingDebt")
+  .innerText = money(remaining);
+
+
+  let percent =
+  Math.min(100,(paid/START_DEBT)*100);
+
+  document.getElementById("debtFill")
+  .style.width = percent+"%";
+
+
+  const list =
+  document.getElementById("transactionList");
+
+  list.innerHTML="";
+
+  [...transactions]
+  .reverse()
+  .slice(0,20)
+  .forEach(item=>{
+
+    const row =
+    document.createElement("tr");
+
+    row.innerHTML=`
+
+      <td>${item.date}</td>
+
+      <td>
+        ${item.type==="Gelir" ? "🟢 Gelir" : "🔴 Gider"}
+      </td>
+
+      <td>
+        ${item.category}
+        ${item.note ? "<br><small>"+item.note+"</small>" : ""}
+      </td>
+
+      <td>
+        ${money(item.amount)}
+      </td>
+
+      <td>
+        <button
+        class="delete"
+        onclick="deleteTransaction(${item.id})">
+        Sil
+        </button>
+      </td>
+
+    `;
+
+    list.appendChild(row);
+
+  });
+
+}
+
+
+render();
+
+</script>
+
+</body>
+</html>
