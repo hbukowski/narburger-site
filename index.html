@@ -2438,7 +2438,58 @@ async function startDynamicMenu(){
 }
 
 startDynamicMenu();
+async function showStoreStatus() {
+  const oldBadge = document.getElementById("storeStatusBadge");
+  if (oldBadge) oldBadge.remove();
 
+  const badge = document.createElement("div");
+  badge.id = "storeStatusBadge";
+
+  badge.style.position = "fixed";
+  badge.style.bottom = "20px";
+  badge.style.right = "20px";
+  badge.style.zIndex = "99999";
+  badge.style.padding = "12px 18px";
+  badge.style.borderRadius = "999px";
+  badge.style.fontWeight = "900";
+  badge.style.color = "#fff";
+  badge.style.fontSize = "14px";
+  badge.style.boxShadow = "0 6px 20px rgba(0,0,0,.35)";
+
+  badge.textContent = "Sipariş durumu kontrol ediliyor...";
+  badge.style.background = "#555";
+
+  document.body.appendChild(badge);
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("store_status")
+      .select("*")
+      .eq("id", 1)
+      .maybeSingle();
+
+    if (error) {
+      console.error(error);
+      badge.textContent = "⚠️ Sipariş durumu alınamadı";
+      badge.style.background = "#555";
+      return;
+    }
+
+    if (data && data.is_open) {
+      badge.textContent = "🟢 Sipariş Açık";
+      badge.style.background = "#16803c";
+    } else {
+      badge.textContent = "🔴 Sipariş Kapalı";
+      badge.style.background = "#b3141b";
+    }
+  } catch (err) {
+    console.error(err);
+    badge.textContent = "⚠️ Sipariş durumu alınamadı";
+    badge.style.background = "#555";
+  }
+}
+
+showStoreStatus();
 </script>
 
   
