@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Narburger Muhasebe</title>
 
 <style>
@@ -204,10 +203,6 @@ th,td{
     font-size:20px;
   }
 
-  table{
-    font-size:12px;
-  }
-
   th,td{
     font-size:12px;
   }
@@ -334,7 +329,6 @@ Dükkan ve WhatsApp için %0 bırakabilirsin.
 </div>
 
 
-
 <div class="section">
 
 <h3>💸 Gider Ekle</h3>
@@ -381,7 +375,6 @@ Gider Ekle
 </div>
 
 
-
 <div class="section">
 
 <h3>📱 Satış Kanalları</h3>
@@ -417,6 +410,96 @@ Migros
 
 </div>
 
+
+<div class="section">
+
+<h3>🍔 Ürün Kârlılığı</h3>
+
+<p class="note" style="margin-bottom:15px">
+Satış fiyatını, ürün maliyetini ve satılan adedi gir.
+Kâr otomatik hesaplanır.
+</p>
+
+<div class="form-grid">
+
+<select id="productName">
+<option>Narburger</option>
+<option>Cheese</option>
+<option>Mix</option>
+<option>Steak</option>
+<option>Double Nar</option>
+<option>Double Mix</option>
+<option>Nartost</option>
+<option>Tostburger</option>
+<option>Hot Dog</option>
+</select>
+
+<input
+type="number"
+id="productPrice"
+placeholder="Satış fiyatı ₺">
+
+<input
+type="number"
+id="productCost"
+placeholder="Maliyet ₺">
+
+<input
+type="number"
+id="productQty"
+placeholder="Satılan adet">
+
+<button
+class="btn-income"
+onclick="addProductSale()">
+Ürün Satışı Ekle
+</button>
+
+</div>
+
+<div class="cards" style="margin-top:20px">
+
+<div class="card">
+<small>Ürün Cirosu</small>
+<h2 class="green" id="productRevenue">0 ₺</h2>
+</div>
+
+<div class="card">
+<small>Ürün Maliyeti</small>
+<h2 class="red" id="productCostTotal">0 ₺</h2>
+</div>
+
+<div class="card">
+<small>Brüt Ürün Kârı</small>
+<h2 class="blue" id="productProfit">0 ₺</h2>
+</div>
+
+<div class="card">
+<small>Satılan Ürün</small>
+<h2 id="productQuantity">0</h2>
+</div>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Ürün</th>
+<th>Adet</th>
+<th>Satış</th>
+<th>Maliyet</th>
+<th>Kâr</th>
+<th>Marj</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody id="productSaleList"></tbody>
+
+</table>
+
+</div>
 
 
 <div class="section">
@@ -469,7 +552,6 @@ Borç Ekle
 </div>
 
 
-
 <div class="section">
 
 <h3>📋 Son İşlemler</h3>
@@ -508,6 +590,11 @@ localStorage.getItem("nar_transactions_v2")
 let debts =
 JSON.parse(
 localStorage.getItem("nar_debts_v2")
+) || [];
+
+let productSales =
+JSON.parse(
+localStorage.getItem("nar_product_sales")
 ) || [];
 
 let activeFilter = "today";
@@ -658,6 +745,77 @@ saveTransactions();
 
 document.getElementById("expenseAmount").value="";
 document.getElementById("expenseNote").value="";
+
+}
+
+
+function addProductSale(){
+
+const name =
+document.getElementById("productName").value;
+
+const price =
+Number(document.getElementById("productPrice").value);
+
+const cost =
+Number(document.getElementById("productCost").value);
+
+const qty =
+Number(document.getElementById("productQty").value);
+
+if(price<=0 || cost<0 || qty<=0){
+
+alert("Satış fiyatı, maliyet ve adet bilgilerini gir.");
+
+return;
+
+}
+
+productSales.push({
+
+id:Date.now(),
+
+date:today(),
+
+name:name,
+
+price:price,
+
+cost:cost,
+
+qty:qty
+
+});
+
+saveProductSales();
+
+document.getElementById("productQty").value="";
+
+}
+
+
+function saveProductSales(){
+
+localStorage.setItem(
+"nar_product_sales",
+JSON.stringify(productSales)
+);
+
+renderProducts();
+
+}
+
+
+function deleteProductSale(id){
+
+if(confirm("Bu ürün satışını silmek istiyor musun?")){
+
+productSales =
+productSales.filter(x=>x.id!==id);
+
+saveProductSales();
+
+}
 
 }
 
@@ -839,6 +997,150 @@ now.getMonth()
 }
 
 return true;
+
+}
+
+
+function renderProducts(){
+
+let revenue=0;
+let costTotal=0;
+let profit=0;
+let quantity=0;
+
+const filteredProducts =
+productSales.filter(item=>{
+
+if(activeFilter==="all"){
+return true;
+}
+
+if(activeFilter==="today"){
+return item.date===today();
+}
+
+if(activeFilter==="month"){
+
+const now=new Date();
+
+const d=
+new Date(item.date+"T12:00:00");
+
+return(
+d.getMonth()===now.getMonth()
+&&
+d.getFullYear()===now.getFullYear()
+);
+
+}
+
+return true;
+
+});
+
+
+filteredProducts.forEach(item=>{
+
+const itemRevenue =
+item.price * item.qty;
+
+const itemCost =
+item.cost * item.qty;
+
+revenue += itemRevenue;
+
+costTotal += itemCost;
+
+profit += itemRevenue-itemCost;
+
+quantity += item.qty;
+
+});
+
+
+document
+.getElementById("productRevenue")
+.innerText =
+money(revenue);
+
+document
+.getElementById("productCostTotal")
+.innerText =
+money(costTotal);
+
+document
+.getElementById("productProfit")
+.innerText =
+money(profit);
+
+document
+.getElementById("productQuantity")
+.innerText =
+quantity;
+
+
+const list =
+document.getElementById("productSaleList");
+
+list.innerHTML="";
+
+
+[...filteredProducts]
+.reverse()
+.forEach(item=>{
+
+const itemProfit =
+(item.price-item.cost)*item.qty;
+
+const margin =
+item.price>0
+?
+((item.price-item.cost)/item.price)*100
+:
+0;
+
+const row =
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>
+<strong>${item.name}</strong>
+</td>
+
+<td>
+${item.qty}
+</td>
+
+<td>
+${money(item.price)}
+</td>
+
+<td>
+${money(item.cost)}
+</td>
+
+<td class="${itemProfit>=0 ? "green":"red"}">
+${money(itemProfit)}
+</td>
+
+<td>
+%${margin.toFixed(1)}
+</td>
+
+<td>
+<button
+class="delete"
+onclick="deleteProductSale(${item.id})">
+Sil
+</button>
+</td>
+
+`;
+
+list.appendChild(row);
+
+});
 
 }
 
@@ -1070,6 +1372,8 @@ Sil
 debtList.appendChild(row);
 
 });
+
+renderProducts();
 
 }
 
