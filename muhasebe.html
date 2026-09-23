@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Narburger Muhasebe</title>
 
 <style>
@@ -25,34 +26,60 @@ header{
   text-align:center;
 }
 
+header img{
+  max-height:65px;
+  max-width:220px;
+  margin-bottom:8px;
+}
+
 header h1{
   color:#e63946;
-  font-size:28px;
+  font-size:26px;
 }
 
 header p{
-  color:#ccc;
+  color:#bbb;
   margin-top:5px;
 }
 
 .container{
-  max-width:1100px;
+  max-width:1150px;
   margin:auto;
-  padding:20px;
+  padding:18px;
+}
+
+.filters{
+  display:flex;
+  gap:8px;
+  margin-bottom:18px;
+  overflow:auto;
+}
+
+.filter-btn{
+  background:white;
+  border:1px solid #ddd;
+  padding:11px 18px;
+  border-radius:30px;
+  white-space:nowrap;
+}
+
+.filter-btn.active{
+  background:#111;
+  color:white;
 }
 
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:15px;
-  margin-bottom:25px;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:12px;
+  margin-bottom:20px;
 }
 
 .card{
   background:white;
-  padding:20px;
+  padding:18px;
   border-radius:16px;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
+  box-shadow:0 2px 10px rgba(0,0,0,.07);
 }
 
 .card small{
@@ -60,26 +87,19 @@ header p{
 }
 
 .card h2{
-  margin-top:8px;
-  font-size:25px;
+  margin-top:7px;
+  font-size:23px;
 }
 
-.green{
-  color:#159447;
-}
-
-.red{
-  color:#d62828;
-}
-
-.orange{
-  color:#e67e22;
-}
+.green{color:#16894a;}
+.red{color:#d62828;}
+.orange{color:#e67e22;}
+.blue{color:#2463eb;}
 
 .section{
   background:white;
-  margin-bottom:20px;
-  padding:20px;
+  margin-bottom:18px;
+  padding:18px;
   border-radius:16px;
   box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
@@ -90,7 +110,7 @@ header p{
 
 .form-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
   gap:10px;
 }
 
@@ -100,14 +120,15 @@ input,select{
   border:1px solid #ddd;
   border-radius:10px;
   font-size:16px;
+  background:white;
 }
 
 button{
   border:0;
   border-radius:10px;
-  padding:13px 18px;
-  font-size:16px;
+  padding:13px;
   cursor:pointer;
+  font-size:15px;
 }
 
 .btn-income{
@@ -128,53 +149,67 @@ button{
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:15px;
+  margin-top:12px;
 }
 
 th,td{
-  padding:11px;
-  border-bottom:1px solid #eee;
   text-align:left;
+  padding:10px 6px;
+  border-bottom:1px solid #eee;
   font-size:14px;
 }
 
 .delete{
   background:#eee;
-  padding:6px 10px;
+  padding:7px 10px;
+}
+
+.platform-box{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:10px;
+}
+
+.platform{
+  background:#f7f7f7;
+  padding:14px;
+  border-radius:12px;
+}
+
+.platform strong{
+  display:block;
+  margin-top:6px;
+  font-size:20px;
+}
+
+.debt-total{
+  font-size:28px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.note{
+  color:#777;
   font-size:13px;
+  margin-top:5px;
 }
 
-.debt-bar{
-  width:100%;
-  height:22px;
-  background:#eee;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:10px;
-}
+@media(max-width:700px){
 
-.debt-fill{
-  height:100%;
-  background:#e63946;
-  width:0%;
-}
-
-.bottom-space{
-  height:50px;
-}
-
-@media(max-width:600px){
   .container{
-    padding:12px;
+    padding:10px;
   }
 
-  header h1{
-    font-size:23px;
+  .card h2{
+    font-size:20px;
+  }
+
+  table{
+    font-size:12px;
   }
 
   th,td{
     font-size:12px;
-    padding:8px 4px;
   }
 }
 </style>
@@ -183,427 +218,858 @@ th,td{
 <body>
 
 <header>
-  <h1>NARBURGER</h1>
-  <p>Muhasebe & İşletme Paneli</p>
+
+<img src="logo-full.png"
+     onerror="this.style.display='none'">
+
+<h1>NARBURGER</h1>
+
+<p>Muhasebe & İşletme Paneli</p>
+
 </header>
 
 <div class="container">
 
-  <div class="cards">
+<div class="filters">
 
-    <div class="card">
-      <small>Toplam Gelir</small>
-      <h2 class="green" id="totalIncome">0 ₺</h2>
-    </div>
+<button
+class="filter-btn active"
+onclick="setFilter('today',this)">
+Bugün
+</button>
 
-    <div class="card">
-      <small>Toplam Gider</small>
-      <h2 class="red" id="totalExpense">0 ₺</h2>
-    </div>
+<button
+class="filter-btn"
+onclick="setFilter('month',this)">
+Bu Ay
+</button>
 
-    <div class="card">
-      <small>Net Kasa</small>
-      <h2 id="netCash">0 ₺</h2>
-    </div>
+<button
+class="filter-btn"
+onclick="setFilter('all',this)">
+Tümü
+</button>
 
-    <div class="card">
-      <small>Kalan Borç</small>
-      <h2 class="orange" id="remainingDebt">3.000.000 ₺</h2>
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="section">
-    <h3>💰 Gelir Ekle</h3>
+<div class="cards">
 
-    <div class="form-grid">
-      <input type="date" id="incomeDate">
+<div class="card">
+<small>Brüt Satış</small>
+<h2 class="green" id="totalIncome">0 ₺</h2>
+</div>
 
-      <select id="incomeSource">
-        <option>Dükkan</option>
-        <option>WhatsApp</option>
-        <option>Trendyol</option>
-        <option>Yemeksepeti</option>
-        <option>Migros</option>
-        <option>Diğer</option>
-      </select>
+<div class="card">
+<small>Platform Komisyonu</small>
+<h2 class="orange" id="totalCommission">0 ₺</h2>
+</div>
 
-      <input type="number" id="incomeAmount" placeholder="Tutar ₺">
+<div class="card">
+<small>Toplam Gider</small>
+<h2 class="red" id="totalExpense">0 ₺</h2>
+</div>
 
-      <input type="text" id="incomeNote" placeholder="Açıklama">
+<div class="card">
+<small>Net Sonuç</small>
+<h2 id="netProfit">0 ₺</h2>
+</div>
 
-      <button class="btn-income" onclick="addIncome()">
-        Gelir Ekle
-      </button>
-    </div>
-  </div>
+<div class="card">
+<small>Toplam Borç</small>
+<h2 class="blue" id="totalDebt">0 ₺</h2>
+</div>
 
-
-  <div class="section">
-    <h3>💸 Gider Ekle</h3>
-
-    <div class="form-grid">
-
-      <input type="date" id="expenseDate">
-
-      <select id="expenseCategory">
-        <option>Ürün Alımı</option>
-        <option>Personel</option>
-        <option>Kurye</option>
-        <option>Kira</option>
-        <option>Elektrik</option>
-        <option>Doğalgaz</option>
-        <option>Ambalaj</option>
-        <option>Vergi</option>
-        <option>Diğer</option>
-      </select>
-
-      <input type="number" id="expenseAmount" placeholder="Tutar ₺">
-
-      <input type="text" id="expenseNote" placeholder="Açıklama">
-
-      <button class="btn-expense" onclick="addExpense()">
-        Gider Ekle
-      </button>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="section">
-    <h3>🏦 Borç Takibi</h3>
+<div class="section">
 
-    <p>
-      Başlangıç Borcu:
-      <strong>3.000.000 ₺</strong>
-    </p>
+<h3>💰 Satış / Gelir Ekle</h3>
 
-    <div class="debt-bar">
-      <div class="debt-fill" id="debtFill"></div>
-    </div>
+<div class="form-grid">
 
-    <p style="margin-top:8px">
-      Ödenen:
-      <strong id="paidDebt">0 ₺</strong>
-    </p>
+<input type="date" id="incomeDate">
 
-    <div class="form-grid" style="margin-top:15px">
+<select id="incomeSource" onchange="setDefaultCommission()">
 
-      <input type="number"
-             id="debtPayment"
-             placeholder="Borç ödeme tutarı">
+<option value="Dükkan">Dükkan</option>
+<option value="WhatsApp">WhatsApp</option>
+<option value="Trendyol">Trendyol</option>
+<option value="Yemeksepeti">Yemeksepeti</option>
+<option value="Migros">Migros</option>
+<option value="Diğer">Diğer</option>
 
-      <input type="text"
-             id="debtNote"
-             placeholder="Kime / açıklama">
+</select>
 
-      <button class="btn-debt"
-              onclick="addDebtPayment()">
-        Borç Ödemesi Ekle
-      </button>
+<input
+type="number"
+id="incomeAmount"
+placeholder="Satış tutarı ₺">
 
-    </div>
-  </div>
+<input
+type="number"
+id="commissionRate"
+placeholder="Komisyon %"
+value="0">
+
+<input
+type="text"
+id="incomeNote"
+placeholder="Açıklama">
+
+<button
+class="btn-income"
+onclick="addIncome()">
+Gelir Ekle
+</button>
+
+</div>
+
+<p class="note">
+Platform satışlarında komisyon yüzdesini girebilirsin.
+Dükkan ve WhatsApp için %0 bırakabilirsin.
+</p>
+
+</div>
 
 
-  <div class="section">
-    <h3>📊 Son İşlemler</h3>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Tarih</th>
-          <th>Tür</th>
-          <th>Kategori</th>
-          <th>Tutar</th>
-          <th></th>
-        </tr>
-      </thead>
+<div class="section">
 
-      <tbody id="transactionList"></tbody>
-    </table>
+<h3>💸 Gider Ekle</h3>
 
-  </div>
+<div class="form-grid">
 
-  <div class="bottom-space"></div>
+<input type="date" id="expenseDate">
+
+<select id="expenseCategory">
+
+<option>Ürün Alımı</option>
+<option>Personel</option>
+<option>Kurye</option>
+<option>Kira</option>
+<option>Elektrik</option>
+<option>Doğalgaz</option>
+<option>Su</option>
+<option>Ambalaj</option>
+<option>Vergi</option>
+<option>Reklam</option>
+<option>Bakım / Tamir</option>
+<option>Diğer</option>
+
+</select>
+
+<input
+type="number"
+id="expenseAmount"
+placeholder="Tutar ₺">
+
+<input
+type="text"
+id="expenseNote"
+placeholder="Açıklama">
+
+<button
+class="btn-expense"
+onclick="addExpense()">
+Gider Ekle
+</button>
+
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>📱 Satış Kanalları</h3>
+
+<div class="platform-box">
+
+<div class="platform">
+Dükkan
+<strong id="pDukkan">0 ₺</strong>
+</div>
+
+<div class="platform">
+WhatsApp
+<strong id="pWhatsapp">0 ₺</strong>
+</div>
+
+<div class="platform">
+Trendyol
+<strong id="pTrendyol">0 ₺</strong>
+</div>
+
+<div class="platform">
+Yemeksepeti
+<strong id="pYemeksepeti">0 ₺</strong>
+</div>
+
+<div class="platform">
+Migros
+<strong id="pMigros">0 ₺</strong>
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>🏦 Borç Takibi</h3>
+
+<div class="debt-total">
+<span id="debtDisplay">0 ₺</span>
+</div>
+
+<div class="form-grid">
+
+<input
+type="text"
+id="debtName"
+placeholder="Kime / Firma">
+
+<input
+type="number"
+id="debtAmount"
+placeholder="Borç tutarı ₺">
+
+<input
+type="date"
+id="debtDate">
+
+<button
+class="btn-debt"
+onclick="addDebt()">
+Borç Ekle
+</button>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Firma / Kişi</th>
+<th>Vade</th>
+<th>Kalan</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody id="debtList"></tbody>
+
+</table>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>📋 Son İşlemler</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Tarih</th>
+<th>Tür</th>
+<th>Kategori</th>
+<th>Tutar</th>
+<th>Net</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody id="transactionList"></tbody>
+
+</table>
+
+</div>
 
 </div>
 
 
 <script>
 
-const START_DEBT = 3000000;
-
 let transactions =
-JSON.parse(localStorage.getItem("nar_transactions")) || [];
+JSON.parse(
+localStorage.getItem("nar_transactions_v2")
+) || [];
 
-let debtPayments =
-JSON.parse(localStorage.getItem("nar_debt")) || [];
+let debts =
+JSON.parse(
+localStorage.getItem("nar_debts_v2")
+) || [];
+
+let activeFilter = "today";
 
 
 function money(number){
 
-  return Number(number).toLocaleString(
-    "tr-TR",
-    {
-      style:"currency",
-      currency:"TRY",
-      maximumFractionDigits:0
-    }
-  );
+return Number(number || 0)
+.toLocaleString(
+"tr-TR",
+{
+style:"currency",
+currency:"TRY",
+maximumFractionDigits:0
+}
+);
 
 }
 
 
 function today(){
 
-  return new Date().toISOString().split("T")[0];
+let d = new Date();
+
+let y = d.getFullYear();
+let m = String(d.getMonth()+1).padStart(2,"0");
+let day = String(d.getDate()).padStart(2,"0");
+
+return y+"-"+m+"-"+day;
 
 }
 
 
 document.getElementById("incomeDate").value = today();
 document.getElementById("expenseDate").value = today();
+document.getElementById("debtDate").value = today();
+
+
+function setDefaultCommission(){
+
+const source =
+document.getElementById("incomeSource").value;
+
+const commission =
+document.getElementById("commissionRate");
+
+if(
+source==="Dükkan" ||
+source==="WhatsApp"
+){
+commission.value=0;
+}
+
+}
 
 
 function addIncome(){
 
-  const amount =
-  Number(document.getElementById("incomeAmount").value);
+const amount =
+Number(
+document.getElementById("incomeAmount").value
+);
 
-  if(!amount){
-    alert("Gelir tutarı gir.");
-    return;
-  }
+const commissionRate =
+Number(
+document.getElementById("commissionRate").value
+) || 0;
 
-  transactions.push({
+if(amount<=0){
 
-    id:Date.now(),
+alert("Satış tutarı gir.");
 
-    date:
-    document.getElementById("incomeDate").value,
+return;
 
-    type:"Gelir",
+}
 
-    category:
-    document.getElementById("incomeSource").value,
+const commission =
+amount * commissionRate / 100;
 
-    amount:amount,
+transactions.push({
 
-    note:
-    document.getElementById("incomeNote").value
+id:Date.now(),
 
-  });
+date:
+document.getElementById("incomeDate").value,
 
-  save();
+type:"Gelir",
 
-  document.getElementById("incomeAmount").value="";
-  document.getElementById("incomeNote").value="";
+category:
+document.getElementById("incomeSource").value,
+
+amount:amount,
+
+commissionRate:commissionRate,
+
+commission:commission,
+
+note:
+document.getElementById("incomeNote").value
+
+});
+
+saveTransactions();
+
+document.getElementById("incomeAmount").value="";
+document.getElementById("incomeNote").value="";
 
 }
 
 
 function addExpense(){
 
-  const amount =
-  Number(document.getElementById("expenseAmount").value);
+const amount =
+Number(
+document.getElementById("expenseAmount").value
+);
 
-  if(!amount){
-    alert("Gider tutarı gir.");
-    return;
-  }
+if(amount<=0){
 
-  transactions.push({
+alert("Gider tutarı gir.");
 
-    id:Date.now(),
+return;
 
-    date:
-    document.getElementById("expenseDate").value,
+}
 
-    type:"Gider",
+transactions.push({
 
-    category:
-    document.getElementById("expenseCategory").value,
+id:Date.now(),
 
-    amount:amount,
+date:
+document.getElementById("expenseDate").value,
 
-    note:
-    document.getElementById("expenseNote").value
+type:"Gider",
 
-  });
+category:
+document.getElementById("expenseCategory").value,
 
-  save();
+amount:amount,
 
-  document.getElementById("expenseAmount").value="";
-  document.getElementById("expenseNote").value="";
+commission:0,
+
+note:
+document.getElementById("expenseNote").value
+
+});
+
+saveTransactions();
+
+document.getElementById("expenseAmount").value="";
+document.getElementById("expenseNote").value="";
 
 }
 
 
-function addDebtPayment(){
+function addDebt(){
 
-  const amount =
-  Number(document.getElementById("debtPayment").value);
+const name =
+document.getElementById("debtName")
+.value.trim();
 
-  if(!amount){
-    alert("Ödeme tutarı gir.");
-    return;
-  }
+const amount =
+Number(
+document.getElementById("debtAmount").value
+);
 
-  debtPayments.push({
+const date =
+document.getElementById("debtDate").value;
 
-    id:Date.now(),
+if(!name || amount<=0){
 
-    amount:amount,
+alert("Borç adı ve tutarı gir.");
 
-    note:
-    document.getElementById("debtNote").value
+return;
 
-  });
+}
 
-  saveDebt();
+debts.push({
 
-  document.getElementById("debtPayment").value="";
-  document.getElementById("debtNote").value="";
+id:Date.now(),
+
+name:name,
+
+amount:amount,
+
+remaining:amount,
+
+date:date
+
+});
+
+saveDebts();
+
+document.getElementById("debtName").value="";
+document.getElementById("debtAmount").value="";
+
+}
+
+
+function payDebt(id){
+
+const debt =
+debts.find(x=>x.id===id);
+
+if(!debt) return;
+
+let payment =
+prompt(
+debt.name+
+" için ödeme tutarı:"
+);
+
+payment = Number(payment);
+
+if(payment<=0) return;
+
+debt.remaining =
+Math.max(
+0,
+debt.remaining-payment
+);
+
+saveDebts();
+
+}
+
+
+function deleteDebt(id){
+
+if(
+confirm("Bu borç kaydını silmek istiyor musun?")
+){
+
+debts =
+debts.filter(x=>x.id!==id);
+
+saveDebts();
+
+}
 
 }
 
 
 function deleteTransaction(id){
 
-  if(confirm("Bu işlemi silmek istiyor musun?")){
+if(
+confirm("Bu işlemi silmek istiyor musun?")
+){
 
-    transactions =
-    transactions.filter(x => x.id !== id);
+transactions =
+transactions.filter(
+x=>x.id!==id
+);
 
-    save();
+saveTransactions();
 
-  }
+}
 
 }
 
 
-function save(){
+function saveTransactions(){
 
-  localStorage.setItem(
-    "nar_transactions",
-    JSON.stringify(transactions)
-  );
+localStorage.setItem(
+"nar_transactions_v2",
+JSON.stringify(transactions)
+);
 
-  render();
+render();
 
 }
 
 
-function saveDebt(){
+function saveDebts(){
 
-  localStorage.setItem(
-    "nar_debt",
-    JSON.stringify(debtPayments)
-  );
+localStorage.setItem(
+"nar_debts_v2",
+JSON.stringify(debts)
+);
 
-  render();
+render();
+
+}
+
+
+function setFilter(filter,button){
+
+activeFilter = filter;
+
+document
+.querySelectorAll(".filter-btn")
+.forEach(x=>x.classList.remove("active"));
+
+button.classList.add("active");
+
+render();
+
+}
+
+
+function filterTransaction(item){
+
+if(activeFilter==="all"){
+
+return true;
+
+}
+
+const now = new Date();
+
+const itemDate =
+new Date(item.date+"T12:00:00");
+
+if(activeFilter==="today"){
+
+return item.date===today();
+
+}
+
+if(activeFilter==="month"){
+
+return(
+itemDate.getFullYear()===
+now.getFullYear()
+&&
+itemDate.getMonth()===
+now.getMonth()
+);
+
+}
+
+return true;
 
 }
 
 
 function render(){
 
-  let income = 0;
-  let expense = 0;
+const filtered =
+transactions.filter(filterTransaction);
 
-  transactions.forEach(item=>{
+let income=0;
+let expense=0;
+let commission=0;
 
-    if(item.type==="Gelir"){
-      income += item.amount;
-    }
+let platforms={
 
-    if(item.type==="Gider"){
-      expense += item.amount;
-    }
+"Dükkan":0,
+"WhatsApp":0,
+"Trendyol":0,
+"Yemeksepeti":0,
+"Migros":0
 
-  });
-
-
-  document.getElementById("totalIncome")
-  .innerText = money(income);
-
-  document.getElementById("totalExpense")
-  .innerText = money(expense);
-
-  document.getElementById("netCash")
-  .innerText = money(income-expense);
+};
 
 
+filtered.forEach(item=>{
 
-  let paid =
-  debtPayments.reduce(
-    (sum,item)=>sum+item.amount,
-    0
-  );
+if(item.type==="Gelir"){
 
-  let remaining =
-  Math.max(0,START_DEBT-paid);
+income += Number(item.amount);
 
-  document.getElementById("paidDebt")
-  .innerText = money(paid);
+commission +=
+Number(item.commission || 0);
 
-  document.getElementById("remainingDebt")
-  .innerText = money(remaining);
+if(
+platforms[item.category]!==undefined
+){
+
+platforms[item.category] +=
+Number(item.amount);
+
+}
+
+}
+
+if(item.type==="Gider"){
+
+expense += Number(item.amount);
+
+}
+
+});
 
 
-  let percent =
-  Math.min(100,(paid/START_DEBT)*100);
+const net =
+income -
+commission -
+expense;
 
-  document.getElementById("debtFill")
-  .style.width = percent+"%";
+
+document
+.getElementById("totalIncome")
+.innerText = money(income);
+
+document
+.getElementById("totalCommission")
+.innerText = money(commission);
+
+document
+.getElementById("totalExpense")
+.innerText = money(expense);
+
+const netElement =
+document.getElementById("netProfit");
+
+netElement.innerText =
+money(net);
+
+netElement.className =
+net>=0 ? "green" : "red";
 
 
-  const list =
-  document.getElementById("transactionList");
+document
+.getElementById("pDukkan")
+.innerText =
+money(platforms["Dükkan"]);
 
-  list.innerHTML="";
+document
+.getElementById("pWhatsapp")
+.innerText =
+money(platforms["WhatsApp"]);
 
-  [...transactions]
-  .reverse()
-  .slice(0,20)
-  .forEach(item=>{
+document
+.getElementById("pTrendyol")
+.innerText =
+money(platforms["Trendyol"]);
 
-    const row =
-    document.createElement("tr");
+document
+.getElementById("pYemeksepeti")
+.innerText =
+money(platforms["Yemeksepeti"]);
 
-    row.innerHTML=`
+document
+.getElementById("pMigros")
+.innerText =
+money(platforms["Migros"]);
 
-      <td>${item.date}</td>
 
-      <td>
-        ${item.type==="Gelir" ? "🟢 Gelir" : "🔴 Gider"}
-      </td>
+const transactionList =
+document.getElementById(
+"transactionList"
+);
 
-      <td>
-        ${item.category}
-        ${item.note ? "<br><small>"+item.note+"</small>" : ""}
-      </td>
+transactionList.innerHTML="";
 
-      <td>
-        ${money(item.amount)}
-      </td>
+[...filtered]
+.reverse()
+.slice(0,30)
+.forEach(item=>{
 
-      <td>
-        <button
-        class="delete"
-        onclick="deleteTransaction(${item.id})">
-        Sil
-        </button>
-      </td>
+let netAmount =
+item.type==="Gelir"
+?
+item.amount -
+Number(item.commission || 0)
+:
+-item.amount;
 
-    `;
+let row =
+document.createElement("tr");
 
-    list.appendChild(row);
+row.innerHTML=`
 
-  });
+<td>${item.date}</td>
+
+<td>
+${item.type==="Gelir"
+?"🟢 Gelir"
+:"🔴 Gider"}
+</td>
+
+<td>
+
+${item.category}
+
+${item.note
+?"<br><small>"+item.note+"</small>"
+:""}
+
+${item.commissionRate
+?"<br><small>Komisyon %"+item.commissionRate+"</small>"
+:""}
+
+</td>
+
+<td>${money(item.amount)}</td>
+
+<td>${money(netAmount)}</td>
+
+<td>
+
+<button
+class="delete"
+onclick="deleteTransaction(${item.id})">
+Sil
+</button>
+
+</td>
+
+`;
+
+transactionList.appendChild(row);
+
+});
+
+
+let totalDebt =
+debts.reduce(
+(sum,item)=>
+sum+Number(item.remaining),
+0
+);
+
+document
+.getElementById("totalDebt")
+.innerText =
+money(totalDebt);
+
+document
+.getElementById("debtDisplay")
+.innerText =
+money(totalDebt);
+
+
+const debtList =
+document.getElementById("debtList");
+
+debtList.innerHTML="";
+
+debts.forEach(item=>{
+
+const row =
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${item.name}</td>
+
+<td>${item.date || "-"}</td>
+
+<td>${money(item.remaining)}</td>
+
+<td>
+
+<button
+onclick="payDebt(${item.id})">
+Ödeme
+</button>
+
+<button
+class="delete"
+onclick="deleteDebt(${item.id})">
+Sil
+</button>
+
+</td>
+
+`;
+
+debtList.appendChild(row);
+
+});
 
 }
 
