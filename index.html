@@ -2475,13 +2475,36 @@ async function showStoreStatus() {
       return;
     }
 
-    if (data && data.is_open) {
-      badge.textContent = "🟢 Sipariş Açık";
-      badge.style.background = "#16803c";
-    } else {
-      badge.textContent = "🔴 Sipariş Kapalı";
-      badge.style.background = "#b3141b";
+   if (data && data.is_open) {
+  badge.textContent = "🟢 Sipariş Açık";
+  badge.style.background = "#16803c";
+
+  document.querySelectorAll("button, a").forEach(el => {
+    if (
+      el.textContent.includes("Ekle") ||
+      el.textContent.includes("WhatsApp") ||
+      el.textContent.includes("Sipariş")
+    ) {
+      el.style.pointerEvents = "auto";
+      el.style.opacity = "1";
     }
+  });
+
+} else {
+  badge.textContent = "🔴 Sipariş Kapalı";
+  badge.style.background = "#b3141b";
+
+  document.querySelectorAll("button, a").forEach(el => {
+    if (
+      el.textContent.includes("Ekle") ||
+      el.textContent.includes("WhatsApp") ||
+      el.textContent.includes("Sipariş")
+    ) {
+      el.style.pointerEvents = "none";
+      el.style.opacity = "0.45";
+    }
+  });
+}
   } catch (err) {
     console.error(err);
     badge.textContent = "⚠️ Sipariş durumu alınamadı";
