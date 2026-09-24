@@ -22,7 +22,7 @@ header{
   background:#111;
   color:#fff;
   text-align:center;
-  padding:22px;
+  padding:20px;
 }
 
 header h1{
@@ -53,6 +53,8 @@ header p{
   background:#fff;
   border-radius:25px;
   padding:11px 18px;
+  white-space:nowrap;
+  cursor:pointer;
 }
 
 .filter-btn.active{
@@ -62,7 +64,7 @@ header p{
 
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:10px;
   margin-bottom:16px;
 }
@@ -100,14 +102,19 @@ header p{
   margin-bottom:14px;
 }
 
+.subsection-title{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
 .form-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:10px;
 }
 
-input,
-select{
+input,select{
   width:100%;
   padding:13px;
   border:1px solid #ddd;
@@ -141,6 +148,7 @@ button{
 
 .delete{
   background:#eee;
+  color:#222;
 }
 
 .type-box{
@@ -156,12 +164,12 @@ button{
 
 .type-btn.income.active{
   background:#198754;
-  color:white;
+  color:#fff;
 }
 
 .type-btn.expense.active{
   background:#dc3545;
-  color:white;
+  color:#fff;
 }
 
 .category-grid{
@@ -178,23 +186,12 @@ button{
 }
 
 .category-card h4{
-  margin-bottom:5px;
+  margin-bottom:6px;
+  font-size:15px;
 }
 
 .category-card strong{
   font-size:20px;
-}
-
-.subaccount{
-  background:#fafafa;
-  border:1px solid #eee;
-  border-radius:12px;
-  padding:12px;
-  margin-top:8px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
 }
 
 .note{
@@ -213,12 +210,50 @@ table{
   margin-top:10px;
 }
 
-th,
-td{
+th,td{
   text-align:left;
   padding:10px 6px;
   border-bottom:1px solid #eee;
   font-size:13px;
+}
+
+.settings-list{
+  margin-top:15px;
+}
+
+.settings-group{
+  border:1px solid #eee;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+  background:#fafafa;
+}
+
+.settings-group h4{
+  margin-bottom:10px;
+  font-size:15px;
+}
+
+.subaccount-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:8px 0;
+  border-top:1px solid #eee;
+}
+
+.subaccount-item:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.subaccount-item small{
+  color:#777;
+}
+
+.block-space{
+  margin-top:18px;
 }
 
 @media(max-width:700px){
@@ -231,7 +266,7 @@ td{
   }
 
   table{
-    min-width:700px;
+    min-width:720px;
   }
 }
 </style>
@@ -246,33 +281,16 @@ td{
 
 <div class="container">
 
+  <!-- FİLTRE -->
   <div class="filters">
-
-    <button
-    class="filter-btn active"
-    onclick="setFilter('today',this)">
-    Bugün
-    </button>
-
-    <button
-    class="filter-btn"
-    onclick="setFilter('month',this)">
-    Bu Ay
-    </button>
-
-    <button
-    class="filter-btn"
-    onclick="setFilter('all',this)">
-    Tümü
-    </button>
-
+    <button class="filter-btn active" onclick="setFilter('today',this)">Bugün</button>
+    <button class="filter-btn" onclick="setFilter('week',this)">Bu Hafta</button>
+    <button class="filter-btn" onclick="setFilter('month',this)">Bu Ay</button>
+    <button class="filter-btn" onclick="setFilter('all',this)">Tümü</button>
   </div>
 
-
   <!-- ANA PANEL -->
-
   <div class="cards">
-
     <div class="card">
       <small>Toplam Gelir</small>
       <h2 class="green" id="totalIncome">0 ₺</h2>
@@ -292,130 +310,58 @@ td{
       <small>İşlem Sayısı</small>
       <h2 class="blue" id="transactionCount">0</h2>
     </div>
-
   </div>
 
-
   <!-- İŞLEM EKLE -->
-
   <div class="section">
-
     <h3>➕ İşlem Ekle</h3>
 
     <div class="type-box">
-
-      <button
-      id="incomeBtn"
-      class="type-btn income"
-      onclick="setType('Gelir')">
-      💰 Gelir
-      </button>
-
-      <button
-      id="expenseBtn"
-      class="type-btn expense active"
-      onclick="setType('Gider')">
-      💸 Gider
-      </button>
-
+      <button id="incomeBtn" class="type-btn income" onclick="setType('Gelir')">💰 Gelir</button>
+      <button id="expenseBtn" class="type-btn expense active" onclick="setType('Gider')">💸 Gider</button>
     </div>
 
-
     <div class="form-grid">
+      <input type="date" id="transactionDate">
 
-      <input
-      type="date"
-      id="transactionDate">
-
-      <select
-      id="category"
-      onchange="renderSubAccountOptions()">
-      </select>
+      <select id="category" onchange="renderSubAccountOptions()"></select>
 
       <select id="subAccount">
         <option value="">Alt hesap seç</option>
       </select>
 
-      <input
-      type="number"
-      id="amount"
-      placeholder="Tutar ₺">
+      <input type="number" id="amount" placeholder="Tutar ₺">
 
-      <input
-      type="text"
-      id="note"
-      placeholder="Açıklama">
+      <input type="text" id="note" placeholder="Açıklama">
 
-      <button
-      id="addButton"
-      class="btn-red"
-      onclick="addTransaction()">
-      Gider Ekle
-      </button>
-
+      <button id="addButton" class="btn-red" onclick="addTransaction()">Gider Ekle</button>
     </div>
 
-    <p class="note">
-      Tarih otomatik gelir. İstersen değiştirebilirsin.
-    </p>
-
+    <p class="note">Tarih otomatik gelir. İstersen değiştirebilirsin.</p>
   </div>
-
-
-  <!-- ALT HESAP EKLE -->
-
-  <div class="section">
-
-    <h3>⚙️ Kategori İçine Alt Hesap Ekle</h3>
-
-    <div class="form-grid">
-
-      <select id="newSubCategory"></select>
-
-      <input
-      type="text"
-      id="newSubName"
-      placeholder="Örn: Barış, Kasap Ali, Ayasofya Şubesi">
-
-      <button
-      class="btn-dark"
-      onclick="addSubAccount()">
-      + Alt Hesap Ekle
-      </button>
-
-    </div>
-
-    <div id="subAccountList"></div>
-
-  </div>
-
 
   <!-- KATEGORİ TOPLAMLARI -->
-
   <div class="section">
-
     <h3>📊 Kategori Toplamları</h3>
 
-    <div
-    class="category-grid"
-    id="categoryTotals">
+    <div class="block-space">
+      <div class="subsection-title red">🔴 Gider Dağılımı</div>
+      <div class="category-grid" id="expenseTotals"></div>
     </div>
 
+    <div class="block-space">
+      <div class="subsection-title green">🟢 Gelir Dağılımı</div>
+      <div class="category-grid" id="incomeTotals"></div>
+    </div>
   </div>
 
-
   <!-- HAREKETLER -->
-
   <div class="section">
-
     <h3>📋 İşlem Geçmişi</h3>
 
     <div class="table-wrap">
-
       <table>
-
         <thead>
-
           <tr>
             <th>Tarih</th>
             <th>Tür</th>
@@ -425,984 +371,528 @@ td{
             <th>Tutar</th>
             <th></th>
           </tr>
-
         </thead>
-
         <tbody id="transactionList"></tbody>
-
       </table>
+    </div>
+  </div>
 
+  <!-- AYARLAR -->
+  <div class="section">
+    <h3>⚙️ Kategori ve Alt Hesap Ayarları</h3>
+
+    <div class="form-grid">
+      <select id="newSubCategory"></select>
+
+      <input
+      type="text"
+      id="newSubName"
+      placeholder="Örn: Barış, Kasap Ali, Ayasofya Şubesi">
+
+      <button class="btn-dark" onclick="addSubAccount()">+ Alt Hesap Ekle</button>
     </div>
 
+    <p class="note">
+      Personel, toptancılar, kira, vergi gibi kategorilere yeni alt hesaplar buradan eklenir.
+    </p>
+
+    <div class="settings-list" id="subAccountList"></div>
   </div>
 
 </div>
 
-
 <script>
-
 /* =========================
    SABİT KATEGORİLER
 ========================= */
 
 const expenseCategories = [
-
-"Personel",
-"Toptancılar",
-"Kira",
-"Vergi",
-"SGK",
-"Kurye",
-"Elektrik",
-"Doğalgaz",
-"Su",
-"Reklam",
-"Bakım / Tamir",
-"Diğer Giderler"
-
+  "Personel",
+  "Toptancılar",
+  "Kira",
+  "Vergi",
+  "SGK",
+  "Kurye",
+  "Elektrik",
+  "Doğalgaz",
+  "Su",
+  "Reklam",
+  "Bakım / Tamir",
+  "Diğer Giderler"
 ];
-
 
 const incomeCategories = [
-
-"Dükkan Satışı",
-"WhatsApp",
-"Trendyol",
-"Yemeksepeti",
-"Migros",
-"Tahsilat",
-"İade",
-"Diğer Gelirler"
-
+  "Dükkan Satışı",
+  "WhatsApp",
+  "Trendyol",
+  "Yemeksepeti",
+  "Migros",
+  "Tahsilat",
+  "İade",
+  "Diğer Gelirler"
 ];
-
 
 /* =========================
    VERİ
 ========================= */
 
 let transactions =
-JSON.parse(
-localStorage.getItem("nar_transactions_v3")
-) || [];
-
+JSON.parse(localStorage.getItem("nar_transactions_v3")) || [];
 
 let subAccounts =
-JSON.parse(
-localStorage.getItem("nar_subaccounts_v3")
-) || [];
-
+JSON.parse(localStorage.getItem("nar_subaccounts_v3")) || [];
 
 let transactionType = "Gider";
-
 let activeFilter = "today";
-
 
 /* =========================
    TARİH
 ========================= */
 
 function today(){
-
-const d = new Date();
-
-const year = d.getFullYear();
-
-const month =
-String(d.getMonth()+1)
-.padStart(2,"0");
-
-const day =
-String(d.getDate())
-.padStart(2,"0");
-
-return year+"-"+month+"-"+day;
-
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+  return year + "-" + month + "-" + day;
 }
 
-
-document
-.getElementById("transactionDate")
-.value = today();
-
+document.getElementById("transactionDate").value = today();
 
 /* =========================
    PARA
 ========================= */
 
 function money(number){
-
-return Number(number || 0)
-.toLocaleString(
-"tr-TR",
-{
-style:"currency",
-currency:"TRY",
-maximumFractionDigits:0
+  return Number(number || 0).toLocaleString(
+    "tr-TR",
+    {
+      style:"currency",
+      currency:"TRY",
+      maximumFractionDigits:0
+    }
+  );
 }
-);
-
-}
-
 
 /* =========================
-   GELİR / GİDER
+   GELİR / GİDER SEÇİMİ
 ========================= */
 
 function setType(type){
+  transactionType = type;
 
-transactionType = type;
+  document.getElementById("incomeBtn").classList.remove("active");
+  document.getElementById("expenseBtn").classList.remove("active");
 
+  if(type==="Gelir"){
+    document.getElementById("incomeBtn").classList.add("active");
+    document.getElementById("addButton").className = "btn-green";
+    document.getElementById("addButton").innerText = "Gelir Ekle";
+  }else{
+    document.getElementById("expenseBtn").classList.add("active");
+    document.getElementById("addButton").className = "btn-red";
+    document.getElementById("addButton").innerText = "Gider Ekle";
+  }
 
-document
-.getElementById("incomeBtn")
-.classList.remove("active");
-
-document
-.getElementById("expenseBtn")
-.classList.remove("active");
-
-
-if(type==="Gelir"){
-
-document
-.getElementById("incomeBtn")
-.classList.add("active");
-
-document
-.getElementById("addButton")
-.className="btn-green";
-
-document
-.getElementById("addButton")
-.innerText="Gelir Ekle";
-
-}else{
-
-document
-.getElementById("expenseBtn")
-.classList.add("active");
-
-document
-.getElementById("addButton")
-.className="btn-red";
-
-document
-.getElementById("addButton")
-.innerText="Gider Ekle";
-
+  renderCategoryOptions();
 }
-
-
-renderCategoryOptions();
-
-}
-
 
 /* =========================
    KATEGORİ SELECT
 ========================= */
 
 function renderCategoryOptions(){
+  const categorySelect = document.getElementById("category");
+  categorySelect.innerHTML = "";
 
-const categorySelect =
-document.getElementById("category");
+  const categories = transactionType==="Gelir" ? incomeCategories : expenseCategories;
 
-categorySelect.innerHTML="";
+  categories.forEach(category=>{
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    categorySelect.appendChild(option);
+  });
 
-
-const categories =
-transactionType==="Gelir"
-?
-incomeCategories
-:
-expenseCategories;
-
-
-categories.forEach(category=>{
-
-const option =
-document.createElement("option");
-
-option.value = category;
-
-option.textContent = category;
-
-categorySelect.appendChild(option);
-
-});
-
-
-renderSubAccountOptions();
-
+  renderSubAccountOptions();
 }
-
 
 /* =========================
    ALT HESAP SELECT
 ========================= */
 
 function renderSubAccountOptions(){
+  const category = document.getElementById("category").value;
+  const select = document.getElementById("subAccount");
 
-const category =
-document.getElementById("category").value;
+  select.innerHTML = '<option value="">Alt hesap seç</option>';
 
-const select =
-document.getElementById("subAccount");
-
-
-select.innerHTML =
-'<option value="">Alt hesap seç</option>';
-
-
-subAccounts
-.filter(
-x => x.category===category
-)
-.forEach(item=>{
-
-const option =
-document.createElement("option");
-
-option.value = item.name;
-
-option.textContent = item.name;
-
-select.appendChild(option);
-
-});
-
+  subAccounts
+  .filter(x => x.category===category)
+  .forEach(item=>{
+    const option = document.createElement("option");
+    option.value = item.name;
+    option.textContent = item.name;
+    select.appendChild(option);
+  });
 }
 
-
 /* =========================
-   ALT HESAP KATEGORİLERİ
+   AYARLARDA KATEGORİLER
 ========================= */
 
 function renderNewSubCategories(){
+  const select = document.getElementById("newSubCategory");
+  select.innerHTML = "";
 
-const select =
-document.getElementById("newSubCategory");
-
-select.innerHTML="";
-
-
-[
-...expenseCategories,
-...incomeCategories
-]
-.forEach(category=>{
-
-const option =
-document.createElement("option");
-
-option.value=category;
-
-option.textContent=category;
-
-select.appendChild(option);
-
-});
-
+  [...expenseCategories, ...incomeCategories].forEach(category=>{
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    select.appendChild(option);
+  });
 }
-
 
 /* =========================
    ALT HESAP EKLE
 ========================= */
 
 function addSubAccount(){
+  const category = document.getElementById("newSubCategory").value;
+  const name = document.getElementById("newSubName").value.trim();
 
-const category =
-document.getElementById(
-"newSubCategory"
-).value;
+  if(!name){
+    alert("Alt hesap adı gir.");
+    return;
+  }
 
+  const exists = subAccounts.some(
+    x =>
+    x.category===category &&
+    x.name.toLocaleLowerCase("tr-TR")===name.toLocaleLowerCase("tr-TR")
+  );
 
-const name =
-document.getElementById(
-"newSubName"
-).value.trim();
+  if(exists){
+    alert("Bu alt hesap zaten var.");
+    return;
+  }
 
+  subAccounts.push({
+    id: Date.now(),
+    category: category,
+    name: name
+  });
 
-if(!name){
+  saveSubAccounts();
 
-alert("Alt hesap adı gir.");
-
-return;
-
+  document.getElementById("newSubName").value = "";
 }
-
-
-const exists =
-subAccounts.some(
-x =>
-x.category===category
-&&
-x.name.toLocaleLowerCase("tr-TR")
-===
-name.toLocaleLowerCase("tr-TR")
-);
-
-
-if(exists){
-
-alert(
-"Bu alt hesap zaten var."
-);
-
-return;
-
-}
-
-
-subAccounts.push({
-
-id:Date.now(),
-
-category:category,
-
-name:name
-
-});
-
-
-saveSubAccounts();
-
-
-document
-.getElementById("newSubName")
-.value="";
-
-}
-
 
 /* =========================
    ALT HESAP SİL
 ========================= */
 
 function deleteSubAccount(id){
+  const item = subAccounts.find(x=>x.id===id);
+  if(!item) return;
 
-const item =
-subAccounts.find(
-x=>x.id===id
-);
+  const used = transactions.some(
+    x => x.category===item.category && x.subAccount===item.name
+  );
 
+  if(used){
+    alert("Bu alt hesabın işlem geçmişi var. Önce işlemleri silmelisin.");
+    return;
+  }
 
-if(!item)return;
+  if(!confirm(item.name + " alt hesabını silmek istiyor musun?")){
+    return;
+  }
 
-
-const used =
-transactions.some(
-x =>
-x.category===item.category
-&&
-x.subAccount===item.name
-);
-
-
-if(used){
-
-alert(
-"Bu alt hesabın işlem geçmişi var. Önce işlemleri silmelisin."
-);
-
-return;
-
+  subAccounts = subAccounts.filter(x=>x.id!==id);
+  saveSubAccounts();
 }
-
-
-if(
-!confirm(
-item.name+
-" alt hesabını silmek istiyor musun?"
-)
-){
-
-return;
-
-}
-
-
-subAccounts =
-subAccounts.filter(
-x=>x.id!==id
-);
-
-
-saveSubAccounts();
-
-}
-
 
 /* =========================
    İŞLEM EKLE
 ========================= */
 
 function addTransaction(){
+  const date = document.getElementById("transactionDate").value;
+  const category = document.getElementById("category").value;
+  const subAccount = document.getElementById("subAccount").value;
+  const amount = Number(document.getElementById("amount").value);
+  const note = document.getElementById("note").value.trim();
 
-const date =
-document.getElementById(
-"transactionDate"
-).value;
+  if(!date){
+    alert("Tarih seç.");
+    return;
+  }
 
+  if(amount<=0){
+    alert("Tutar gir.");
+    return;
+  }
 
-const category =
-document.getElementById(
-"category"
-).value;
+  transactions.push({
+    id: Date.now(),
+    date: date,
+    type: transactionType,
+    category: category,
+    subAccount: subAccount,
+    amount: amount,
+    note: note
+  });
 
+  saveTransactions();
 
-const subAccount =
-document.getElementById(
-"subAccount"
-).value;
-
-
-const amount =
-Number(
-document.getElementById(
-"amount"
-).value
-);
-
-
-const note =
-document.getElementById(
-"note"
-).value.trim();
-
-
-if(!date){
-
-alert("Tarih seç.");
-
-return;
-
+  document.getElementById("amount").value = "";
+  document.getElementById("note").value = "";
 }
-
-
-if(amount<=0){
-
-alert("Tutar gir.");
-
-return;
-
-}
-
-
-transactions.push({
-
-id:Date.now(),
-
-date:date,
-
-type:transactionType,
-
-category:category,
-
-subAccount:subAccount,
-
-amount:amount,
-
-note:note
-
-});
-
-
-saveTransactions();
-
-
-document
-.getElementById("amount")
-.value="";
-
-
-document
-.getElementById("note")
-.value="";
-
-}
-
 
 /* =========================
    İŞLEM SİL
 ========================= */
 
 function deleteTransaction(id){
+  if(!confirm("Bu işlemi silmek istiyor musun?")){
+    return;
+  }
 
-if(
-!confirm(
-"Bu işlemi silmek istiyor musun?"
-)
-){
-
-return;
-
+  transactions = transactions.filter(x=>x.id!==id);
+  saveTransactions();
 }
-
-
-transactions =
-transactions.filter(
-x=>x.id!==id
-);
-
-
-saveTransactions();
-
-}
-
 
 /* =========================
    KAYDET
 ========================= */
 
 function saveTransactions(){
-
-localStorage.setItem(
-"nar_transactions_v3",
-JSON.stringify(transactions)
-);
-
-render();
-
+  localStorage.setItem("nar_transactions_v3", JSON.stringify(transactions));
+  render();
 }
-
 
 function saveSubAccounts(){
-
-localStorage.setItem(
-"nar_subaccounts_v3",
-JSON.stringify(subAccounts)
-);
-
-render();
-
+  localStorage.setItem("nar_subaccounts_v3", JSON.stringify(subAccounts));
+  render();
 }
-
 
 /* =========================
    TARİH FİLTRESİ
 ========================= */
 
-function setFilter(
-filter,
-button
-){
+function setFilter(filter,button){
+  activeFilter = filter;
 
-activeFilter = filter;
+  document.querySelectorAll(".filter-btn").forEach(
+    x=>x.classList.remove("active")
+  );
 
-
-document
-.querySelectorAll(".filter-btn")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-
-button.classList.add("active");
-
-
-render();
-
+  button.classList.add("active");
+  render();
 }
 
+function startOfWeek(dateObj){
+  const d = new Date(dateObj);
+  const day = d.getDay(); // 0 pazar, 1 pazartesi
+  const diff = day===0 ? -6 : 1-day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0,0,0,0);
+  return d;
+}
 
 function inFilter(date){
+  if(activeFilter==="all"){
+    return true;
+  }
 
-if(activeFilter==="all"){
+  if(activeFilter==="today"){
+    return date===today();
+  }
 
-return true;
+  const now = new Date();
+  const d = new Date(date + "T12:00:00");
 
+  if(activeFilter==="week"){
+    const weekStart = startOfWeek(now);
+    const itemDate = new Date(d);
+    itemDate.setHours(0,0,0,0);
+    const todayDate = new Date(now);
+    todayDate.setHours(23,59,59,999);
+    return itemDate >= weekStart && itemDate <= todayDate;
+  }
+
+  if(activeFilter==="month"){
+    return (
+      d.getFullYear()===now.getFullYear() &&
+      d.getMonth()===now.getMonth()
+    );
+  }
+
+  return true;
 }
-
-
-if(activeFilter==="today"){
-
-return date===today();
-
-}
-
-
-if(activeFilter==="month"){
-
-const now = new Date();
-
-const d =
-new Date(date+"T12:00:00");
-
-
-return(
-d.getFullYear()===
-now.getFullYear()
-&&
-d.getMonth()===
-now.getMonth()
-);
-
-}
-
-
-return true;
-
-}
-
 
 /* =========================
    ANA PANEL
 ========================= */
 
 function renderDashboard(){
+  const filtered = transactions.filter(x=>inFilter(x.date));
 
-const filtered =
-transactions.filter(
-x=>inFilter(x.date)
-);
+  let income = 0;
+  let expense = 0;
 
+  filtered.forEach(item=>{
+    if(item.type==="Gelir"){
+      income += Number(item.amount);
+    }else{
+      expense += Number(item.amount);
+    }
+  });
 
-let income = 0;
+  const net = income - expense;
 
-let expense = 0;
+  document.getElementById("totalIncome").innerText = money(income);
+  document.getElementById("totalExpense").innerText = money(expense);
 
+  const netElement = document.getElementById("netResult");
+  netElement.innerText = money(net);
+  netElement.className = net>=0 ? "green" : "red";
 
-filtered.forEach(item=>{
-
-if(item.type==="Gelir"){
-
-income += Number(item.amount);
-
-}else{
-
-expense += Number(item.amount);
-
+  document.getElementById("transactionCount").innerText = filtered.length;
 }
-
-});
-
-
-const net =
-income-expense;
-
-
-document
-.getElementById(
-"totalIncome"
-)
-.innerText = money(income);
-
-
-document
-.getElementById(
-"totalExpense"
-)
-.innerText = money(expense);
-
-
-const netElement =
-document.getElementById(
-"netResult"
-);
-
-
-netElement.innerText =
-money(net);
-
-
-netElement.className =
-net>=0
-?
-"green"
-:
-"red";
-
-
-document
-.getElementById(
-"transactionCount"
-)
-.innerText =
-filtered.length;
-
-}
-
 
 /* =========================
    KATEGORİ TOPLAMLARI
 ========================= */
 
 function renderCategoryTotals(){
+  const expenseContainer = document.getElementById("expenseTotals");
+  const incomeContainer = document.getElementById("incomeTotals");
 
-const container =
-document.getElementById(
-"categoryTotals"
-);
+  expenseContainer.innerHTML = "";
+  incomeContainer.innerHTML = "";
 
+  const filtered = transactions.filter(x=>inFilter(x.date));
 
-container.innerHTML="";
+  expenseCategories.forEach(category=>{
+    const total = filtered
+      .filter(x => x.type==="Gider" && x.category===category)
+      .reduce((sum,x)=>sum+Number(x.amount),0);
 
+    const div = document.createElement("div");
+    div.className = "category-card";
+    div.innerHTML = `
+      <h4>${category}</h4>
+      <strong class="red">${money(total)}</strong>
+    `;
+    expenseContainer.appendChild(div);
+  });
 
-const filtered =
-transactions.filter(
-x=>inFilter(x.date)
-);
+  incomeCategories.forEach(category=>{
+    const total = filtered
+      .filter(x => x.type==="Gelir" && x.category===category)
+      .reduce((sum,x)=>sum+Number(x.amount),0);
 
-
-expenseCategories.forEach(category=>{
-
-const total =
-filtered
-.filter(
-x =>
-x.type==="Gider"
-&&
-x.category===category
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.amount),
-0
-);
-
-
-const div =
-document.createElement("div");
-
-div.className=
-"category-card";
-
-
-div.innerHTML=`
-
-<h4>${category}</h4>
-
-<strong class="red">
-${money(total)}
-</strong>
-
-`;
-
-
-container.appendChild(div);
-
-});
-
-
-incomeCategories.forEach(category=>{
-
-const total =
-filtered
-.filter(
-x =>
-x.type==="Gelir"
-&&
-x.category===category
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.amount),
-0
-);
-
-
-const div =
-document.createElement("div");
-
-div.className=
-"category-card";
-
-
-div.innerHTML=`
-
-<h4>${category}</h4>
-
-<strong class="green">
-${money(total)}
-</strong>
-
-`;
-
-
-container.appendChild(div);
-
-});
-
+    const div = document.createElement("div");
+    div.className = "category-card";
+    div.innerHTML = `
+      <h4>${category}</h4>
+      <strong class="green">${money(total)}</strong>
+    `;
+    incomeContainer.appendChild(div);
+  });
 }
 
-
 /* =========================
-   ALT HESAPLARI GÖSTER
+   ALT HESAPLARI AYARLARDA GÖSTER
 ========================= */
 
 function renderSubAccountList(){
+  const container = document.getElementById("subAccountList");
+  container.innerHTML = "";
 
-const container =
-document.getElementById(
-"subAccountList"
-);
+  const allCategories = [...expenseCategories, ...incomeCategories];
 
+  allCategories.forEach(category=>{
+    const items = subAccounts.filter(x=>x.category===category);
 
-container.innerHTML="";
+    if(items.length===0) return;
 
+    const group = document.createElement("div");
+    group.className = "settings-group";
 
-subAccounts.forEach(item=>{
+    let inner = `<h4>${category}</h4>`;
 
-const div =
-document.createElement("div");
+    items.forEach(item=>{
+      inner += `
+        <div class="subaccount-item">
+          <div>
+            <strong>${item.name}</strong>
+            <br>
+            <small>${item.category}</small>
+          </div>
+          <button class="delete" onclick="deleteSubAccount(${item.id})">Sil</button>
+        </div>
+      `;
+    });
 
-div.className=
-"subaccount";
+    group.innerHTML = inner;
+    container.appendChild(group);
+  });
 
-
-div.innerHTML=`
-
-<div>
-
-<strong>
-${item.name}
-</strong>
-
-<br>
-
-<small>
-${item.category}
-</small>
-
-</div>
-
-<button
-class="delete"
-onclick="deleteSubAccount(${item.id})">
-Sil
-</button>
-
-`;
-
-
-container.appendChild(div);
-
-});
-
-
-renderSubAccountOptions();
-
+  renderSubAccountOptions();
 }
-
 
 /* =========================
    İŞLEM TABLOSU
 ========================= */
 
 function renderTransactions(){
+  const list = document.getElementById("transactionList");
+  list.innerHTML = "";
 
-const list =
-document.getElementById(
-"transactionList"
-);
+  const filtered = transactions
+    .filter(x=>inFilter(x.date))
+    .sort((a,b)=>b.id-a.id);
 
+  filtered.forEach(item=>{
+    const row = document.createElement("tr");
 
-list.innerHTML="";
+    row.innerHTML = `
+      <td>${item.date}</td>
+      <td>${item.type==="Gelir" ? "🟢 Gelir" : "🔴 Gider"}</td>
+      <td>${item.category}</td>
+      <td>${item.subAccount || "-"}</td>
+      <td>${item.note || "-"}</td>
+      <td class="${item.type==="Gelir" ? "green" : "red"}">${money(item.amount)}</td>
+      <td>
+        <button class="delete" onclick="deleteTransaction(${item.id})">Sil</button>
+      </td>
+    `;
 
-
-const filtered =
-transactions
-.filter(
-x=>inFilter(x.date)
-)
-.sort(
-(a,b)=>b.id-a.id
-);
-
-
-filtered.forEach(item=>{
-
-const row =
-document.createElement("tr");
-
-
-row.innerHTML=`
-
-<td>
-${item.date}
-</td>
-
-<td>
-${item.type==="Gelir"
-?
-"🟢 Gelir"
-:
-"🔴 Gider"
+    list.appendChild(row);
+  });
 }
-</td>
-
-<td>
-${item.category}
-</td>
-
-<td>
-${item.subAccount || "-"}
-</td>
-
-<td>
-${item.note || "-"}
-</td>
-
-<td class="${
-item.type==="Gelir"
-?
-"green"
-:
-"red"
-}">
-${money(item.amount)}
-</td>
-
-<td>
-
-<button
-class="delete"
-onclick="deleteTransaction(${item.id})">
-Sil
-</button>
-
-</td>
-
-`;
-
-
-list.appendChild(row);
-
-});
-
-}
-
 
 /* =========================
    TÜMÜ
 ========================= */
 
 function render(){
-
-renderDashboard();
-
-renderCategoryTotals();
-
-renderSubAccountList();
-
-renderTransactions();
-
+  renderDashboard();
+  renderCategoryTotals();
+  renderSubAccountList();
+  renderTransactions();
 }
-
 
 /* =========================
    BAŞLANGIÇ
 ========================= */
 
 renderNewSubCategories();
-
 renderCategoryOptions();
-
 render();
-
 </script>
 
 </body>
