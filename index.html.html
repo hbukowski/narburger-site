@@ -1,0 +1,2489 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+
+<title>Narburger | Online Sipariş</title>
+
+<link rel="icon" href="favicon.png">
+
+<style>
+:root{
+  --black:#050505;
+  --card:#101010;
+  --line:#292929;
+  --white:#ffffff;
+  --muted:#aaa;
+  --red:#ee2b33;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:var(--black);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+.wrap{
+  width:min(1380px,calc(100% - 32px));
+  margin:auto;
+}
+
+/* ÜST MENÜ */
+
+.top{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:rgba(5,5,5,.94);
+  border-bottom:1px solid #181818;
+}
+
+.nav{
+  height:92px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+}
+
+.brand img{
+  height:68px;
+  width:auto;
+  display:block;
+}
+
+.navLinks{
+  display:flex;
+  gap:35px;
+  align-items:center;
+  font-weight:800;
+}
+
+.navLinks a:hover{
+  color:var(--red);
+}
+
+.cartBtn{
+  border:0;
+  background:#fff;
+  color:#111;
+  font-weight:900;
+  padding:14px 20px;
+  border-radius:999px;
+}
+
+/* HERO */
+
+.hero{
+  position:relative;
+  min-height:620px;
+  overflow:hidden;
+  border-bottom:1px solid #222;
+
+  background:
+    radial-gradient(circle at 75% 40%,rgba(238,43,51,.23),transparent 32%),
+    linear-gradient(90deg,#050505 0%,#080808 48%,#170607 100%);
+}
+
+.heroInner{
+  min-height:620px;
+  display:grid;
+  grid-template-columns:43% 57%;
+  align-items:center;
+}
+
+.heroText{
+  position:relative;
+  z-index:3;
+  padding:55px 0;
+}
+
+.eyebrow{
+  letter-spacing:9px;
+  font-size:18px;
+  color:#ddd;
+  margin-bottom:12px;
+}
+
+.heroTitle{
+  margin:0;
+  font-size:clamp(60px,7vw,105px);
+  line-height:.84;
+  letter-spacing:-5px;
+  font-weight:1000;
+}
+
+.sadece{
+  font-family:"Brush Script MT","Segoe Script",cursive;
+  font-size:clamp(40px,4vw,66px);
+  line-height:1;
+  margin:12px 0 18px;
+  transform:rotate(-3deg);
+  display:inline-block;
+  border-bottom:7px solid var(--red);
+}
+
+.heroDesc{
+  font-size:20px;
+  line-height:1.5;
+  color:#ddd;
+  max-width:520px;
+}
+
+.heroButtons{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:28px;
+}
+
+.btn{
+  border:1px solid #555;
+  background:#111;
+  color:#fff;
+  border-radius:14px;
+  padding:15px 22px;
+  font-weight:900;
+}
+
+.btn.primary{
+  background:var(--red);
+  border-color:var(--red);
+}
+
+.heroVisual{
+  position:relative;
+  height:620px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.heroVisual:before{
+  content:"";
+  position:absolute;
+  inset:50px 0;
+  background:
+    radial-gradient(circle,rgba(238,43,51,.25),transparent 60%);
+}
+
+.heroBurger{
+  width:min(620px,92%);
+  max-height:520px;
+  object-fit:cover;
+  border-radius:40px;
+  position:relative;
+  z-index:2;
+  filter:drop-shadow(0 30px 35px rgba(0,0,0,.6));
+}
+
+.heroSlogan{
+  position:absolute;
+  right:20px;
+  top:110px;
+  z-index:3;
+  font-family:"Brush Script MT","Segoe Script",cursive;
+  font-size:38px;
+  line-height:.95;
+  transform:rotate(-5deg);
+  text-align:center;
+}
+
+.heroSlogan:after{
+  content:"";
+  display:block;
+  height:5px;
+  width:80px;
+  background:var(--red);
+  margin:12px auto 0;
+  transform:rotate(-7deg);
+}
+
+/* KATEGORİLER */
+
+.categories{
+  background:#fff;
+  color:#111;
+  padding:10px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+}
+
+.cat{
+  height:145px;
+  background:#080808;
+  color:white;
+  border-radius:10px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  padding:12px;
+  gap:12px;
+}
+
+.cat img{
+  width:48%;
+  height:125px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.catText{
+  flex:1;
+}
+
+.catText b{
+  display:block;
+  font-size:19px;
+  margin-bottom:7px;
+}
+
+.catText span{
+  color:#aaa;
+  font-size:13px;
+}
+
+/* BİLGİ ŞERİDİ */
+
+.features{
+  background:#fff;
+  color:#111;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  padding:28px max(30px,6vw);
+}
+
+.feature{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.featureIcon{
+  font-size:34px;
+}
+
+.feature b{
+  display:block;
+  margin-bottom:4px;
+}
+
+.feature span{
+  color:#666;
+  font-size:14px;
+}
+
+/* MENÜ */
+
+.menuSection{
+  padding:60px 0;
+}
+
+.sectionHead{
+  margin-bottom:25px;
+}
+
+.sectionMini{
+  color:var(--red);
+  font-weight:900;
+  letter-spacing:4px;
+  font-size:13px;
+}
+
+.sectionHead h2{
+  font-size:42px;
+  margin:7px 0;
+}
+
+.sectionHead p{
+  color:#aaa;
+  margin:0;
+}
+
+.menuTitle{
+  font-size:30px;
+  margin:45px 0 18px;
+  border-left:5px solid var(--red);
+  padding-left:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.item{
+  background:#111;
+  border:1px solid #292929;
+  border-radius:22px;
+  padding:12px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.productPhoto{
+  width:100%;
+  height:210px;
+  object-fit:cover;
+  border-radius:16px;
+  display:block;
+}
+
+.item h3{
+  font-size:23px;
+  margin:17px 8px 7px;
+}
+
+.item p{
+  color:#aaa;
+  line-height:1.45;
+  margin:0 8px;
+  flex:1;
+}
+
+.itemBottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:20px 8px 8px;
+}
+
+.itemPrice{
+  font-size:25px;
+  font-weight:1000;
+}
+
+.add{
+  border:0;
+  background:#fff;
+  color:#111;
+  padding:11px 16px;
+  border-radius:11px;
+  font-weight:900;
+}
+
+/* SEPET */
+
+.drawer{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  pointer-events:none;
+}
+
+.drawer.open{
+  pointer-events:auto;
+}
+
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  opacity:0;
+  transition:.2s;
+}
+
+.drawer.open .overlay{
+  opacity:1;
+}
+
+.panel{
+  position:absolute;
+  right:0;
+  top:0;
+  height:100%;
+  width:min(470px,100%);
+  background:#101010;
+  border-left:1px solid #333;
+  padding:22px;
+  transform:translateX(100%);
+  transition:.25s;
+  overflow:auto;
+}
+
+.drawer.open .panel{
+  transform:none;
+}
+
+.panelHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.close{
+  border:1px solid #333;
+  background:#181818;
+  color:#fff;
+  border-radius:10px;
+  padding:9px 12px;
+}
+
+.cartLine{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  padding:16px 0;
+  border-bottom:1px solid #292929;
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.qty button{
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#181818;
+  color:#fff;
+}
+
+.total{
+  display:flex;
+  justify-content:space-between;
+  font-size:24px;
+  font-weight:900;
+  padding:22px 0;
+}
+
+/* SİPARİŞ FORMU */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.82);
+  display:none;
+  place-items:center;
+  padding:15px;
+}
+
+.modal.open{
+  display:grid;
+}
+
+.modalCard{
+  width:min(650px,100%);
+  max-height:94vh;
+  overflow:auto;
+  background:#111;
+  border:1px solid #333;
+  border-radius:24px;
+  padding:24px;
+}
+
+.formGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:13px;
+  font-weight:800;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  border:1px solid #333;
+  background:#181818;
+  color:#fff;
+  border-radius:12px;
+  padding:13px;
+}
+
+.field textarea{
+  min-height:90px;
+}
+
+.summary{
+  background:#090909;
+  border:1px solid #292929;
+  border-radius:12px;
+  padding:15px;
+  white-space:pre-wrap;
+  color:#ddd;
+}
+
+.modalActions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid #222;
+  text-align:center;
+  padding:35px;
+  color:#888;
+}
+
+footer img{
+  width:80px;
+  margin-bottom:10px;
+}
+
+/* TABLET */
+
+@media(max-width:900px){
+
+  .navLinks{display:none}
+
+  .heroInner{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    min-height:auto;
+  }
+
+  .heroVisual{
+    height:430px;
+  }
+
+  .heroText{
+    padding:45px 0 10px;
+  }
+
+  .heroTitle{
+    font-size:70px;
+  }
+
+  .heroSlogan{
+    top:25px;
+    right:15px;
+    font-size:30px;
+  }
+
+  .categories{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .features{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+/* TELEFON */
+
+@media(max-width:560px){
+
+  .wrap{
+    width:min(100% - 20px,1380px);
+  }
+
+  .nav{
+    height:72px;
+  }
+
+  .brand img{
+    height:50px;
+  }
+
+  .cartBtn{
+    padding:11px 14px;
+  }
+
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:5px;
+  }
+
+  .heroTitle{
+    font-size:55px;
+    letter-spacing:-3px;
+  }
+
+  .sadece{
+    font-size:39px;
+  }
+
+  .heroDesc{
+    font-size:16px;
+  }
+
+  .heroVisual{
+    height:340px;
+  }
+
+  .heroBurger{
+    max-height:310px;
+  }
+
+  .heroSlogan{
+    font-size:25px;
+  }
+
+  .categories{
+    grid-template-columns:1fr;
+  }
+
+  .cat{
+    height:115px;
+  }
+
+  .cat img{
+    height:95px;
+  }
+
+  .features{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .productPhoto{
+    height:240px;
+  }
+
+  .formGrid{
+    grid-template-columns:1fr;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="top">
+  <div class="wrap nav">
+
+    <a class="brand" href="#">
+      <img src="logo-full.png" alt="Narburger">
+    </a>
+
+    <nav class="navLinks">
+      <a href="#">Ana Sayfa</a>
+      <a href="#menu">Menü</a>
+      <a href="#hakkimizda">Hakkımızda</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+
+    <button class="cartBtn" id="openCart">
+      Sepet · <span id="cartCount">0</span>
+    </button>
+
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+
+  <div class="wrap heroInner">
+
+    <div class="heroText">
+
+      <div class="eyebrow">
+        TRABZON’DA
+      </div>
+
+      <h1 class="heroTitle">
+        GERÇEK<br>
+        BURGER
+      </h1>
+
+      <div class="sadece">
+        Sadece Tat
+      </div>
+
+      <div class="heroDesc">
+        Ev yapımı burger, taptaze malzemeler,<br>
+        şimdi kapında.
+      </div>
+
+      <div class="heroButtons">
+
+        <a class="btn primary" href="#menu">
+          🍔 Menüyü Keşfet
+        </a>
+
+        <a class="btn" href="tel:+904622030606">
+          0462 203 06 06
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="heroVisual">
+
+      <img
+        class="heroBurger"
+        src="61C33242-A19F-4E76-970A-CFA7BD4802BC.png"
+        alt="Narburger"
+      >
+
+      <div class="heroSlogan">
+        Bir ısırık<br>yeter
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="categories">
+</section>
+
+<section class="features">
+
+  <div class="feature">
+    <div class="featureIcon">🛵</div>
+    <div>
+      <b>Paket servisimiz vardır</b>
+      <span>Hızlı ve güvenli</span>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="featureIcon">🏠</div>
+    <div>
+      <b>Aile salonumuz vardır</b>
+      <span>Keyifli ortam</span>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="featureIcon">📍</div>
+    <div>
+      <b>Ayasofya · Trabzon</b>
+      <span>Narburger</span>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="featureIcon">📱</div>
+    <div>
+      <b>WhatsApp Sipariş</b>
+      <span>0462 203 06 06</span>
+    </div>
+  </div>
+
+</section>
+
+<section class="menuSection" id="menu">
+
+<div class="wrap">
+
+  <div class="sectionHead">
+    <div class="sectionMini">
+      NARBURGER MENÜ
+    </div>
+
+    <h2>Favorini seç</h2>
+
+    <p>
+      Sepete ekle, siparişini WhatsApp üzerinden gönder.
+    </p>
+  </div>
+
+  <!-- BURGERLER -->
+
+  <h2 class="menuTitle" id="burgerler">
+    Burgerler
+  </h2>
+
+  <div class="grid" id="burgerGrid">
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="E1C12DB3-C82B-427E-806D-5F54C5C74C4E 2.png"
+        alt="Narburger"
+      >
+
+      <h3>Narburger</h3>
+
+      <p>
+        100 gr köfte, marul, turşu ve Narburger dokunuşu.
+      </p>
+
+      <div class="itemBottom">
+        <span class="itemPrice">399₺</span>
+
+        <button
+          class="add"
+          onclick="addItem('Narburger',399)">
+          Ekle
+        </button>
+      </div>
+
+    </article>
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="F0545BD9-F400-4D5C-BC1F-1E143B124C8C.png"
+        alt="Cheese"
+      >
+
+      <h3>Cheese</h3>
+
+      <p>
+        100 gr köfte, cheddar, marul ve turşu.
+      </p>
+
+      <div class="itemBottom">
+        <span class="itemPrice">419₺</span>
+
+        <button
+          class="add"
+          onclick="addItem('Cheese',419)">
+          Ekle
+        </button>
+      </div>
+
+    </article>
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="12958658-6D99-41EA-ADD8-B89F1B7D555A.png"
+        alt="Mix"
+      >
+
+      <h3>Mix</h3>
+
+      <p>
+        100 gr köfte, cheddar ve bol karamelize soğan.
+      </p>
+
+      <div class="itemBottom">
+        <span class="itemPrice">429₺</span>
+
+        <button
+          class="add"
+          onclick="addItem('Mix',429)">
+          Ekle
+        </button>
+      </div>
+
+    </article>
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="61C33242-A19F-4E76-970A-CFA7BD4802BC.png"
+        alt="Steak"
+      >
+
+      <h3>Steak</h3>
+
+      <p>
+        100 gr köfte, cheddar, dana füme ve karamelize soğan.
+      </p>
+
+      <div class="itemBottom">
+        <span class="itemPrice">469₺</span>
+
+        <button
+          class="add"
+          onclick="addItem('Steak',469)">
+          Ekle
+        </button>
+      </div>
+
+    </article>
+
+  </div>
+
+  <!-- DOUBLE BURGERLER -->
+
+  <h2 class="menuTitle" id="double">
+    Double Burgerler
+  </h2>
+
+  <div class="grid">
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="9C01472D-F7F3-4602-A265-C0EB1B46412F.png"
+        alt="Double Narburger"
+      >
+
+      <h3>Double Narburger</h3>
+
+      <p>
+        2 x 100 gr köfte, marul ve turşu.
+      </p>
+
+      <div class="itemBottom">
+        <span class="itemPrice">—</span>
+      </div>
+
+    </article>
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="B4FFE979-14C9-4A7B-B6E1-7CA2900458A9.png"
+        alt="Double Cheese"
+      >
+
+      <h3>Double Cheese</h3>
+
+      <p>
+        2 x 100 gr köfte, cheddar, marul ve turşu.
+      </p>
+
+      <div class="itemBottom">
+        <span class="itemPrice">—</span>
+      </div>
+
+    </article>
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="45E5EEB6-2B4A-4892-8D5B-7641E508F541.png"
+        alt="Double Mix"
+      >
+
+      <h3>Double Mix</h3>
+
+      <p>
+        2 x 100 gr köfte, cheddar ve bol karamelize soğan.
+      </p>
+
+      <div class="itemBottom">
+        <span class="itemPrice">—</span>
+      </div>
+
+    </article>
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="3CFA56F8-AAC5-485C-8DED-FF47FCD2CDF2.png"
+        alt="Double Steak"
+      >
+
+      <h3>Double Steak</h3>
+
+      <p>
+        2 x 100 gr köfte, cheddar, dana füme ve karamelize soğan.
+      </p>
+
+      <div class="itemBottom">
+        <span class="itemPrice">—</span>
+      </div>
+
+    </article>
+
+  </div>
+
+  <!-- TOSTLAR -->
+
+  <h2 class="menuTitle" id="tostlar">
+    Tostlar
+  </h2>
+
+  <div class="grid">
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="A2000BEA-0989-4B97-AE44-9186FF0E9D22.png"
+        alt="Nartost"
+      >
+
+      <h3>Nartost</h3>
+
+      <p>
+        Sıcak tost ekmeği ve kaşar.
+      </p>
+
+      <div class="itemBottom">
+
+        <span class="itemPrice">
+          250₺
+        </span>
+
+        <button
+          class="add"
+          onclick="addItem('Nartost',250)">
+          Ekle
+        </button>
+
+      </div>
+
+    </article>
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="66F3332F-5780-4C96-B522-F2A8BB952531.png"
+        alt="Tostburger"
+      >
+
+      <h3>Tostburger</h3>
+
+      <p>
+        Narburger usulü sıcak tostburger.
+      </p>
+
+      <div class="itemBottom">
+
+        <span class="itemPrice">
+          220₺
+        </span>
+
+        <button
+          class="add"
+          onclick="addItem('Tostburger',220)">
+          Ekle
+        </button>
+
+      </div>
+
+    </article>
+
+    <article class="item">
+
+      <img
+        class="productPhoto"
+        src="3CBE88E3-C9BE-4700-8F84-BE886217EB8F.png"
+        alt="Hot Dog"
+      >
+
+      <h3>Hot Dog</h3>
+
+      <p>
+        Sıcak ekmek, sosis ve Narburger dokunuşu.
+      </p>
+
+      <div class="itemBottom">
+
+        <span class="itemPrice">
+          300₺
+        </span>
+
+        <button
+          class="add"
+          onclick="addItem('Hot Dog',300)">
+          Ekle
+        </button>
+
+      </div>
+
+    </article>
+
+  </div>
+
+  <!-- İÇECEKLER -->
+
+  <h2 class="menuTitle" id="icecekler">
+    İçecekler
+  </h2>
+
+  <div class="grid">
+
+    <article class="item">
+
+      <div style="font-size:80px;text-align:center;padding:30px">
+        🥤
+      </div>
+
+      <h3>İçecekler</h3>
+
+      <p>
+        İçecek seçenekleri yakında buraya eklenecek.
+      </p>
+
+    </article>
+
+  </div>
+
+  <!-- SOSLAR -->
+
+  <h2 class="menuTitle" id="soslar">
+    Soslar
+  </h2>
+
+  <div class="grid">
+
+    <article class="item">
+
+      <div style="font-size:80px;text-align:center;padding:30px">
+        🥣
+      </div>
+
+      <h3>Soslar</h3>
+
+      <p>
+        Sos seçenekleri yakında buraya eklenecek.
+      </p>
+
+    </article>
+
+  </div>
+
+</div>
+
+</section>
+
+</main>
+
+<footer id="iletisim">
+
+  <img
+    src="logo-mark.png"
+    alt="Narburger"
+  >
+
+  <div>
+    © 2026 Narburger · Ayasofya / Trabzon
+  </div>
+
+</footer>
+
+<!-- SEPET -->
+
+<div class="drawer" id="drawer">
+
+  <div
+    class="overlay"
+    onclick="closeCart()">
+  </div>
+
+  <aside class="panel">
+
+    <div class="panelHead">
+
+      <h2>Sepetin</h2>
+
+      <button
+        class="close"
+        onclick="closeCart()">
+        Kapat
+      </button>
+
+    </div>
+
+    <div id="cartLines"></div>
+
+    <div class="total">
+
+      <span>Toplam</span>
+
+      <span id="cartTotal">
+        0₺
+      </span>
+
+    </div>
+
+    <button
+      class="btn primary"
+      style="width:100%"
+      onclick="openCheckout()">
+
+      Siparişi Tamamla
+    </button>
+
+  </aside>
+
+</div>
+
+
+<!-- SİPARİŞ FORMU -->
+
+<div
+  class="modal"
+  id="checkoutModal">
+
+  <div class="modalCard">
+
+    <h2>Sipariş Bilgileri</h2>
+
+    <div class="formGrid">
+
+      <div class="field">
+
+        <label>
+          Ad Soyad *
+        </label>
+
+        <input
+          id="name"
+          placeholder="Adınız Soyadınız">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Telefon *
+        </label>
+
+        <input
+          id="phone"
+          inputmode="tel"
+          placeholder="05xx xxx xx xx">
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Mahalle *
+        </label>
+
+        <input
+          id="district"
+          placeholder="Mahallenizi yazınız">
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Açık Adres *
+        </label>
+
+        <textarea
+          id="address"
+          placeholder="Sokak, bina, daire ve adres tarifi...">
+        </textarea>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Sipariş Notu
+        </label>
+
+        <textarea
+          id="note"
+          placeholder="Örn: soğansız, az turşu...">
+        </textarea>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Ödeme *
+        </label>
+
+        <select id="payment">
+
+          <option value="">
+            Ödeme yöntemini seçiniz
+          </option>
+
+          <option>
+            Kapıda kredi/banka kartı
+          </option>
+
+          <option>
+            Nakit
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Sipariş Özeti
+        </label>
+
+        <div
+          id="summary"
+          class="summary">
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="modalActions">
+
+      <button
+        class="btn"
+        onclick="closeCheckout()">
+        Geri
+      </button>
+
+      <button
+        class="btn primary"
+        onclick="sendWhatsApp()">
+        WhatsApp'tan Sipariş Gönder
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const cart=[];
+
+const drawer=
+document.getElementById("drawer");
+
+const modal=
+document.getElementById("checkoutModal");
+
+
+function addItem(name,price){
+
+  const found=
+  cart.find(
+    x=>x.name===name &&
+    x.price===price
+  );
+
+  if(found){
+
+    found.qty++;
+
+  }else{
+
+    cart.push({
+      name:name,
+      price:price,
+      qty:1
+    });
+
+  }
+
+  renderCart();
+
+  drawer.classList.add("open");
+
+}
+
+
+function changeQty(i,delta){
+
+  cart[i].qty+=delta;
+
+  if(cart[i].qty<=0){
+
+    cart.splice(i,1);
+
+  }
+
+  renderCart();
+
+}
+
+
+function renderCart(){
+
+  const lines=
+  document.getElementById("cartLines");
+
+  const count=
+  cart.reduce(
+    (s,x)=>s+x.qty,0
+  );
+
+  const total=
+  cart.reduce(
+    (s,x)=>s+x.price*x.qty,0
+  );
+
+  document.getElementById(
+    "cartCount"
+  ).textContent=count;
+
+  document.getElementById(
+    "cartTotal"
+  ).textContent=total+"₺";
+
+
+  if(!cart.length){
+
+    lines.innerHTML=
+    '<p style="color:#aaa">Sepetin henüz boş.</p>';
+
+    return;
+
+  }
+
+
+  lines.innerHTML=
+  cart.map((x,i)=>`
+
+    <div class="cartLine">
+
+      <div>
+
+        <b>${x.name}</b>
+
+        <div
+          style="color:#aaa;margin-top:5px">
+
+          ${x.price}₺
+
+        </div>
+
+      </div>
+
+
+      <div class="qty">
+
+        <button
+          onclick="changeQty(${i},-1)">
+          −
+        </button>
+
+        <b>
+          ${x.qty}
+        </b>
+
+        <button
+          onclick="changeQty(${i},1)">
+          +
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+function closeCart(){
+
+  drawer.classList.remove("open");
+
+}
+
+
+function openCheckout(){
+
+  if(!cart.length){
+
+    alert("Sepetin boş.");
+
+    return;
+
+  }
+
+  closeCart();
+
+  updateSummary();
+
+  modal.classList.add("open");
+
+}
+
+
+function closeCheckout(){
+
+  modal.classList.remove("open");
+
+}
+
+
+function orderText(){
+
+  const total=
+  cart.reduce(
+    (s,x)=>s+x.price*x.qty,0
+  );
+
+  const items=
+  cart.map(
+    x=>
+    `${x.qty} x ${x.name} — ${x.price*x.qty}₺`
+  ).join("\n");
+
+
+  const name=
+  document
+  .getElementById("name")
+  .value.trim() || "-";
+
+
+  const phone=
+  document
+  .getElementById("phone")
+  .value.trim() || "-";
+
+
+  const district=
+  document
+  .getElementById("district")
+  .value.trim() || "-";
+
+
+  const address=
+  document
+  .getElementById("address")
+  .value.trim() || "-";
+
+
+  const note=
+  document
+  .getElementById("note")
+  .value.trim() || "-";
+
+
+  const payment=
+  document
+  .getElementById("payment")
+  .value || "-";
+
+
+  return `🍔 NARBURGER SİPARİŞ
+
+${items}
+
+TOPLAM: ${total}₺
+
+Ad Soyad: ${name}
+Telefon: ${phone}
+Mahalle: ${district}
+Açık Adres: ${address}
+Ödeme: ${payment}
+Sipariş Notu: ${note}`;
+
+}
+
+
+function updateSummary(){
+
+  document
+  .getElementById("summary")
+  .textContent=
+  orderText();
+
+}
+
+
+[
+"name",
+"phone",
+"district",
+"address",
+"note",
+"payment"
+].forEach(id=>{
+
+  document
+  .getElementById(id)
+  .addEventListener(
+    "input",
+    updateSummary
+  );
+
+  document
+  .getElementById(id)
+  .addEventListener(
+    "change",
+    updateSummary
+  );
+
+});
+
+
+async function sendWhatsApp(){
+
+  if(!cart.length){
+    alert("Sepetin boş.");
+    return;
+  }
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const district =
+    document.getElementById("district").value.trim();
+
+  const address =
+    document.getElementById("address").value.trim();
+
+  const note =
+    document.getElementById("note").value.trim() || "-";
+
+  const payment =
+    document.getElementById("payment").value || "-";
+
+  if(!name || !phone || !district || !address){
+    alert("Lütfen ad, telefon, mahalle ve adres bilgilerini doldurun.");
+    return;
+  }
+
+  const total = cart.reduce(
+    (s,x) => s + x.price * x.qty,
+    0
+  );
+
+  const { error } = await supabaseClient
+    .from("orders")
+    .insert([{
+      customer_name: name,
+      phone: phone,
+      address: district + " - " + address,
+      items: cart,
+      total: total,
+      payment: payment,
+      note: note,
+      status: "new"
+    }]);
+
+  if(error){
+    alert("Sipariş kaydedilemedi: " + error.message);
+    console.error(error);
+    return;
+  }
+
+  const whatsappNumber = "904622030606";
+
+  const text = encodeURIComponent(
+    orderText()
+  );
+
+  const url =
+    `https://wa.me/${whatsappNumber}?text=${text}`;
+
+  window.location.href = url;
+}
+document
+.getElementById("openCart")
+.onclick=()=>{
+
+  drawer.classList.add("open");
+
+};
+
+
+renderCart();
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://ffztqlyodruwcjtsyekj.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_m6pYevfC1_i_-df0rADYKQ_HT27Yc1e";
+
+const supabaseClient =
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* ==================================
+   KATEGORİ ID
+================================== */
+
+function categoryId(name){
+
+  const known={
+    "Burgerler":"burgerler",
+    "Double Burgerler":"double",
+    "Menüler":"menuler",
+    "Tostlar":"tostlar",
+    "Hot Dog":"hotdog",
+    "İçecekler":"icecekler",
+    "Soslar":"soslar",
+    "Tatlılar":"tatlilar"
+  };
+
+  if(known[name]){
+    return known[name];
+  }
+
+  return "kategori-" +
+    String(name || "")
+      .toLocaleLowerCase("tr-TR")
+      .replace(/ı/g,"i")
+      .replace(/ğ/g,"g")
+      .replace(/ü/g,"u")
+      .replace(/ş/g,"s")
+      .replace(/ö/g,"o")
+      .replace(/ç/g,"c")
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-+|-+$/g,"");
+}
+
+
+/* ==================================
+   MÜŞTERİ MENÜSÜ
+================================== */
+
+async function loadMenuProducts(){
+
+  const [
+    productsResult,
+    categoriesResult
+  ] = await Promise.all([
+
+    supabaseClient
+      .from("products")
+      .select("*")
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "id",
+        {ascending:true}
+      ),
+
+    supabaseClient
+      .from("categories")
+      .select("*")
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "id",
+        {ascending:true}
+      )
+
+  ]);
+
+
+  if(productsResult.error){
+
+    console.error(
+      "Ürünler yüklenemedi:",
+      productsResult.error
+    );
+
+    return;
+  }
+
+
+  if(categoriesResult.error){
+
+    console.error(
+      "Kategoriler yüklenemedi:",
+      categoriesResult.error
+    );
+
+    return;
+  }
+
+
+  const products =
+    productsResult.data || [];
+
+  const categories =
+    categoriesResult.data || [];
+
+
+  const menuWrap =
+    document.querySelector(
+      "#menu .wrap"
+    );
+
+  if(!menuWrap){
+    return;
+  }
+
+
+  /* Eski sabit ürünleri kaldır */
+
+  const firstMenuTitle =
+    menuWrap.querySelector(
+      ".menuTitle"
+    );
+
+  if(firstMenuTitle){
+
+    let node =
+      firstMenuTitle;
+
+    while(node){
+
+      const next =
+        node.nextSibling;
+
+      node.remove();
+
+      node=next;
+
+    }
+
+  }
+
+
+  /* Kategori sırası */
+
+  const categoryNames=[];
+
+
+  categories.forEach(c=>{
+
+    const name=
+      String(c.name || "")
+      .trim();
+
+    if(
+      name &&
+      !categoryNames.includes(name)
+    ){
+      categoryNames.push(name);
+    }
+
+  });
+
+
+  products.forEach(p=>{
+
+    const name=
+      String(
+        p.category || "Diğer"
+      ).trim();
+
+    if(
+      name &&
+      !categoryNames.includes(name)
+    ){
+      categoryNames.push(name);
+    }
+
+  });
+
+
+  if(!categoryNames.length){
+
+    const empty=
+      document.createElement("p");
+
+    empty.style.color="#aaa";
+
+    empty.textContent=
+      "Şu anda menü bulunmuyor.";
+
+    menuWrap.appendChild(empty);
+
+    return;
+  }
+
+
+  categoryNames.forEach(category=>{
+
+    const categoryProducts=
+      products.filter(
+        p=>
+          String(
+            p.category || "Diğer"
+          ).trim()
+          === category
+      );
+
+
+    const title=
+      document.createElement("h2");
+
+    title.className=
+      "menuTitle";
+
+    title.id=
+      categoryId(category);
+
+    title.textContent=
+      category;
+
+
+    const grid=
+      document.createElement("div");
+
+    grid.className="grid";
+
+
+    if(!categoryProducts.length){
+
+      const emptyCard=
+        document.createElement(
+          "article"
+        );
+
+      emptyCard.className="item";
+
+
+      const emptyTitle=
+        document.createElement("h3");
+
+      emptyTitle.textContent=
+        category;
+
+
+      const emptyText=
+        document.createElement("p");
+
+      emptyText.textContent=
+        "Henüz ürün eklenmedi.";
+
+
+      emptyCard.append(
+        emptyTitle,
+        emptyText
+      );
+
+      grid.appendChild(
+        emptyCard
+      );
+
+    }else{
+
+
+      categoryProducts.forEach(p=>{
+
+        const article=
+          document.createElement(
+            "article"
+          );
+
+        article.className=
+          "item";
+
+
+        const img=
+          document.createElement(
+            "img"
+          );
+
+        img.className=
+          "productPhoto";
+
+        img.src=
+          p.image_url ||
+          "logo-mark.png";
+
+        img.alt=
+          p.name ||
+          "Narburger";
+
+        img.onerror=()=>{
+          img.src=
+            "logo-mark.png";
+        };
+
+
+        const name=
+          document.createElement(
+            "h3"
+          );
+
+        name.textContent=
+          p.name ||
+          "Ürün";
+
+
+        const description=
+          document.createElement(
+            "p"
+          );
+
+        description.textContent=
+          p.description ||
+          "";
+
+
+        const bottom=
+          document.createElement(
+            "div"
+          );
+
+        bottom.className=
+          "itemBottom";
+
+
+        const price=
+          document.createElement(
+            "span"
+          );
+
+        price.className=
+          "itemPrice";
+
+        price.textContent=
+          (Number(p.price) || 0)
+          + "₺";
+
+
+        const button=
+          document.createElement(
+            "button"
+          );
+
+        button.className=
+          "add";
+
+        button.textContent=
+          "Ekle";
+
+
+        button.onclick=()=>{
+
+          addItem(
+            p.name || "Ürün",
+            Number(p.price) || 0
+          );
+
+        };
+
+
+        bottom.append(
+          price,
+          button
+        );
+
+
+        article.append(
+          img,
+          name,
+          description,
+          bottom
+        );
+
+
+        grid.appendChild(
+          article
+        );
+
+      });
+
+    }
+
+
+    menuWrap.append(
+      title,
+      grid
+    );
+
+  });
+
+}
+
+
+/* ==================================
+   ÜST KATEGORİ KARTLARI
+================================== */
+
+async function loadCategoryButtons(){
+
+  const [
+    categoriesResult,
+    productsResult
+  ] = await Promise.all([
+
+    supabaseClient
+      .from("categories")
+      .select("*")
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "id",
+        {ascending:true}
+      ),
+
+    supabaseClient
+      .from("products")
+      .select(
+        "id,category,image_url,sort_order"
+      )
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true,
+          nullsFirst:false
+        }
+      )
+      .order(
+        "id",
+        {ascending:true}
+      )
+
+  ]);
+
+
+  if(categoriesResult.error){
+
+    console.error(
+      "Kategori tuşları yüklenemedi:",
+      categoriesResult.error
+    );
+
+    return;
+  }
+
+
+  const categories=
+    categoriesResult.data || [];
+
+  const products=
+    productsResult.data || [];
+
+
+  const area=
+    document.querySelector(
+      ".categories"
+    );
+
+  if(!area){
+    return;
+  }
+
+
+  area.innerHTML="";
+
+
+  const firstImageByCategory={};
+
+
+  products.forEach(p=>{
+
+    const category=
+      String(
+        p.category || ""
+      ).trim();
+
+    if(
+      category &&
+      p.image_url &&
+      !firstImageByCategory[
+        category
+      ]
+    ){
+
+      firstImageByCategory[
+        category
+      ]=p.image_url;
+
+    }
+
+  });
+
+
+  categories.forEach(c=>{
+
+    const categoryName=
+      String(
+        c.name || ""
+      ).trim();
+
+    if(!categoryName){
+      return;
+    }
+
+
+    const a=
+      document.createElement(
+        "a"
+      );
+
+    a.className="cat";
+
+    a.href=
+      "#" +
+      categoryId(
+        categoryName
+      );
+
+
+    const photo=
+      firstImageByCategory[
+        categoryName
+      ];
+
+
+    if(photo){
+
+      const img=
+        document.createElement(
+          "img"
+        );
+
+      img.src=photo;
+
+      img.alt=
+        categoryName;
+
+      img.onerror=()=>{
+
+        img.style.display=
+          "none";
+
+      };
+
+      a.appendChild(img);
+
+    }else{
+
+      const icon=
+        document.createElement(
+          "div"
+        );
+
+      icon.style.fontSize=
+        "62px";
+
+      if(
+        categoryName==="İçecekler"
+      ){
+        icon.textContent="🥤";
+      }
+      else if(
+        categoryName==="Soslar"
+      ){
+        icon.textContent="🥣";
+      }
+      else if(
+        categoryName==="Tatlılar"
+      ){
+        icon.textContent="🍰";
+      }
+      else if(
+        categoryName==="Hot Dog"
+      ){
+        icon.textContent="🌭";
+      }
+      else if(
+        categoryName==="Menüler"
+      ){
+        icon.textContent="🍔";
+      }
+      else if(
+        categoryName==="Tostlar"
+      ){
+        icon.textContent="🥪";
+      }
+      else{
+        icon.textContent="🍽️";
+      }
+
+
+      a.appendChild(icon);
+
+    }
+
+
+    const text=
+      document.createElement(
+        "div"
+      );
+
+    text.className=
+      "catText";
+
+
+    const title=
+      document.createElement(
+        "b"
+      );
+
+    title.textContent=
+      categoryName;
+
+
+    const sub=
+      document.createElement(
+        "span"
+      );
+
+    sub.textContent=
+      "Menüyü gör →";
+
+
+    text.append(
+      title,
+      sub
+    );
+
+
+    a.appendChild(text);
+
+    area.appendChild(a);
+
+  });
+
+}
+
+
+/* ==================================
+   BAŞLAT
+================================== */
+
+async function startDynamicMenu(){
+
+  await loadMenuProducts();
+
+  await loadCategoryButtons();
+
+}
+
+startDynamicMenu();
+async function showStoreStatus() {
+  const oldBadge = document.getElementById("storeStatusBadge");
+  if (oldBadge) oldBadge.remove();
+
+  const badge = document.createElement("div");
+  badge.id = "storeStatusBadge";
+
+  badge.style.position = "fixed";
+  badge.style.bottom = "20px";
+  badge.style.right = "20px";
+  badge.style.zIndex = "99999";
+  badge.style.padding = "12px 18px";
+  badge.style.borderRadius = "999px";
+  badge.style.fontWeight = "900";
+  badge.style.color = "#fff";
+  badge.style.fontSize = "14px";
+  badge.style.boxShadow = "0 6px 20px rgba(0,0,0,.35)";
+
+  badge.textContent = "Sipariş durumu kontrol ediliyor...";
+  badge.style.background = "#555";
+
+  document.body.appendChild(badge);
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("store_status")
+      .select("*")
+      .eq("id", 1)
+      .maybeSingle();
+
+    if (error) {
+      console.error(error);
+      badge.textContent = "⚠️ Sipariş durumu alınamadı";
+      badge.style.background = "#555";
+      return;
+    }
+
+   if (data && data.is_open) {
+  badge.textContent = "🟢 Sipariş Açık";
+  badge.style.background = "#16803c";
+
+  document.querySelectorAll("button, a").forEach(el => {
+    if (
+      el.textContent.includes("Ekle") ||
+      el.textContent.includes("WhatsApp") ||
+      el.textContent.includes("Sipariş")
+    ) {
+      el.style.pointerEvents = "auto";
+      el.style.opacity = "1";
+    }
+  });
+
+} else {
+  badge.textContent = "🔴 Sipariş Kapalı";
+  badge.style.background = "#b3141b";
+
+  document.querySelectorAll("button, a").forEach(el => {
+    if (
+      el.textContent.includes("Ekle") ||
+      el.textContent.includes("WhatsApp") ||
+      el.textContent.includes("Sipariş")
+    ) {
+      el.style.pointerEvents = "none";
+      el.style.opacity = "0.45";
+    }
+  });
+}
+  } catch (err) {
+    console.error(err);
+    badge.textContent = "⚠️ Sipariş durumu alınamadı";
+    badge.style.background = "#555";
+  }
+}
+
+showStoreStatus();
+</script>
+
+  
+</body>
+</html>
