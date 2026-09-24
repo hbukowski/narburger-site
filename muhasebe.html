@@ -6,7 +6,11 @@
 <title>Narburger Muhasebe</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
@@ -16,8 +20,8 @@ body{
 
 header{
   background:#111;
-  color:#fff;
-  padding:20px;
+  color:white;
+  padding:22px;
   text-align:center;
 }
 
@@ -51,7 +55,7 @@ header p{
 }
 
 .filter-btn{
-  background:#fff;
+  background:white;
   border:1px solid #ddd;
   padding:11px 18px;
   border-radius:30px;
@@ -60,7 +64,7 @@ header p{
 
 .filter-btn.active{
   background:#111;
-  color:#fff;
+  color:white;
 }
 
 .cards{
@@ -71,26 +75,28 @@ header p{
 }
 
 .card{
-  background:#fff;
+  background:white;
   padding:18px;
   border-radius:16px;
   box-shadow:0 2px 10px rgba(0,0,0,.07);
 }
 
-.card small{color:#777}
+.card small{
+  color:#777;
+}
 
 .card h2{
   margin-top:7px;
   font-size:23px;
 }
 
-.green{color:#16894a}
-.red{color:#d62828}
-.orange{color:#e67e22}
-.blue{color:#2463eb}
+.green{color:#16894a;}
+.red{color:#d62828;}
+.orange{color:#e67e22;}
+.blue{color:#2463eb;}
 
 .section{
-  background:#fff;
+  background:white;
   margin-bottom:18px;
   padding:18px;
   border-radius:16px;
@@ -107,13 +113,14 @@ header p{
   gap:10px;
 }
 
-input,select{
+input,
+select{
   width:100%;
   padding:13px;
   border:1px solid #ddd;
   border-radius:10px;
   font-size:16px;
-  background:#fff;
+  background:white;
 }
 
 button{
@@ -124,28 +131,29 @@ button{
   font-size:15px;
 }
 
-.btn-income{background:#198754;color:#fff}
-.btn-expense{background:#dc3545;color:#fff}
-.btn-dark{background:#111;color:#fff}
-.btn-blue{background:#2463eb;color:#fff}
-.btn-orange{background:#e67e22;color:#fff}
+.btn-green{
+  background:#198754;
+  color:white;
+}
+
+.btn-red{
+  background:#dc3545;
+  color:white;
+}
+
+.btn-dark{
+  background:#111;
+  color:white;
+}
+
+.btn-blue{
+  background:#2463eb;
+  color:white;
+}
 
 .delete{
   background:#eee;
   padding:7px 10px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:14px;
-}
-
-th,td{
-  text-align:left;
-  padding:10px 6px;
-  border-bottom:1px solid #eee;
-  font-size:14px;
 }
 
 .note{
@@ -172,66 +180,107 @@ th,td{
   font-size:20px;
 }
 
-.supplier{
+.cari-card{
   background:#fafafa;
   border:1px solid #eee;
-  border-radius:14px;
   padding:15px;
+  border-radius:14px;
   margin-top:12px;
 }
 
-.supplier-head{
+.cari-head{
   display:flex;
   justify-content:space-between;
-  gap:10px;
   align-items:center;
+  gap:10px;
   flex-wrap:wrap;
 }
 
-.supplier-name{
+.cari-name{
   font-size:18px;
   font-weight:700;
 }
 
-.supplier-info{
+.cari-stats{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
   gap:8px;
   margin-top:12px;
 }
 
-.supplier-stat{
-  background:#fff;
+.cari-stat{
+  background:white;
   padding:10px;
   border-radius:10px;
 }
 
-.supplier-stat small{
+.cari-stat small{
   color:#777;
 }
 
-.supplier-stat strong{
+.cari-stat strong{
   display:block;
   margin-top:4px;
 }
 
-.actions{
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:14px;
+}
+
+th,
+td{
+  text-align:left;
+  padding:10px 6px;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+
+.type-box{
   display:flex;
-  gap:6px;
-  flex-wrap:wrap;
+  gap:8px;
+}
+
+.type-btn{
+  flex:1;
+  background:#eee;
+}
+
+.type-btn.income.active{
+  background:#198754;
+  color:white;
+}
+
+.type-btn.expense.active{
+  background:#dc3545;
+  color:white;
+}
+
+.hidden{
+  display:none;
 }
 
 @media(max-width:700px){
-  .container{padding:10px}
-  .card h2{font-size:20px}
-  th,td{font-size:12px;padding:8px 4px}
 
-  .table-wrap{
-    overflow-x:auto;
+  .container{
+    padding:10px;
+  }
+
+  .card h2{
+    font-size:20px;
   }
 
   table{
-    min-width:650px;
+    min-width:700px;
+  }
+
+  th,td{
+    font-size:12px;
   }
 }
 </style>
@@ -240,1378 +289,1748 @@ th,td{
 <body>
 
 <header>
-  <img src="logo-full.png" onerror="this.style.display='none'">
-  <h1>NARBURGER</h1>
-  <p>Muhasebe & İşletme Paneli</p>
+
+<img
+src="logo-full.png"
+onerror="this.style.display='none'">
+
+<h1>NARBURGER</h1>
+
+<p>Muhasebe & Cari Hesap Paneli</p>
+
 </header>
+
 
 <div class="container">
 
-  <div class="filters">
-    <button class="filter-btn active" onclick="setFilter('today',this)">Bugün</button>
-    <button class="filter-btn" onclick="setFilter('month',this)">Bu Ay</button>
-    <button class="filter-btn" onclick="setFilter('all',this)">Tümü</button>
-  </div>
 
+<!-- TARİH FİLTRESİ -->
 
-  <div class="cards">
+<div class="filters">
 
-    <div class="card">
-      <small>Brüt Satış</small>
-      <h2 class="green" id="totalIncome">0 ₺</h2>
-    </div>
+<button
+class="filter-btn active"
+onclick="setFilter('today',this)">
+Bugün
+</button>
 
-    <div class="card">
-      <small>Platform Komisyonu</small>
-      <h2 class="orange" id="totalCommission">0 ₺</h2>
-    </div>
+<button
+class="filter-btn"
+onclick="setFilter('month',this)">
+Bu Ay
+</button>
 
-    <div class="card">
-      <small>Toplam Gider</small>
-      <h2 class="red" id="totalExpense">0 ₺</h2>
-    </div>
+<button
+class="filter-btn"
+onclick="setFilter('all',this)">
+Tümü
+</button>
 
-    <div class="card">
-      <small>Net Sonuç</small>
-      <h2 id="netProfit">0 ₺</h2>
-    </div>
+</div>
 
-    <div class="card">
-      <small>Toplam Borç</small>
-      <h2 class="blue" id="totalDebt">0 ₺</h2>
-    </div>
 
-  </div>
+<!-- ANA PANEL -->
 
+<div class="cards">
 
-  <!-- GELİR -->
+<div class="card">
+<small>Toplam Gelir</small>
+<h2 class="green" id="totalIncome">0 ₺</h2>
+</div>
 
-  <div class="section">
+<div class="card">
+<small>Toplam Gider</small>
+<h2 class="red" id="totalExpense">0 ₺</h2>
+</div>
 
-    <h3>💰 Satış / Gelir Ekle</h3>
+<div class="card">
+<small>Komisyon</small>
+<h2 class="orange" id="totalCommission">0 ₺</h2>
+</div>
 
-    <div class="form-grid">
+<div class="card">
+<small>Net Sonuç</small>
+<h2 id="netResult">0 ₺</h2>
+</div>
 
-      <input type="date" id="incomeDate">
+<div class="card">
+<small>Cari Sayısı</small>
+<h2 class="blue" id="cariCount">0</h2>
+</div>
 
-      <select id="incomeSource" onchange="setDefaultCommission()">
-        <option>Dükkan</option>
-        <option>WhatsApp</option>
-        <option>Trendyol</option>
-        <option>Yemeksepeti</option>
-        <option>Migros</option>
-        <option>Diğer</option>
-      </select>
+</div>
 
-      <input type="number" id="incomeAmount" placeholder="Satış tutarı ₺">
 
-      <input type="number" id="commissionRate" placeholder="Komisyon %" value="0">
+<!-- TEK İŞLEM EKLEME -->
 
-      <input type="text" id="incomeNote" placeholder="Açıklama">
+<div class="section">
 
-      <button class="btn-income" onclick="addIncome()">Gelir Ekle</button>
+<h3>➕ İşlem Ekle</h3>
 
-    </div>
+<div class="type-box">
 
-  </div>
+<button
+id="incomeTypeBtn"
+class="type-btn income active"
+onclick="setTransactionType('Gelir')">
+💰 Gelir
+</button>
 
+<button
+id="expenseTypeBtn"
+class="type-btn expense"
+onclick="setTransactionType('Gider')">
+💸 Gider
+</button>
 
-  <!-- GİDER -->
+</div>
 
-  <div class="section">
 
-    <h3>💸 Gider Ekle</h3>
+<div
+class="form-grid"
+style="margin-top:15px">
 
-    <div class="form-grid">
+<input
+type="date"
+id="transactionDate">
 
-      <input type="date" id="expenseDate">
 
-      <select id="expenseCategory">
-        <option>Ürün Alımı</option>
-        <option>Personel</option>
-        <option>Kurye</option>
-        <option>Kira</option>
-        <option>Elektrik</option>
-        <option>Doğalgaz</option>
-        <option>Su</option>
-        <option>Ambalaj</option>
-        <option>Vergi</option>
-        <option>Reklam</option>
-        <option>Bakım / Tamir</option>
-        <option>Diğer</option>
-      </select>
+<select id="transactionCari">
 
-      <input type="number" id="expenseAmount" placeholder="Tutar ₺">
+<option value="">
+Cari Yok / Genel
+</option>
 
-      <input type="text" id="expenseNote" placeholder="Açıklama">
+</select>
 
-      <button class="btn-expense" onclick="addExpense()">Gider Ekle</button>
 
-    </div>
+<select
+id="transactionCategory"
+onchange="categoryChanged()">
+</select>
 
-  </div>
 
+<input
+type="number"
+id="transactionAmount"
+placeholder="Tutar ₺">
 
-  <!-- SATIŞ KANALLARI -->
 
-  <div class="section">
+<div id="commissionBox">
 
-    <h3>📱 Satış Kanalları</h3>
+<input
+type="number"
+id="transactionCommission"
+placeholder="Komisyon %"
+value="0">
 
-    <div class="platform-box">
+</div>
 
-      <div class="platform">
-        Dükkan
-        <strong id="pDukkan">0 ₺</strong>
-      </div>
 
-      <div class="platform">
-        WhatsApp
-        <strong id="pWhatsapp">0 ₺</strong>
-      </div>
+<input
+type="text"
+id="transactionNote"
+placeholder="Açıklama">
 
-      <div class="platform">
-        Trendyol
-        <strong id="pTrendyol">0 ₺</strong>
-      </div>
 
-      <div class="platform">
-        Yemeksepeti
-        <strong id="pYemeksepeti">0 ₺</strong>
-      </div>
+<button
+id="addTransactionButton"
+class="btn-green"
+onclick="addTransaction()">
+Gelir Ekle
+</button>
 
-      <div class="platform">
-        Migros
-        <strong id="pMigros">0 ₺</strong>
-      </div>
+</div>
 
-    </div>
+<p class="note">
+Cari seçersen işlem otomatik olarak o carinin hesabına da işlenir.
+</p>
 
-  </div>
+</div>
 
 
-  <!-- TEDARİKÇİLER -->
+<!-- CARİ HESAP EKLE -->
 
-  <div class="section">
+<div class="section">
 
-    <h3>🚚 Tedarikçiler</h3>
+<h3>👥 Cari Hesaplar</h3>
 
-    <p class="note" style="margin-bottom:15px">
-      Tedarikçiyi bir kez ekle. Sonra alış ve ödeme işlemlerini buradan takip et.
-    </p>
+<div class="form-grid">
 
-    <div class="form-grid">
+<input
+type="text"
+id="newCariName"
+placeholder="Cari adı / Firma / Kişi">
 
-      <input
-        type="text"
-        id="supplierName"
-        placeholder="Tedarikçi / Firma adı">
+<select id="newCariType">
 
-      <input
-        type="text"
-        id="supplierPhone"
-        placeholder="Telefon">
+<option>Tedarikçi</option>
+<option>Müşteri</option>
+<option>Personel</option>
+<option>Firma</option>
+<option>Diğer</option>
 
-      <select id="supplierGroup">
-        <option>Kıyma / Et</option>
-        <option>Ekmek</option>
-        <option>Patates</option>
-        <option>Sebze</option>
-        <option>Peynir</option>
-        <option>Şarküteri</option>
-        <option>Ambalaj</option>
-        <option>İçecek</option>
-        <option>Sos</option>
-        <option>Diğer</option>
-      </select>
+</select>
 
-      <input
-        type="text"
-        id="supplierNote"
-        placeholder="Not">
+<input
+type="text"
+id="newCariPhone"
+placeholder="Telefon">
 
-      <button
-        class="btn-dark"
-        onclick="addSupplier()">
-        + Tedarikçi Ekle
-      </button>
+<input
+type="text"
+id="newCariNote"
+placeholder="Not">
 
-    </div>
+<button
+class="btn-dark"
+onclick="addCari()">
++ Cari Hesap Ekle
+</button>
 
-    <div style="margin-top:20px">
+</div>
 
-      <div class="cards">
 
-        <div class="card">
-          <small>Tedarikçi Sayısı</small>
-          <h2 id="supplierCount">0</h2>
-        </div>
+<div id="cariList"></div>
 
-        <div class="card">
-          <small>Toplam Alış</small>
-          <h2 class="orange" id="supplierPurchasesTotal">0 ₺</h2>
-        </div>
+</div>
 
-        <div class="card">
-          <small>Toplam Ödeme</small>
-          <h2 class="green" id="supplierPaymentsTotal">0 ₺</h2>
-        </div>
 
-        <div class="card">
-          <small>Tedarikçi Borcu</small>
-          <h2 class="red" id="supplierDebtTotal">0 ₺</h2>
-        </div>
+<!-- CARİ EKSTRE -->
 
-      </div>
+<div class="section">
 
-    </div>
+<h3>📒 Cari Ekstre</h3>
 
-    <div id="supplierList"></div>
+<div class="form-grid">
 
-  </div>
+<select
+id="statementCari"
+onchange="renderStatement()">
 
+<option value="">
+Cari Seç
+</option>
 
-  <!-- ÜRÜN KARLILIĞI -->
+</select>
 
-  <div class="section">
+</div>
 
-    <h3>🍔 Ürün Kârlılığı</h3>
 
-    <div class="form-grid">
+<div class="cards" style="margin-top:15px">
 
-      <select id="productName">
-        <option>Narburger</option>
-        <option>Cheese</option>
-        <option>Mix</option>
-        <option>Steak</option>
-        <option>Double Nar</option>
-        <option>Double Mix</option>
-        <option>Nartost</option>
-        <option>Tostburger</option>
-        <option>Hot Dog</option>
-      </select>
+<div class="card">
+<small>Cari Gelir</small>
+<h2 class="green" id="statementIncome">0 ₺</h2>
+</div>
 
-      <input type="number" id="productPrice" placeholder="Satış fiyatı ₺">
+<div class="card">
+<small>Cari Gider</small>
+<h2 class="red" id="statementExpense">0 ₺</h2>
+</div>
 
-      <input type="number" id="productCost" placeholder="Maliyet ₺">
+<div class="card">
+<small>Cari Bakiye</small>
+<h2 id="statementBalance">0 ₺</h2>
+</div>
 
-      <input type="number" id="productQty" placeholder="Satılan adet">
+</div>
 
-      <button class="btn-income" onclick="addProductSale()">
-        Ürün Satışı Ekle
-      </button>
 
-    </div>
+<div class="table-wrap">
 
+<table>
 
-    <div class="cards" style="margin-top:20px">
+<thead>
 
-      <div class="card">
-        <small>Ürün Cirosu</small>
-        <h2 class="green" id="productRevenue">0 ₺</h2>
-      </div>
+<tr>
+<th>Tarih</th>
+<th>Tür</th>
+<th>Kategori</th>
+<th>Açıklama</th>
+<th>Tutar</th>
+</tr>
 
-      <div class="card">
-        <small>Ürün Maliyeti</small>
-        <h2 class="red" id="productCostTotal">0 ₺</h2>
-      </div>
+</thead>
 
-      <div class="card">
-        <small>Brüt Ürün Kârı</small>
-        <h2 class="blue" id="productProfit">0 ₺</h2>
-      </div>
+<tbody id="statementList"></tbody>
 
-      <div class="card">
-        <small>Satılan Ürün</small>
-        <h2 id="productQuantity">0</h2>
-      </div>
+</table>
 
-    </div>
+</div>
 
-    <div class="table-wrap">
+</div>
 
-      <table>
 
-        <thead>
-          <tr>
-            <th>Ürün</th>
-            <th>Adet</th>
-            <th>Satış</th>
-            <th>Maliyet</th>
-            <th>Kâr</th>
-            <th>Marj</th>
-            <th></th>
-          </tr>
-        </thead>
+<!-- SATIŞ KANALLARI -->
 
-        <tbody id="productSaleList"></tbody>
+<div class="section">
 
-      </table>
+<h3>📱 Satış Kanalları</h3>
 
-    </div>
+<div class="platform-box">
 
-  </div>
+<div class="platform">
+Dükkan
+<strong id="pDukkan">0 ₺</strong>
+</div>
 
+<div class="platform">
+WhatsApp
+<strong id="pWhatsapp">0 ₺</strong>
+</div>
 
-  <!-- DİĞER BORÇLAR -->
+<div class="platform">
+Trendyol
+<strong id="pTrendyol">0 ₺</strong>
+</div>
 
-  <div class="section">
+<div class="platform">
+Yemeksepeti
+<strong id="pYemeksepeti">0 ₺</strong>
+</div>
 
-    <h3>🏦 Diğer Borçlar</h3>
+<div class="platform">
+Migros
+<strong id="pMigros">0 ₺</strong>
+</div>
 
-    <div class="form-grid">
+</div>
 
-      <input
-        type="text"
-        id="debtName"
-        placeholder="Kime / Firma">
+</div>
 
-      <input
-        type="number"
-        id="debtAmount"
-        placeholder="Borç tutarı ₺">
 
-      <input
-        type="date"
-        id="debtDate">
+<!-- TÜM İŞLEMLER -->
 
-      <button
-        class="btn-dark"
-        onclick="addDebt()">
-        Borç Ekle
-      </button>
+<div class="section">
 
-    </div>
+<h3>📋 Gelir / Gider Hareketleri</h3>
 
-    <div class="table-wrap">
+<div class="table-wrap">
 
-      <table>
+<table>
 
-        <thead>
-          <tr>
-            <th>Firma / Kişi</th>
-            <th>Vade</th>
-            <th>Kalan</th>
-            <th></th>
-          </tr>
-        </thead>
+<thead>
 
-        <tbody id="debtList"></tbody>
+<tr>
+<th>Tarih</th>
+<th>Tür</th>
+<th>Cari</th>
+<th>Kategori</th>
+<th>Açıklama</th>
+<th>Tutar</th>
+<th>Net</th>
+<th></th>
+</tr>
 
-      </table>
+</thead>
 
-    </div>
+<tbody id="transactionList"></tbody>
 
-  </div>
+</table>
 
+</div>
 
-  <!-- İŞLEMLER -->
+</div>
 
-  <div class="section">
-
-    <h3>📋 Son Gelir / Gider İşlemleri</h3>
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Tarih</th>
-            <th>Tür</th>
-            <th>Kategori</th>
-            <th>Tutar</th>
-            <th>Net</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody id="transactionList"></tbody>
-
-      </table>
-
-    </div>
-
-  </div>
 
 </div>
 
 
 <script>
 
+/* =========================
+   VERİLER
+========================= */
+
 let transactions =
-JSON.parse(localStorage.getItem("nar_transactions_v2")) || [];
+JSON.parse(
+localStorage.getItem("nar_transactions_v2")
+) || [];
 
-let debts =
-JSON.parse(localStorage.getItem("nar_debts_v2")) || [];
 
-let productSales =
-JSON.parse(localStorage.getItem("nar_product_sales")) || [];
+let caris =
+JSON.parse(
+localStorage.getItem("nar_caris")
+) || [];
 
-let suppliers =
-JSON.parse(localStorage.getItem("nar_suppliers")) || [];
 
 let activeFilter="today";
 
+let transactionType="Gelir";
+
+
+/* =========================
+   PARA
+========================= */
 
 function money(number){
 
-  return Number(number || 0).toLocaleString(
-    "tr-TR",
-    {
-      style:"currency",
-      currency:"TRY",
-      maximumFractionDigits:0
-    }
-  );
+return Number(number || 0)
+.toLocaleString(
+"tr-TR",
+{
+style:"currency",
+currency:"TRY",
+maximumFractionDigits:0
+}
+);
 
 }
 
+
+/* =========================
+   TARİH
+========================= */
 
 function today(){
 
-  const d=new Date();
+const d=new Date();
 
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,"0");
-  const day=String(d.getDate()).padStart(2,"0");
+const y=d.getFullYear();
 
-  return y+"-"+m+"-"+day;
+const m=
+String(
+d.getMonth()+1
+).padStart(2,"0");
 
-}
+const day=
+String(
+d.getDate()
+).padStart(2,"0");
 
-
-document.getElementById("incomeDate").value=today();
-document.getElementById("expenseDate").value=today();
-document.getElementById("debtDate").value=today();
-
-
-function setDefaultCommission(){
-
-  const source=
-  document.getElementById("incomeSource").value;
-
-  if(source==="Dükkan" || source==="WhatsApp"){
-    document.getElementById("commissionRate").value=0;
-  }
+return y+"-"+m+"-"+day;
 
 }
 
 
-function addIncome(){
+document
+.getElementById("transactionDate")
+.value=today();
 
-  const amount=
-  Number(document.getElementById("incomeAmount").value);
 
-  const commissionRate=
-  Number(document.getElementById("commissionRate").value)||0;
+/* =========================
+   GELİR / GİDER SEÇİMİ
+========================= */
 
-  if(amount<=0){
-    alert("Satış tutarı gir.");
-    return;
-  }
+function setTransactionType(type){
 
-  transactions.push({
+transactionType=type;
 
-    id:Date.now(),
-    date:document.getElementById("incomeDate").value,
-    type:"Gelir",
-    category:document.getElementById("incomeSource").value,
-    amount:amount,
-    commissionRate:commissionRate,
-    commission:amount*commissionRate/100,
-    note:document.getElementById("incomeNote").value
 
-  });
+const incomeBtn=
+document.getElementById(
+"incomeTypeBtn"
+);
 
-  saveTransactions();
+const expenseBtn=
+document.getElementById(
+"expenseTypeBtn"
+);
 
-  document.getElementById("incomeAmount").value="";
-  document.getElementById("incomeNote").value="";
+
+incomeBtn.classList.remove("active");
+
+expenseBtn.classList.remove("active");
+
+
+if(type==="Gelir"){
+
+incomeBtn.classList.add("active");
+
+document
+.getElementById("commissionBox")
+.classList.remove("hidden");
+
+document
+.getElementById(
+"addTransactionButton"
+)
+.innerText="Gelir Ekle";
+
+document
+.getElementById(
+"addTransactionButton"
+)
+.className="btn-green";
+
+}else{
+
+expenseBtn.classList.add("active");
+
+document
+.getElementById("commissionBox")
+.classList.add("hidden");
+
+document
+.getElementById(
+"addTransactionButton"
+)
+.innerText="Gider Ekle";
+
+document
+.getElementById(
+"addTransactionButton"
+)
+.className="btn-red";
+
+}
+
+renderCategoryOptions();
 
 }
 
 
-function addExpense(){
+/* =========================
+   KATEGORİLER
+========================= */
 
-  const amount=
-  Number(document.getElementById("expenseAmount").value);
+function renderCategoryOptions(){
 
-  if(amount<=0){
-    alert("Gider tutarı gir.");
-    return;
-  }
+const select=
+document.getElementById(
+"transactionCategory"
+);
 
-  transactions.push({
-
-    id:Date.now(),
-    date:document.getElementById("expenseDate").value,
-    type:"Gider",
-    category:document.getElementById("expenseCategory").value,
-    amount:amount,
-    commission:0,
-    note:document.getElementById("expenseNote").value
-
-  });
-
-  saveTransactions();
-
-  document.getElementById("expenseAmount").value="";
-  document.getElementById("expenseNote").value="";
-
-}
+select.innerHTML="";
 
 
-/* TEDARİKÇİ */
+let categories=[];
 
-function addSupplier(){
 
-  const name=
-  document.getElementById("supplierName").value.trim();
+if(transactionType==="Gelir"){
 
-  if(!name){
-    alert("Tedarikçi adı gir.");
-    return;
-  }
+categories=[
 
-  suppliers.push({
+"Dükkan",
+"WhatsApp",
+"Trendyol",
+"Yemeksepeti",
+"Migros",
+"Tahsilat",
+"İade",
+"Diğer Gelir"
 
-    id:Date.now(),
-    name:name,
-    phone:document.getElementById("supplierPhone").value.trim(),
-    group:document.getElementById("supplierGroup").value,
-    note:document.getElementById("supplierNote").value.trim(),
-    purchases:[],
-    payments:[]
+];
 
-  });
+}else{
 
-  saveSuppliers();
+categories=[
 
-  document.getElementById("supplierName").value="";
-  document.getElementById("supplierPhone").value="";
-  document.getElementById("supplierNote").value="";
+"Ürün Alımı",
+"Personel",
+"Kurye",
+"Kira",
+"Elektrik",
+"Doğalgaz",
+"Su",
+"Ambalaj",
+"Vergi",
+"Reklam",
+"Bakım / Tamir",
+"Cari Ödeme",
+"Diğer Gider"
+
+];
 
 }
 
 
-function supplierPurchase(id){
+categories.forEach(category=>{
 
-  const supplier=
-  suppliers.find(x=>x.id===id);
+const option=
+document.createElement("option");
 
-  if(!supplier)return;
+option.value=category;
 
-  let amount=
-  prompt(supplier.name+" alış tutarı:");
+option.textContent=category;
 
-  amount=Number(amount);
+select.appendChild(option);
 
-  if(amount<=0)return;
-
-  let detail=
-  prompt("Ne alındı? Örn: kıyma, ekmek, patates") || supplier.group;
-
-  supplier.purchases.push({
-
-    id:Date.now(),
-    date:today(),
-    amount:amount,
-    detail:detail
-
-  });
+});
 
 
-  transactions.push({
-
-    id:Date.now()+1,
-    date:today(),
-    type:"Gider",
-    category:"Ürün Alımı",
-    amount:amount,
-    commission:0,
-    note:supplier.name+" - "+detail,
-    supplierId:id
-
-  });
-
-  saveSuppliers();
-  saveTransactions();
+categoryChanged();
 
 }
 
 
-function supplierPayment(id){
+/* =========================
+   KOMİSYON
+========================= */
 
-  const supplier=
-  suppliers.find(x=>x.id===id);
+function categoryChanged(){
 
-  if(!supplier)return;
+const category=
+document.getElementById(
+"transactionCategory"
+).value;
 
-  const remaining=
-  getSupplierRemaining(supplier);
+const commission=
+document.getElementById(
+"transactionCommission"
+);
 
-  if(remaining<=0){
-    alert("Bu tedarikçiye kalan borç görünmüyor.");
-    return;
-  }
 
-  let amount=
-  prompt(
-    supplier.name+
-    " ödeme tutarı:\nKalan borç: "+
-    money(remaining)
-  );
+if(
+category==="Dükkan" ||
+category==="WhatsApp" ||
+transactionType==="Gider"
+){
 
-  amount=Number(amount);
+commission.value=0;
 
-  if(amount<=0)return;
-
-  if(amount>remaining){
-
-    alert("Ödeme kalan borçtan fazla olamaz.");
-
-    return;
-  }
-
-  supplier.payments.push({
-
-    id:Date.now(),
-    date:today(),
-    amount:amount
-
-  });
-
-  saveSuppliers();
+}
 
 }
 
 
-function deleteSupplier(id){
+/* =========================
+   İŞLEM EKLE
+========================= */
 
-  const supplier=
-  suppliers.find(x=>x.id===id);
+function addTransaction(){
 
-  if(!supplier)return;
+const date=
+document.getElementById(
+"transactionDate"
+).value;
 
-  const remaining=
-  getSupplierRemaining(supplier);
+const cariId=
+document.getElementById(
+"transactionCari"
+).value;
 
-  if(remaining>0){
+const category=
+document.getElementById(
+"transactionCategory"
+).value;
 
-    if(!confirm(
-      supplier.name+
-      " tedarikçisinin "+
-      money(remaining)+
-      " borcu var. Yine de silmek istiyor musun?"
-    )){
-      return;
-    }
+const amount=
+Number(
+document.getElementById(
+"transactionAmount"
+).value
+);
 
-  }else{
-
-    if(!confirm("Tedarikçiyi silmek istiyor musun?")){
-      return;
-    }
-
-  }
-
-  suppliers=
-  suppliers.filter(x=>x.id!==id);
-
-  saveSuppliers();
-
-}
+const note=
+document.getElementById(
+"transactionNote"
+).value.trim();
 
 
-function getSupplierPurchaseTotal(supplier){
+if(!date){
 
-  return supplier.purchases.reduce(
-    (sum,x)=>sum+Number(x.amount),
-    0
-  );
+alert("Tarih seç.");
+
+return;
 
 }
 
 
-function getSupplierPaymentTotal(supplier){
+if(amount<=0){
 
-  return supplier.payments.reduce(
-    (sum,x)=>sum+Number(x.amount),
-    0
-  );
+alert("Tutar gir.");
 
-}
-
-
-function getSupplierRemaining(supplier){
-
-  return Math.max(
-    0,
-    getSupplierPurchaseTotal(supplier)
-    -
-    getSupplierPaymentTotal(supplier)
-  );
+return;
 
 }
 
 
-function saveSuppliers(){
+let commissionRate=0;
 
-  localStorage.setItem(
-    "nar_suppliers",
-    JSON.stringify(suppliers)
-  );
-
-  render();
-
-}
+let commission=0;
 
 
-/* ÜRÜN */
+if(transactionType==="Gelir"){
 
-function addProductSale(){
+commissionRate=
+Number(
+document.getElementById(
+"transactionCommission"
+).value
+)||0;
 
-  const name=
-  document.getElementById("productName").value;
-
-  const price=
-  Number(document.getElementById("productPrice").value);
-
-  const cost=
-  Number(document.getElementById("productCost").value);
-
-  const qty=
-  Number(document.getElementById("productQty").value);
-
-  if(price<=0 || cost<0 || qty<=0){
-
-    alert("Satış fiyatı, maliyet ve adet gir.");
-
-    return;
-  }
-
-  productSales.push({
-
-    id:Date.now(),
-    date:today(),
-    name:name,
-    price:price,
-    cost:cost,
-    qty:qty
-
-  });
-
-  localStorage.setItem(
-    "nar_product_sales",
-    JSON.stringify(productSales)
-  );
-
-  document.getElementById("productQty").value="";
-
-  render();
+commission=
+amount*commissionRate/100;
 
 }
 
 
-function deleteProductSale(id){
+transactions.push({
 
-  if(!confirm("Ürün satışını silmek istiyor musun?")){
-    return;
-  }
+id:Date.now(),
 
-  productSales=
-  productSales.filter(x=>x.id!==id);
+date:date,
 
-  localStorage.setItem(
-    "nar_product_sales",
-    JSON.stringify(productSales)
-  );
+type:transactionType,
 
-  render();
+category:category,
 
-}
+amount:amount,
+
+commissionRate:commissionRate,
+
+commission:commission,
+
+note:note,
+
+cariId:
+cariId
+?
+Number(cariId)
+:
+null
+
+});
 
 
-/* DİĞER BORÇLAR */
+saveTransactions();
 
-function addDebt(){
 
-  const name=
-  document.getElementById("debtName").value.trim();
+document
+.getElementById(
+"transactionAmount"
+).value="";
 
-  const amount=
-  Number(document.getElementById("debtAmount").value);
-
-  if(!name || amount<=0){
-
-    alert("Borç adı ve tutarı gir.");
-
-    return;
-  }
-
-  debts.push({
-
-    id:Date.now(),
-    name:name,
-    amount:amount,
-    remaining:amount,
-    date:document.getElementById("debtDate").value
-
-  });
-
-  saveDebts();
-
-  document.getElementById("debtName").value="";
-  document.getElementById("debtAmount").value="";
+document
+.getElementById(
+"transactionNote"
+).value="";
 
 }
 
 
-function payDebt(id){
+/* =========================
+   CARİ EKLE
+========================= */
 
-  const debt=
-  debts.find(x=>x.id===id);
+function addCari(){
 
-  if(!debt)return;
+const name=
+document.getElementById(
+"newCariName"
+).value.trim();
 
-  let payment=
-  Number(prompt(
-    debt.name+
-    " ödeme tutarı:\nKalan: "+
-    money(debt.remaining)
-  ));
 
-  if(payment<=0)return;
+if(!name){
 
-  if(payment>debt.remaining){
+alert("Cari adı gir.");
 
-    alert("Ödeme kalan borçtan fazla olamaz.");
-
-    return;
-  }
-
-  debt.remaining-=payment;
-
-  saveDebts();
+return;
 
 }
 
 
-function deleteDebt(id){
+const exists=
+caris.some(
+c=>
+c.name.toLocaleLowerCase("tr-TR")===
+name.toLocaleLowerCase("tr-TR")
+);
 
-  if(!confirm("Borç kaydını silmek istiyor musun?")){
-    return;
-  }
 
-  debts=
-  debts.filter(x=>x.id!==id);
+if(exists){
 
-  saveDebts();
+alert(
+"Bu isimde bir cari hesap zaten var."
+);
+
+return;
+
+}
+
+
+caris.push({
+
+id:Date.now(),
+
+name:name,
+
+type:
+document.getElementById(
+"newCariType"
+).value,
+
+phone:
+document.getElementById(
+"newCariPhone"
+).value.trim(),
+
+note:
+document.getElementById(
+"newCariNote"
+).value.trim()
+
+});
+
+
+saveCaris();
+
+
+document
+.getElementById(
+"newCariName"
+).value="";
+
+document
+.getElementById(
+"newCariPhone"
+).value="";
+
+document
+.getElementById(
+"newCariNote"
+).value="";
 
 }
 
 
-/* SİLME */
+/* =========================
+   CARİ SİL
+========================= */
 
-function deleteTransaction(id){
+function deleteCari(id){
 
-  if(!confirm("Bu işlemi silmek istiyor musun?")){
-    return;
-  }
+const cari=
+caris.find(
+x=>x.id===id
+);
 
-  transactions=
-  transactions.filter(x=>x.id!==id);
 
-  saveTransactions();
+if(!cari)return;
+
+
+const hasTransactions=
+transactions.some(
+x=>Number(x.cariId)===id
+);
+
+
+if(hasTransactions){
+
+alert(
+"Bu carinin işlem geçmişi var. Önce ilgili işlemleri silmelisin."
+);
+
+return;
 
 }
 
+
+if(
+!confirm(
+cari.name+
+" cari hesabını silmek istiyor musun?"
+)
+){
+
+return;
+
+}
+
+
+caris=
+caris.filter(
+x=>x.id!==id
+);
+
+
+saveCaris();
+
+}
+
+
+/* =========================
+   KAYDET
+========================= */
 
 function saveTransactions(){
 
-  localStorage.setItem(
-    "nar_transactions_v2",
-    JSON.stringify(transactions)
-  );
+localStorage.setItem(
+"nar_transactions_v2",
+JSON.stringify(transactions)
+);
 
-  render();
-
-}
-
-
-function saveDebts(){
-
-  localStorage.setItem(
-    "nar_debts_v2",
-    JSON.stringify(debts)
-  );
-
-  render();
+render();
 
 }
 
 
-/* FİLTRE */
+function saveCaris(){
 
-function setFilter(filter,button){
+localStorage.setItem(
+"nar_caris",
+JSON.stringify(caris)
+);
 
-  activeFilter=filter;
+render();
 
-  document
-  .querySelectorAll(".filter-btn")
-  .forEach(x=>x.classList.remove("active"));
+}
 
-  button.classList.add("active");
 
-  render();
+/* =========================
+   İŞLEM SİL
+========================= */
+
+function deleteTransaction(id){
+
+if(
+!confirm(
+"Bu işlemi silmek istiyor musun?"
+)
+){
+
+return;
+
+}
+
+
+transactions=
+transactions.filter(
+x=>x.id!==id
+);
+
+
+saveTransactions();
+
+}
+
+
+/* =========================
+   CARİ ADI
+========================= */
+
+function getCariName(id){
+
+if(!id){
+
+return "Genel";
+
+}
+
+
+const cari=
+caris.find(
+x=>x.id===Number(id)
+);
+
+
+return cari
+?
+cari.name
+:
+"Silinmiş Cari";
+
+}
+
+
+/* =========================
+   CARİ SELECTLER
+========================= */
+
+function renderCariOptions(){
+
+const transactionCari=
+document.getElementById(
+"transactionCari"
+);
+
+const statementCari=
+document.getElementById(
+"statementCari"
+);
+
+
+const oldTransactionValue=
+transactionCari.value;
+
+const oldStatementValue=
+statementCari.value;
+
+
+transactionCari.innerHTML=
+'<option value="">Cari Yok / Genel</option>';
+
+
+statementCari.innerHTML=
+'<option value="">Cari Seç</option>';
+
+
+[...caris]
+.sort(
+(a,b)=>
+a.name.localeCompare(
+b.name,
+"tr"
+)
+)
+.forEach(cari=>{
+
+
+const option1=
+document.createElement(
+"option"
+);
+
+option1.value=cari.id;
+
+option1.textContent=
+cari.name+
+" · "+
+cari.type;
+
+transactionCari
+.appendChild(option1);
+
+
+const option2=
+document.createElement(
+"option"
+);
+
+option2.value=cari.id;
+
+option2.textContent=
+cari.name+
+" · "+
+cari.type;
+
+statementCari
+.appendChild(option2);
+
+});
+
+
+transactionCari.value=
+oldTransactionValue;
+
+statementCari.value=
+oldStatementValue;
+
+}
+
+
+/* =========================
+   FİLTRE
+========================= */
+
+function setFilter(
+filter,
+button
+){
+
+activeFilter=filter;
+
+
+document
+.querySelectorAll(
+".filter-btn"
+)
+.forEach(
+x=>
+x.classList.remove(
+"active"
+)
+);
+
+
+button.classList.add(
+"active"
+);
+
+
+render();
 
 }
 
 
 function itemInFilter(date){
 
-  if(activeFilter==="all"){
-    return true;
-  }
+if(activeFilter==="all"){
 
-  if(activeFilter==="today"){
-    return date===today();
-  }
-
-  if(activeFilter==="month"){
-
-    const now=new Date();
-    const d=new Date(date+"T12:00:00");
-
-    return(
-      d.getFullYear()===now.getFullYear()
-      &&
-      d.getMonth()===now.getMonth()
-    );
-
-  }
-
-  return true;
+return true;
 
 }
 
 
-/* RENDER */
+if(activeFilter==="today"){
+
+return date===today();
+
+}
+
+
+if(activeFilter==="month"){
+
+const now=
+new Date();
+
+const d=
+new Date(
+date+"T12:00:00"
+);
+
+
+return(
+d.getFullYear()===
+now.getFullYear()
+&&
+d.getMonth()===
+now.getMonth()
+);
+
+}
+
+
+return true;
+
+}
+
+
+/* =========================
+   ANA PANEL
+========================= */
+
+function renderDashboard(){
+
+const filtered=
+transactions.filter(
+item=>
+itemInFilter(
+item.date
+)
+);
+
+
+let income=0;
+
+let expense=0;
+
+let commission=0;
+
+
+let platforms={
+
+"Dükkan":0,
+"WhatsApp":0,
+"Trendyol":0,
+"Yemeksepeti":0,
+"Migros":0
+
+};
+
+
+filtered.forEach(item=>{
+
+
+if(item.type==="Gelir"){
+
+income+=
+Number(item.amount);
+
+commission+=
+Number(
+item.commission || 0
+);
+
+
+if(
+platforms[
+item.category
+]!==undefined
+){
+
+platforms[
+item.category
+]+=
+Number(item.amount);
+
+}
+
+}
+
+
+if(item.type==="Gider"){
+
+expense+=
+Number(item.amount);
+
+}
+
+});
+
+
+const net=
+income-
+expense-
+commission;
+
+
+document
+.getElementById(
+"totalIncome"
+)
+.innerText=
+money(income);
+
+
+document
+.getElementById(
+"totalExpense"
+)
+.innerText=
+money(expense);
+
+
+document
+.getElementById(
+"totalCommission"
+)
+.innerText=
+money(commission);
+
+
+const netElement=
+document.getElementById(
+"netResult"
+);
+
+
+netElement.innerText=
+money(net);
+
+
+netElement.className=
+net>=0
+?
+"green"
+:
+"red";
+
+
+document
+.getElementById(
+"cariCount"
+)
+.innerText=
+caris.length;
+
+
+document
+.getElementById(
+"pDukkan"
+)
+.innerText=
+money(
+platforms["Dükkan"]
+);
+
+
+document
+.getElementById(
+"pWhatsapp"
+)
+.innerText=
+money(
+platforms["WhatsApp"]
+);
+
+
+document
+.getElementById(
+"pTrendyol"
+)
+.innerText=
+money(
+platforms["Trendyol"]
+);
+
+
+document
+.getElementById(
+"pYemeksepeti"
+)
+.innerText=
+money(
+platforms["Yemeksepeti"]
+);
+
+
+document
+.getElementById(
+"pMigros"
+)
+.innerText=
+money(
+platforms["Migros"]
+);
+
+}
+
+
+/* =========================
+   CARİ KARTLARI
+========================= */
+
+function renderCaris(){
+
+const list=
+document.getElementById(
+"cariList"
+);
+
+list.innerHTML="";
+
+
+caris.forEach(cari=>{
+
+
+const movements=
+transactions.filter(
+x=>
+Number(x.cariId)===
+cari.id
+);
+
+
+let income=0;
+
+let expense=0;
+
+
+movements.forEach(item=>{
+
+if(item.type==="Gelir"){
+
+income+=
+Number(item.amount);
+
+}else{
+
+expense+=
+Number(item.amount);
+
+}
+
+});
+
+
+const balance=
+income-expense;
+
+
+const card=
+document.createElement(
+"div"
+);
+
+card.className=
+"cari-card";
+
+
+card.innerHTML=`
+
+<div class="cari-head">
+
+<div>
+
+<div class="cari-name">
+${cari.name}
+</div>
+
+<small>
+${cari.type}
+${cari.phone
+?
+" · "+cari.phone
+:
+""
+}
+</small>
+
+${cari.note
+?
+"<br><small>"+
+cari.note+
+"</small>"
+:
+""
+}
+
+</div>
+
+
+<button
+class="delete"
+onclick="deleteCari(${cari.id})">
+Sil
+</button>
+
+</div>
+
+
+<div class="cari-stats">
+
+<div class="cari-stat">
+
+<small>Gelir</small>
+
+<strong class="green">
+${money(income)}
+</strong>
+
+</div>
+
+
+<div class="cari-stat">
+
+<small>Gider</small>
+
+<strong class="red">
+${money(expense)}
+</strong>
+
+</div>
+
+
+<div class="cari-stat">
+
+<small>Bakiye</small>
+
+<strong class="${
+balance>=0
+?
+"green"
+:
+"red"
+}">
+${money(balance)}
+</strong>
+
+</div>
+
+</div>
+
+`;
+
+
+list.appendChild(card);
+
+});
+
+}
+
+
+/* =========================
+   CARİ EKSTRE
+========================= */
+
+function renderStatement(){
+
+const cariId=
+Number(
+document.getElementById(
+"statementCari"
+).value
+);
+
+
+const list=
+document.getElementById(
+"statementList"
+);
+
+
+list.innerHTML="";
+
+
+if(!cariId){
+
+document
+.getElementById(
+"statementIncome"
+)
+.innerText=money(0);
+
+document
+.getElementById(
+"statementExpense"
+)
+.innerText=money(0);
+
+document
+.getElementById(
+"statementBalance"
+)
+.innerText=money(0);
+
+return;
+
+}
+
+
+const movements=
+transactions
+.filter(
+x=>
+Number(x.cariId)===
+cariId
+)
+.sort(
+(a,b)=>
+b.date.localeCompare(
+a.date
+)
+);
+
+
+let income=0;
+
+let expense=0;
+
+
+movements.forEach(item=>{
+
+if(item.type==="Gelir"){
+
+income+=
+Number(item.amount);
+
+}else{
+
+expense+=
+Number(item.amount);
+
+}
+
+
+const row=
+document.createElement(
+"tr"
+);
+
+
+row.innerHTML=`
+
+<td>
+${item.date}
+</td>
+
+<td>
+${item.type==="Gelir"
+?
+"🟢 Gelir"
+:
+"🔴 Gider"
+}
+</td>
+
+<td>
+${item.category}
+</td>
+
+<td>
+${item.note || "-"}
+</td>
+
+<td>
+${money(item.amount)}
+</td>
+
+`;
+
+
+list.appendChild(row);
+
+});
+
+
+const balance=
+income-expense;
+
+
+document
+.getElementById(
+"statementIncome"
+)
+.innerText=
+money(income);
+
+
+document
+.getElementById(
+"statementExpense"
+)
+.innerText=
+money(expense);
+
+
+const balanceElement=
+document.getElementById(
+"statementBalance"
+);
+
+
+balanceElement.innerText=
+money(balance);
+
+
+balanceElement.className=
+balance>=0
+?
+"green"
+:
+"red";
+
+}
+
+
+/* =========================
+   HAREKET TABLOSU
+========================= */
+
+function renderTransactions(){
+
+const filtered=
+transactions
+.filter(
+item=>
+itemInFilter(
+item.date
+)
+)
+.sort(
+(a,b)=>
+b.id-a.id
+);
+
+
+const list=
+document.getElementById(
+"transactionList"
+);
+
+
+list.innerHTML="";
+
+
+filtered.forEach(item=>{
+
+
+let net=0;
+
+
+if(item.type==="Gelir"){
+
+net=
+Number(item.amount)
+-
+Number(
+item.commission || 0
+);
+
+}else{
+
+net=
+-Number(item.amount);
+
+}
+
+
+const row=
+document.createElement(
+"tr"
+);
+
+
+row.innerHTML=`
+
+<td>
+${item.date}
+</td>
+
+<td>
+${item.type==="Gelir"
+?
+"🟢 Gelir"
+:
+"🔴 Gider"
+}
+</td>
+
+<td>
+${getCariName(
+item.cariId
+)}
+</td>
+
+<td>
+${item.category}
+</td>
+
+<td>
+${item.note || "-"}
+${item.commissionRate
+?
+"<br><small>Komisyon %"+
+item.commissionRate+
+"</small>"
+:
+""
+}
+</td>
+
+<td>
+${money(item.amount)}
+</td>
+
+<td>
+${money(net)}
+</td>
+
+<td>
+
+<button
+class="delete"
+onclick="deleteTransaction(${item.id})">
+Sil
+</button>
+
+</td>
+
+`;
+
+
+list.appendChild(row);
+
+});
+
+}
+
+
+/* =========================
+   TÜMÜNÜ ÇİZ
+========================= */
 
 function render(){
 
-  const filtered=
-  transactions.filter(
-    item=>itemInFilter(item.date)
-  );
+renderCariOptions();
 
-  let income=0;
-  let expense=0;
-  let commission=0;
+renderDashboard();
 
-  let platforms={
-    "Dükkan":0,
-    "WhatsApp":0,
-    "Trendyol":0,
-    "Yemeksepeti":0,
-    "Migros":0
-  };
+renderCaris();
 
+renderTransactions();
 
-  filtered.forEach(item=>{
-
-    if(item.type==="Gelir"){
-
-      income+=Number(item.amount);
-
-      commission+=Number(item.commission||0);
-
-      if(platforms[item.category]!==undefined){
-        platforms[item.category]+=Number(item.amount);
-      }
-
-    }
-
-    if(item.type==="Gider"){
-      expense+=Number(item.amount);
-    }
-
-  });
-
-
-  const net=
-  income-commission-expense;
-
-
-  document.getElementById("totalIncome").innerText=
-  money(income);
-
-  document.getElementById("totalCommission").innerText=
-  money(commission);
-
-  document.getElementById("totalExpense").innerText=
-  money(expense);
-
-  const netElement=
-  document.getElementById("netProfit");
-
-  netElement.innerText=money(net);
-  netElement.className=net>=0?"green":"red";
-
-
-  document.getElementById("pDukkan").innerText=
-  money(platforms["Dükkan"]);
-
-  document.getElementById("pWhatsapp").innerText=
-  money(platforms["WhatsApp"]);
-
-  document.getElementById("pTrendyol").innerText=
-  money(platforms["Trendyol"]);
-
-  document.getElementById("pYemeksepeti").innerText=
-  money(platforms["Yemeksepeti"]);
-
-  document.getElementById("pMigros").innerText=
-  money(platforms["Migros"]);
-
-
-  renderTransactions(filtered);
-  renderSuppliers();
-  renderProducts();
-  renderDebts();
+renderStatement();
 
 }
 
 
-/* GELİR GİDER TABLOSU */
+/* BAŞLANGIÇ */
 
-function renderTransactions(filtered){
-
-  const list=
-  document.getElementById("transactionList");
-
-  list.innerHTML="";
-
-  [...filtered]
-  .reverse()
-  .slice(0,50)
-  .forEach(item=>{
-
-    const net=
-    item.type==="Gelir"
-    ?
-    Number(item.amount)-Number(item.commission||0)
-    :
-    -Number(item.amount);
-
-    const row=
-    document.createElement("tr");
-
-    row.innerHTML=`
-
-      <td>${item.date}</td>
-
-      <td>
-        ${item.type==="Gelir"?"🟢 Gelir":"🔴 Gider"}
-      </td>
-
-      <td>
-        ${item.category}
-        ${item.note ? "<br><small>"+item.note+"</small>" : ""}
-      </td>
-
-      <td>${money(item.amount)}</td>
-
-      <td>${money(net)}</td>
-
-      <td>
-        <button
-        class="delete"
-        onclick="deleteTransaction(${item.id})">
-        Sil
-        </button>
-      </td>
-
-    `;
-
-    list.appendChild(row);
-
-  });
-
-}
-
-
-/* TEDARİKÇİ RENDER */
-
-function renderSuppliers(){
-
-  let purchasesTotal=0;
-  let paymentsTotal=0;
-  let supplierDebt=0;
-
-  const list=
-  document.getElementById("supplierList");
-
-  list.innerHTML="";
-
-
-  suppliers.forEach(supplier=>{
-
-    const purchases=
-    getSupplierPurchaseTotal(supplier);
-
-    const payments=
-    getSupplierPaymentTotal(supplier);
-
-    const remaining=
-    getSupplierRemaining(supplier);
-
-    purchasesTotal+=purchases;
-    paymentsTotal+=payments;
-    supplierDebt+=remaining;
-
-
-    const div=
-    document.createElement("div");
-
-    div.className="supplier";
-
-    div.innerHTML=`
-
-      <div class="supplier-head">
-
-        <div>
-
-          <div class="supplier-name">
-            ${supplier.name}
-          </div>
-
-          <small>
-            ${supplier.group}
-            ${supplier.phone ? " · "+supplier.phone : ""}
-          </small>
-
-          ${supplier.note
-            ? "<br><small>"+supplier.note+"</small>"
-            : ""
-          }
-
-        </div>
-
-
-        <div class="actions">
-
-          <button
-          class="btn-orange"
-          onclick="supplierPurchase(${supplier.id})">
-          + Alış
-          </button>
-
-          <button
-          class="btn-income"
-          onclick="supplierPayment(${supplier.id})">
-          Ödeme
-          </button>
-
-          <button
-          class="delete"
-          onclick="deleteSupplier(${supplier.id})">
-          Sil
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="supplier-info">
-
-        <div class="supplier-stat">
-          <small>Toplam Alış</small>
-          <strong>${money(purchases)}</strong>
-        </div>
-
-        <div class="supplier-stat">
-          <small>Ödenen</small>
-          <strong class="green">${money(payments)}</strong>
-        </div>
-
-        <div class="supplier-stat">
-          <small>Kalan Borç</small>
-          <strong class="${remaining>0?"red":"green"}">
-            ${money(remaining)}
-          </strong>
-        </div>
-
-      </div>
-
-    `;
-
-    list.appendChild(div);
-
-  });
-
-
-  document.getElementById("supplierCount").innerText=
-  suppliers.length;
-
-  document.getElementById("supplierPurchasesTotal").innerText=
-  money(purchasesTotal);
-
-  document.getElementById("supplierPaymentsTotal").innerText=
-  money(paymentsTotal);
-
-  document.getElementById("supplierDebtTotal").innerText=
-  money(supplierDebt);
-
-}
-
-
-/* ÜRÜN RENDER */
-
-function renderProducts(){
-
-  const filtered=
-  productSales.filter(
-    item=>itemInFilter(item.date)
-  );
-
-  let revenue=0;
-  let costs=0;
-  let profit=0;
-  let qty=0;
-
-  const list=
-  document.getElementById("productSaleList");
-
-  list.innerHTML="";
-
-
-  filtered.forEach(item=>{
-
-    revenue+=item.price*item.qty;
-    costs+=item.cost*item.qty;
-    profit+=(item.price-item.cost)*item.qty;
-    qty+=item.qty;
-
-  });
-
-
-  document.getElementById("productRevenue").innerText=
-  money(revenue);
-
-  document.getElementById("productCostTotal").innerText=
-  money(costs);
-
-  document.getElementById("productProfit").innerText=
-  money(profit);
-
-  document.getElementById("productQuantity").innerText=
-  qty;
-
-
-  [...filtered]
-  .reverse()
-  .forEach(item=>{
-
-    const itemProfit=
-    (item.price-item.cost)*item.qty;
-
-    const margin=
-    item.price>0
-    ?
-    ((item.price-item.cost)/item.price)*100
-    :
-    0;
-
-    const row=
-    document.createElement("tr");
-
-    row.innerHTML=`
-
-      <td><strong>${item.name}</strong></td>
-      <td>${item.qty}</td>
-      <td>${money(item.price)}</td>
-      <td>${money(item.cost)}</td>
-      <td>${money(itemProfit)}</td>
-      <td>%${margin.toFixed(1)}</td>
-
-      <td>
-        <button
-        class="delete"
-        onclick="deleteProductSale(${item.id})">
-        Sil
-        </button>
-      </td>
-
-    `;
-
-    list.appendChild(row);
-
-  });
-
-}
-
-
-/* BORÇ RENDER */
-
-function renderDebts(){
-
-  const list=
-  document.getElementById("debtList");
-
-  list.innerHTML="";
-
-  let otherDebt=0;
-
-  debts.forEach(item=>{
-
-    otherDebt+=Number(item.remaining);
-
-    const row=
-    document.createElement("tr");
-
-    row.innerHTML=`
-
-      <td>${item.name}</td>
-      <td>${item.date || "-"}</td>
-      <td>${money(item.remaining)}</td>
-
-      <td>
-
-        <button
-        class="btn-blue"
-        onclick="payDebt(${item.id})">
-        Ödeme
-        </button>
-
-        <button
-        class="delete"
-        onclick="deleteDebt(${item.id})">
-        Sil
-        </button>
-
-      </td>
-
-    `;
-
-    list.appendChild(row);
-
-  });
-
-
-  const supplierDebt=
-  suppliers.reduce(
-    (sum,s)=>sum+getSupplierRemaining(s),
-    0
-  );
-
-  document.getElementById("totalDebt").innerText=
-  money(otherDebt+supplierDebt);
-
-}
-
+renderCategoryOptions();
 
 render();
 
