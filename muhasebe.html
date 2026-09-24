@@ -362,6 +362,28 @@ th, td{
     min-width:720px;
   }
 }
+/* GELİR - GİDER YAN YANA */
+
+.totals-two-column{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.totals-two-column .total-block{
+  margin-top:10px;
+}
+
+.totals-two-column .total-row{
+  min-height:48px;
+}
+
+@media(max-width:700px){
+  .totals-two-column{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -436,21 +458,32 @@ th, td{
 
     <p class="note">Tarih otomatik bugünü gösterir. İstersen değiştirebilirsin.</p>
   </div>
+<!-- KATEGORİ TOPLAMLARI -->
+<div class="section">
 
-  <!-- KATEGORİ TOPLAMLARI -->
-  <div class="section">
-    <h3>📊 Kategori Toplamları</h3>
+  <h3>📊 Kategori Toplamları</h3>
+
+  <div class="totals-two-column">
 
     <div class="total-block">
-      <div class="total-block-title red">🔴 Gider Dağılımı</div>
+      <div class="total-block-title red">
+        🔴 Gider Dağılımı
+      </div>
+
       <div class="total-list" id="expenseTotals"></div>
     </div>
 
     <div class="total-block">
-      <div class="total-block-title green">🟢 Gelir Dağılımı</div>
+      <div class="total-block-title green">
+        🟢 Gelir Dağılımı
+      </div>
+
       <div class="total-list" id="incomeTotals"></div>
     </div>
+
   </div>
+
+</div>
 
   <!-- BORÇ DEFTERİ -->
   <div class="section">
