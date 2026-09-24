@@ -14,71 +14,64 @@
 
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#f4f4f4;
+  background:#f3f3f3;
   color:#222;
 }
 
 header{
   background:#111;
-  color:white;
-  padding:22px;
+  color:#fff;
   text-align:center;
-}
-
-header img{
-  max-height:65px;
-  max-width:220px;
-  margin-bottom:8px;
+  padding:22px;
 }
 
 header h1{
-  color:#e63946;
-  font-size:27px;
+  color:#e53935;
+  font-size:28px;
 }
 
 header p{
-  color:#bbb;
+  color:#aaa;
   margin-top:5px;
 }
 
 .container{
   max-width:1200px;
   margin:auto;
-  padding:18px;
+  padding:15px;
 }
 
 .filters{
   display:flex;
   gap:8px;
-  margin-bottom:18px;
   overflow:auto;
+  margin-bottom:15px;
 }
 
 .filter-btn{
-  background:white;
   border:1px solid #ddd;
+  background:#fff;
+  border-radius:25px;
   padding:11px 18px;
-  border-radius:30px;
-  white-space:nowrap;
 }
 
 .filter-btn.active{
   background:#111;
-  color:white;
+  color:#fff;
 }
 
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
-  gap:12px;
-  margin-bottom:20px;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+  margin-bottom:16px;
 }
 
 .card{
-  background:white;
-  padding:18px;
-  border-radius:16px;
-  box-shadow:0 2px 10px rgba(0,0,0,.07);
+  background:#fff;
+  padding:17px;
+  border-radius:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
 
 .card small{
@@ -86,30 +79,30 @@ header p{
 }
 
 .card h2{
+  font-size:22px;
   margin-top:7px;
-  font-size:23px;
 }
 
 .green{color:#16894a;}
-.red{color:#d62828;}
-.orange{color:#e67e22;}
+.red{color:#d32f2f;}
 .blue{color:#2463eb;}
+.orange{color:#e67e22;}
 
 .section{
-  background:white;
-  margin-bottom:18px;
-  padding:18px;
+  background:#fff;
   border-radius:16px;
-  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
 .section h3{
-  margin-bottom:15px;
+  margin-bottom:14px;
 }
 
 .form-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:10px;
 }
 
@@ -120,130 +113,40 @@ select{
   border:1px solid #ddd;
   border-radius:10px;
   font-size:16px;
-  background:white;
+  background:#fff;
 }
 
 button{
   border:0;
   border-radius:10px;
   padding:12px 15px;
-  cursor:pointer;
   font-size:15px;
+  cursor:pointer;
 }
 
 .btn-green{
   background:#198754;
-  color:white;
+  color:#fff;
 }
 
 .btn-red{
   background:#dc3545;
-  color:white;
+  color:#fff;
 }
 
 .btn-dark{
   background:#111;
-  color:white;
-}
-
-.btn-blue{
-  background:#2463eb;
-  color:white;
+  color:#fff;
 }
 
 .delete{
   background:#eee;
-  padding:7px 10px;
-}
-
-.note{
-  color:#777;
-  font-size:13px;
-  margin-top:8px;
-}
-
-.platform-box{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:10px;
-}
-
-.platform{
-  background:#f7f7f7;
-  padding:14px;
-  border-radius:12px;
-}
-
-.platform strong{
-  display:block;
-  margin-top:6px;
-  font-size:20px;
-}
-
-.cari-card{
-  background:#fafafa;
-  border:1px solid #eee;
-  padding:15px;
-  border-radius:14px;
-  margin-top:12px;
-}
-
-.cari-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.cari-name{
-  font-size:18px;
-  font-weight:700;
-}
-
-.cari-stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:8px;
-  margin-top:12px;
-}
-
-.cari-stat{
-  background:white;
-  padding:10px;
-  border-radius:10px;
-}
-
-.cari-stat small{
-  color:#777;
-}
-
-.cari-stat strong{
-  display:block;
-  margin-top:4px;
-}
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:14px;
-}
-
-th,
-td{
-  text-align:left;
-  padding:10px 6px;
-  border-bottom:1px solid #eee;
-  font-size:14px;
 }
 
 .type-box{
   display:flex;
   gap:8px;
+  margin-bottom:15px;
 }
 
 .type-btn{
@@ -261,26 +164,74 @@ td{
   color:white;
 }
 
-.hidden{
-  display:none;
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:10px;
+}
+
+.category-card{
+  background:#fafafa;
+  border:1px solid #eee;
+  border-radius:14px;
+  padding:15px;
+}
+
+.category-card h4{
+  margin-bottom:5px;
+}
+
+.category-card strong{
+  font-size:20px;
+}
+
+.subaccount{
+  background:#fafafa;
+  border:1px solid #eee;
+  border-radius:12px;
+  padding:12px;
+  margin-top:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.note{
+  color:#777;
+  font-size:13px;
+  margin-top:8px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th,
+td{
+  text-align:left;
+  padding:10px 6px;
+  border-bottom:1px solid #eee;
+  font-size:13px;
 }
 
 @media(max-width:700px){
-
   .container{
     padding:10px;
   }
 
   .card h2{
-    font-size:20px;
+    font-size:19px;
   }
 
   table{
     min-width:700px;
-  }
-
-  th,td{
-    font-size:12px;
   }
 }
 </style>
@@ -289,350 +240,201 @@ td{
 <body>
 
 <header>
-
-<img
-src="logo-full.png"
-onerror="this.style.display='none'">
-
-<h1>NARBURGER</h1>
-
-<p>Muhasebe & Cari Hesap Paneli</p>
-
+  <h1>NARBURGER</h1>
+  <p>Muhasebe & Gider Yönetimi</p>
 </header>
-
 
 <div class="container">
 
+  <div class="filters">
 
-<!-- TARİH FİLTRESİ -->
+    <button
+    class="filter-btn active"
+    onclick="setFilter('today',this)">
+    Bugün
+    </button>
 
-<div class="filters">
+    <button
+    class="filter-btn"
+    onclick="setFilter('month',this)">
+    Bu Ay
+    </button>
 
-<button
-class="filter-btn active"
-onclick="setFilter('today',this)">
-Bugün
-</button>
+    <button
+    class="filter-btn"
+    onclick="setFilter('all',this)">
+    Tümü
+    </button>
 
-<button
-class="filter-btn"
-onclick="setFilter('month',this)">
-Bu Ay
-</button>
+  </div>
 
-<button
-class="filter-btn"
-onclick="setFilter('all',this)">
-Tümü
-</button>
 
-</div>
+  <!-- ANA PANEL -->
 
+  <div class="cards">
 
-<!-- ANA PANEL -->
+    <div class="card">
+      <small>Toplam Gelir</small>
+      <h2 class="green" id="totalIncome">0 ₺</h2>
+    </div>
 
-<div class="cards">
+    <div class="card">
+      <small>Toplam Gider</small>
+      <h2 class="red" id="totalExpense">0 ₺</h2>
+    </div>
 
-<div class="card">
-<small>Toplam Gelir</small>
-<h2 class="green" id="totalIncome">0 ₺</h2>
-</div>
+    <div class="card">
+      <small>Net Sonuç</small>
+      <h2 id="netResult">0 ₺</h2>
+    </div>
 
-<div class="card">
-<small>Toplam Gider</small>
-<h2 class="red" id="totalExpense">0 ₺</h2>
-</div>
+    <div class="card">
+      <small>İşlem Sayısı</small>
+      <h2 class="blue" id="transactionCount">0</h2>
+    </div>
 
-<div class="card">
-<small>Komisyon</small>
-<h2 class="orange" id="totalCommission">0 ₺</h2>
-</div>
+  </div>
 
-<div class="card">
-<small>Net Sonuç</small>
-<h2 id="netResult">0 ₺</h2>
-</div>
 
-<div class="card">
-<small>Cari Sayısı</small>
-<h2 class="blue" id="cariCount">0</h2>
-</div>
+  <!-- İŞLEM EKLE -->
 
-</div>
+  <div class="section">
 
+    <h3>➕ İşlem Ekle</h3>
 
-<!-- TEK İŞLEM EKLEME -->
+    <div class="type-box">
 
-<div class="section">
+      <button
+      id="incomeBtn"
+      class="type-btn income"
+      onclick="setType('Gelir')">
+      💰 Gelir
+      </button>
 
-<h3>➕ İşlem Ekle</h3>
+      <button
+      id="expenseBtn"
+      class="type-btn expense active"
+      onclick="setType('Gider')">
+      💸 Gider
+      </button>
 
-<div class="type-box">
+    </div>
 
-<button
-id="incomeTypeBtn"
-class="type-btn income active"
-onclick="setTransactionType('Gelir')">
-💰 Gelir
-</button>
 
-<button
-id="expenseTypeBtn"
-class="type-btn expense"
-onclick="setTransactionType('Gider')">
-💸 Gider
-</button>
+    <div class="form-grid">
 
-</div>
+      <input
+      type="date"
+      id="transactionDate">
 
+      <select
+      id="category"
+      onchange="renderSubAccountOptions()">
+      </select>
 
-<div
-class="form-grid"
-style="margin-top:15px">
+      <select id="subAccount">
+        <option value="">Alt hesap seç</option>
+      </select>
 
-<input
-type="date"
-id="transactionDate">
+      <input
+      type="number"
+      id="amount"
+      placeholder="Tutar ₺">
 
+      <input
+      type="text"
+      id="note"
+      placeholder="Açıklama">
 
-<select id="transactionCari">
+      <button
+      id="addButton"
+      class="btn-red"
+      onclick="addTransaction()">
+      Gider Ekle
+      </button>
 
-<option value="">
-Cari Yok / Genel
-</option>
+    </div>
 
-</select>
+    <p class="note">
+      Tarih otomatik gelir. İstersen değiştirebilirsin.
+    </p>
 
+  </div>
 
-<select
-id="transactionCategory"
-onchange="categoryChanged()">
-</select>
 
+  <!-- ALT HESAP EKLE -->
 
-<input
-type="number"
-id="transactionAmount"
-placeholder="Tutar ₺">
+  <div class="section">
 
+    <h3>⚙️ Kategori İçine Alt Hesap Ekle</h3>
 
-<div id="commissionBox">
+    <div class="form-grid">
 
-<input
-type="number"
-id="transactionCommission"
-placeholder="Komisyon %"
-value="0">
+      <select id="newSubCategory"></select>
 
-</div>
+      <input
+      type="text"
+      id="newSubName"
+      placeholder="Örn: Barış, Kasap Ali, Ayasofya Şubesi">
 
+      <button
+      class="btn-dark"
+      onclick="addSubAccount()">
+      + Alt Hesap Ekle
+      </button>
 
-<input
-type="text"
-id="transactionNote"
-placeholder="Açıklama">
+    </div>
 
+    <div id="subAccountList"></div>
 
-<button
-id="addTransactionButton"
-class="btn-green"
-onclick="addTransaction()">
-Gelir Ekle
-</button>
+  </div>
 
-</div>
 
-<p class="note">
-Cari seçersen işlem otomatik olarak o carinin hesabına da işlenir.
-</p>
+  <!-- KATEGORİ TOPLAMLARI -->
 
-</div>
+  <div class="section">
 
+    <h3>📊 Kategori Toplamları</h3>
 
-<!-- CARİ HESAP EKLE -->
+    <div
+    class="category-grid"
+    id="categoryTotals">
+    </div>
 
-<div class="section">
+  </div>
 
-<h3>👥 Cari Hesaplar</h3>
 
-<div class="form-grid">
+  <!-- HAREKETLER -->
 
-<input
-type="text"
-id="newCariName"
-placeholder="Cari adı / Firma / Kişi">
+  <div class="section">
 
-<select id="newCariType">
+    <h3>📋 İşlem Geçmişi</h3>
 
-<option>Tedarikçi</option>
-<option>Müşteri</option>
-<option>Personel</option>
-<option>Firma</option>
-<option>Diğer</option>
+    <div class="table-wrap">
 
-</select>
+      <table>
 
-<input
-type="text"
-id="newCariPhone"
-placeholder="Telefon">
+        <thead>
 
-<input
-type="text"
-id="newCariNote"
-placeholder="Not">
+          <tr>
+            <th>Tarih</th>
+            <th>Tür</th>
+            <th>Kategori</th>
+            <th>Alt Hesap</th>
+            <th>Açıklama</th>
+            <th>Tutar</th>
+            <th></th>
+          </tr>
 
-<button
-class="btn-dark"
-onclick="addCari()">
-+ Cari Hesap Ekle
-</button>
+        </thead>
 
-</div>
+        <tbody id="transactionList"></tbody>
 
+      </table>
 
-<div id="cariList"></div>
+    </div>
 
-</div>
-
-
-<!-- CARİ EKSTRE -->
-
-<div class="section">
-
-<h3>📒 Cari Ekstre</h3>
-
-<div class="form-grid">
-
-<select
-id="statementCari"
-onchange="renderStatement()">
-
-<option value="">
-Cari Seç
-</option>
-
-</select>
-
-</div>
-
-
-<div class="cards" style="margin-top:15px">
-
-<div class="card">
-<small>Cari Gelir</small>
-<h2 class="green" id="statementIncome">0 ₺</h2>
-</div>
-
-<div class="card">
-<small>Cari Gider</small>
-<h2 class="red" id="statementExpense">0 ₺</h2>
-</div>
-
-<div class="card">
-<small>Cari Bakiye</small>
-<h2 id="statementBalance">0 ₺</h2>
-</div>
-
-</div>
-
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-<th>Tarih</th>
-<th>Tür</th>
-<th>Kategori</th>
-<th>Açıklama</th>
-<th>Tutar</th>
-</tr>
-
-</thead>
-
-<tbody id="statementList"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<!-- SATIŞ KANALLARI -->
-
-<div class="section">
-
-<h3>📱 Satış Kanalları</h3>
-
-<div class="platform-box">
-
-<div class="platform">
-Dükkan
-<strong id="pDukkan">0 ₺</strong>
-</div>
-
-<div class="platform">
-WhatsApp
-<strong id="pWhatsapp">0 ₺</strong>
-</div>
-
-<div class="platform">
-Trendyol
-<strong id="pTrendyol">0 ₺</strong>
-</div>
-
-<div class="platform">
-Yemeksepeti
-<strong id="pYemeksepeti">0 ₺</strong>
-</div>
-
-<div class="platform">
-Migros
-<strong id="pMigros">0 ₺</strong>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- TÜM İŞLEMLER -->
-
-<div class="section">
-
-<h3>📋 Gelir / Gider Hareketleri</h3>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-<th>Tarih</th>
-<th>Tür</th>
-<th>Cari</th>
-<th>Kategori</th>
-<th>Açıklama</th>
-<th>Tutar</th>
-<th>Net</th>
-<th></th>
-</tr>
-
-</thead>
-
-<tbody id="transactionList"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
+  </div>
 
 </div>
 
@@ -640,24 +442,88 @@ Migros
 <script>
 
 /* =========================
-   VERİLER
+   SABİT KATEGORİLER
+========================= */
+
+const expenseCategories = [
+
+"Personel",
+"Toptancılar",
+"Kira",
+"Vergi",
+"SGK",
+"Kurye",
+"Elektrik",
+"Doğalgaz",
+"Su",
+"Reklam",
+"Bakım / Tamir",
+"Diğer Giderler"
+
+];
+
+
+const incomeCategories = [
+
+"Dükkan Satışı",
+"WhatsApp",
+"Trendyol",
+"Yemeksepeti",
+"Migros",
+"Tahsilat",
+"İade",
+"Diğer Gelirler"
+
+];
+
+
+/* =========================
+   VERİ
 ========================= */
 
 let transactions =
 JSON.parse(
-localStorage.getItem("nar_transactions_v2")
+localStorage.getItem("nar_transactions_v3")
 ) || [];
 
 
-let caris =
+let subAccounts =
 JSON.parse(
-localStorage.getItem("nar_caris")
+localStorage.getItem("nar_subaccounts_v3")
 ) || [];
 
 
-let activeFilter="today";
+let transactionType = "Gider";
 
-let transactionType="Gelir";
+let activeFilter = "today";
+
+
+/* =========================
+   TARİH
+========================= */
+
+function today(){
+
+const d = new Date();
+
+const year = d.getFullYear();
+
+const month =
+String(d.getMonth()+1)
+.padStart(2,"0");
+
+const day =
+String(d.getDate())
+.padStart(2,"0");
+
+return year+"-"+month+"-"+day;
+
+}
+
+
+document
+.getElementById("transactionDate")
+.value = today();
 
 
 /* =========================
@@ -680,101 +546,53 @@ maximumFractionDigits:0
 
 
 /* =========================
-   TARİH
+   GELİR / GİDER
 ========================= */
 
-function today(){
+function setType(type){
 
-const d=new Date();
-
-const y=d.getFullYear();
-
-const m=
-String(
-d.getMonth()+1
-).padStart(2,"0");
-
-const day=
-String(
-d.getDate()
-).padStart(2,"0");
-
-return y+"-"+m+"-"+day;
-
-}
+transactionType = type;
 
 
 document
-.getElementById("transactionDate")
-.value=today();
+.getElementById("incomeBtn")
+.classList.remove("active");
 
-
-/* =========================
-   GELİR / GİDER SEÇİMİ
-========================= */
-
-function setTransactionType(type){
-
-transactionType=type;
-
-
-const incomeBtn=
-document.getElementById(
-"incomeTypeBtn"
-);
-
-const expenseBtn=
-document.getElementById(
-"expenseTypeBtn"
-);
-
-
-incomeBtn.classList.remove("active");
-
-expenseBtn.classList.remove("active");
+document
+.getElementById("expenseBtn")
+.classList.remove("active");
 
 
 if(type==="Gelir"){
 
-incomeBtn.classList.add("active");
+document
+.getElementById("incomeBtn")
+.classList.add("active");
 
 document
-.getElementById("commissionBox")
-.classList.remove("hidden");
-
-document
-.getElementById(
-"addTransactionButton"
-)
-.innerText="Gelir Ekle";
-
-document
-.getElementById(
-"addTransactionButton"
-)
+.getElementById("addButton")
 .className="btn-green";
+
+document
+.getElementById("addButton")
+.innerText="Gelir Ekle";
 
 }else{
 
-expenseBtn.classList.add("active");
+document
+.getElementById("expenseBtn")
+.classList.add("active");
 
 document
-.getElementById("commissionBox")
-.classList.add("hidden");
-
-document
-.getElementById(
-"addTransactionButton"
-)
-.innerText="Gider Ekle";
-
-document
-.getElementById(
-"addTransactionButton"
-)
+.getElementById("addButton")
 .className="btn-red";
 
+document
+.getElementById("addButton")
+.innerText="Gider Ekle";
+
 }
+
 
 renderCategoryOptions();
 
@@ -782,63 +600,100 @@ renderCategoryOptions();
 
 
 /* =========================
-   KATEGORİLER
+   KATEGORİ SELECT
 ========================= */
 
 function renderCategoryOptions(){
 
-const select=
-document.getElementById(
-"transactionCategory"
-);
+const categorySelect =
+document.getElementById("category");
 
-select.innerHTML="";
+categorySelect.innerHTML="";
 
 
-let categories=[];
-
-
-if(transactionType==="Gelir"){
-
-categories=[
-
-"Dükkan",
-"WhatsApp",
-"Trendyol",
-"Yemeksepeti",
-"Migros",
-"Tahsilat",
-"İade",
-"Diğer Gelir"
-
-];
-
-}else{
-
-categories=[
-
-"Ürün Alımı",
-"Personel",
-"Kurye",
-"Kira",
-"Elektrik",
-"Doğalgaz",
-"Su",
-"Ambalaj",
-"Vergi",
-"Reklam",
-"Bakım / Tamir",
-"Cari Ödeme",
-"Diğer Gider"
-
-];
-
-}
+const categories =
+transactionType==="Gelir"
+?
+incomeCategories
+:
+expenseCategories;
 
 
 categories.forEach(category=>{
 
-const option=
+const option =
+document.createElement("option");
+
+option.value = category;
+
+option.textContent = category;
+
+categorySelect.appendChild(option);
+
+});
+
+
+renderSubAccountOptions();
+
+}
+
+
+/* =========================
+   ALT HESAP SELECT
+========================= */
+
+function renderSubAccountOptions(){
+
+const category =
+document.getElementById("category").value;
+
+const select =
+document.getElementById("subAccount");
+
+
+select.innerHTML =
+'<option value="">Alt hesap seç</option>';
+
+
+subAccounts
+.filter(
+x => x.category===category
+)
+.forEach(item=>{
+
+const option =
+document.createElement("option");
+
+option.value = item.name;
+
+option.textContent = item.name;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+/* =========================
+   ALT HESAP KATEGORİLERİ
+========================= */
+
+function renderNewSubCategories(){
+
+const select =
+document.getElementById("newSubCategory");
+
+select.innerHTML="";
+
+
+[
+...expenseCategories,
+...incomeCategories
+]
+.forEach(category=>{
+
+const option =
 document.createElement("option");
 
 option.value=category;
@@ -849,38 +704,133 @@ select.appendChild(option);
 
 });
 
+}
 
-categoryChanged();
+
+/* =========================
+   ALT HESAP EKLE
+========================= */
+
+function addSubAccount(){
+
+const category =
+document.getElementById(
+"newSubCategory"
+).value;
+
+
+const name =
+document.getElementById(
+"newSubName"
+).value.trim();
+
+
+if(!name){
+
+alert("Alt hesap adı gir.");
+
+return;
+
+}
+
+
+const exists =
+subAccounts.some(
+x =>
+x.category===category
+&&
+x.name.toLocaleLowerCase("tr-TR")
+===
+name.toLocaleLowerCase("tr-TR")
+);
+
+
+if(exists){
+
+alert(
+"Bu alt hesap zaten var."
+);
+
+return;
+
+}
+
+
+subAccounts.push({
+
+id:Date.now(),
+
+category:category,
+
+name:name
+
+});
+
+
+saveSubAccounts();
+
+
+document
+.getElementById("newSubName")
+.value="";
 
 }
 
 
 /* =========================
-   KOMİSYON
+   ALT HESAP SİL
 ========================= */
 
-function categoryChanged(){
+function deleteSubAccount(id){
 
-const category=
-document.getElementById(
-"transactionCategory"
-).value;
-
-const commission=
-document.getElementById(
-"transactionCommission"
+const item =
+subAccounts.find(
+x=>x.id===id
 );
 
 
-if(
-category==="Dükkan" ||
-category==="WhatsApp" ||
-transactionType==="Gider"
-){
+if(!item)return;
 
-commission.value=0;
+
+const used =
+transactions.some(
+x =>
+x.category===item.category
+&&
+x.subAccount===item.name
+);
+
+
+if(used){
+
+alert(
+"Bu alt hesabın işlem geçmişi var. Önce işlemleri silmelisin."
+);
+
+return;
 
 }
+
+
+if(
+!confirm(
+item.name+
+" alt hesabını silmek istiyor musun?"
+)
+){
+
+return;
+
+}
+
+
+subAccounts =
+subAccounts.filter(
+x=>x.id!==id
+);
+
+
+saveSubAccounts();
 
 }
 
@@ -891,31 +841,35 @@ commission.value=0;
 
 function addTransaction(){
 
-const date=
+const date =
 document.getElementById(
 "transactionDate"
 ).value;
 
-const cariId=
+
+const category =
 document.getElementById(
-"transactionCari"
+"category"
 ).value;
 
-const category=
+
+const subAccount =
 document.getElementById(
-"transactionCategory"
+"subAccount"
 ).value;
 
-const amount=
+
+const amount =
 Number(
 document.getElementById(
-"transactionAmount"
+"amount"
 ).value
 );
 
-const note=
+
+const note =
 document.getElementById(
-"transactionNote"
+"note"
 ).value.trim();
 
 
@@ -937,26 +891,6 @@ return;
 }
 
 
-let commissionRate=0;
-
-let commission=0;
-
-
-if(transactionType==="Gelir"){
-
-commissionRate=
-Number(
-document.getElementById(
-"transactionCommission"
-).value
-)||0;
-
-commission=
-amount*commissionRate/100;
-
-}
-
-
 transactions.push({
 
 id:Date.now(),
@@ -967,20 +901,11 @@ type:transactionType,
 
 category:category,
 
+subAccount:subAccount,
+
 amount:amount,
 
-commissionRate:commissionRate,
-
-commission:commission,
-
-note:note,
-
-cariId:
-cariId
-?
-Number(cariId)
-:
-null
+note:note
 
 });
 
@@ -989,182 +914,13 @@ saveTransactions();
 
 
 document
-.getElementById(
-"transactionAmount"
-).value="";
-
-document
-.getElementById(
-"transactionNote"
-).value="";
-
-}
-
-
-/* =========================
-   CARİ EKLE
-========================= */
-
-function addCari(){
-
-const name=
-document.getElementById(
-"newCariName"
-).value.trim();
-
-
-if(!name){
-
-alert("Cari adı gir.");
-
-return;
-
-}
-
-
-const exists=
-caris.some(
-c=>
-c.name.toLocaleLowerCase("tr-TR")===
-name.toLocaleLowerCase("tr-TR")
-);
-
-
-if(exists){
-
-alert(
-"Bu isimde bir cari hesap zaten var."
-);
-
-return;
-
-}
-
-
-caris.push({
-
-id:Date.now(),
-
-name:name,
-
-type:
-document.getElementById(
-"newCariType"
-).value,
-
-phone:
-document.getElementById(
-"newCariPhone"
-).value.trim(),
-
-note:
-document.getElementById(
-"newCariNote"
-).value.trim()
-
-});
-
-
-saveCaris();
+.getElementById("amount")
+.value="";
 
 
 document
-.getElementById(
-"newCariName"
-).value="";
-
-document
-.getElementById(
-"newCariPhone"
-).value="";
-
-document
-.getElementById(
-"newCariNote"
-).value="";
-
-}
-
-
-/* =========================
-   CARİ SİL
-========================= */
-
-function deleteCari(id){
-
-const cari=
-caris.find(
-x=>x.id===id
-);
-
-
-if(!cari)return;
-
-
-const hasTransactions=
-transactions.some(
-x=>Number(x.cariId)===id
-);
-
-
-if(hasTransactions){
-
-alert(
-"Bu carinin işlem geçmişi var. Önce ilgili işlemleri silmelisin."
-);
-
-return;
-
-}
-
-
-if(
-!confirm(
-cari.name+
-" cari hesabını silmek istiyor musun?"
-)
-){
-
-return;
-
-}
-
-
-caris=
-caris.filter(
-x=>x.id!==id
-);
-
-
-saveCaris();
-
-}
-
-
-/* =========================
-   KAYDET
-========================= */
-
-function saveTransactions(){
-
-localStorage.setItem(
-"nar_transactions_v2",
-JSON.stringify(transactions)
-);
-
-render();
-
-}
-
-
-function saveCaris(){
-
-localStorage.setItem(
-"nar_caris",
-JSON.stringify(caris)
-);
-
-render();
+.getElementById("note")
+.value="";
 
 }
 
@@ -1186,7 +942,7 @@ return;
 }
 
 
-transactions=
+transactions =
 transactions.filter(
 x=>x.id!==id
 );
@@ -1198,121 +954,35 @@ saveTransactions();
 
 
 /* =========================
-   CARİ ADI
+   KAYDET
 ========================= */
 
-function getCariName(id){
+function saveTransactions(){
 
-if(!id){
+localStorage.setItem(
+"nar_transactions_v3",
+JSON.stringify(transactions)
+);
 
-return "Genel";
+render();
 
 }
 
 
-const cari=
-caris.find(
-x=>x.id===Number(id)
+function saveSubAccounts(){
+
+localStorage.setItem(
+"nar_subaccounts_v3",
+JSON.stringify(subAccounts)
 );
 
-
-return cari
-?
-cari.name
-:
-"Silinmiş Cari";
+render();
 
 }
 
 
 /* =========================
-   CARİ SELECTLER
-========================= */
-
-function renderCariOptions(){
-
-const transactionCari=
-document.getElementById(
-"transactionCari"
-);
-
-const statementCari=
-document.getElementById(
-"statementCari"
-);
-
-
-const oldTransactionValue=
-transactionCari.value;
-
-const oldStatementValue=
-statementCari.value;
-
-
-transactionCari.innerHTML=
-'<option value="">Cari Yok / Genel</option>';
-
-
-statementCari.innerHTML=
-'<option value="">Cari Seç</option>';
-
-
-[...caris]
-.sort(
-(a,b)=>
-a.name.localeCompare(
-b.name,
-"tr"
-)
-)
-.forEach(cari=>{
-
-
-const option1=
-document.createElement(
-"option"
-);
-
-option1.value=cari.id;
-
-option1.textContent=
-cari.name+
-" · "+
-cari.type;
-
-transactionCari
-.appendChild(option1);
-
-
-const option2=
-document.createElement(
-"option"
-);
-
-option2.value=cari.id;
-
-option2.textContent=
-cari.name+
-" · "+
-cari.type;
-
-statementCari
-.appendChild(option2);
-
-});
-
-
-transactionCari.value=
-oldTransactionValue;
-
-statementCari.value=
-oldStatementValue;
-
-}
-
-
-/* =========================
-   FİLTRE
+   TARİH FİLTRESİ
 ========================= */
 
 function setFilter(
@@ -1320,24 +990,17 @@ filter,
 button
 ){
 
-activeFilter=filter;
+activeFilter = filter;
 
 
 document
-.querySelectorAll(
-".filter-btn"
-)
+.querySelectorAll(".filter-btn")
 .forEach(
-x=>
-x.classList.remove(
-"active"
-)
+x=>x.classList.remove("active")
 );
 
 
-button.classList.add(
-"active"
-);
+button.classList.add("active");
 
 
 render();
@@ -1345,7 +1008,7 @@ render();
 }
 
 
-function itemInFilter(date){
+function inFilter(date){
 
 if(activeFilter==="all"){
 
@@ -1363,13 +1026,10 @@ return date===today();
 
 if(activeFilter==="month"){
 
-const now=
-new Date();
+const now = new Date();
 
-const d=
-new Date(
-date+"T12:00:00"
-);
+const d =
+new Date(date+"T12:00:00");
 
 
 return(
@@ -1394,114 +1054,61 @@ return true;
 
 function renderDashboard(){
 
-const filtered=
+const filtered =
 transactions.filter(
-item=>
-itemInFilter(
-item.date
-)
+x=>inFilter(x.date)
 );
 
 
-let income=0;
+let income = 0;
 
-let expense=0;
-
-let commission=0;
-
-
-let platforms={
-
-"Dükkan":0,
-"WhatsApp":0,
-"Trendyol":0,
-"Yemeksepeti":0,
-"Migros":0
-
-};
+let expense = 0;
 
 
 filtered.forEach(item=>{
 
-
 if(item.type==="Gelir"){
 
-income+=
-Number(item.amount);
+income += Number(item.amount);
 
-commission+=
-Number(
-item.commission || 0
-);
+}else{
 
-
-if(
-platforms[
-item.category
-]!==undefined
-){
-
-platforms[
-item.category
-]+=
-Number(item.amount);
-
-}
-
-}
-
-
-if(item.type==="Gider"){
-
-expense+=
-Number(item.amount);
+expense += Number(item.amount);
 
 }
 
 });
 
 
-const net=
-income-
-expense-
-commission;
+const net =
+income-expense;
 
 
 document
 .getElementById(
 "totalIncome"
 )
-.innerText=
-money(income);
+.innerText = money(income);
 
 
 document
 .getElementById(
 "totalExpense"
 )
-.innerText=
-money(expense);
+.innerText = money(expense);
 
 
-document
-.getElementById(
-"totalCommission"
-)
-.innerText=
-money(commission);
-
-
-const netElement=
+const netElement =
 document.getElementById(
 "netResult"
 );
 
 
-netElement.innerText=
+netElement.innerText =
 money(net);
 
 
-netElement.className=
+netElement.className =
 net>=0
 ?
 "green"
@@ -1511,402 +1118,183 @@ net>=0
 
 document
 .getElementById(
-"cariCount"
+"transactionCount"
 )
-.innerText=
-caris.length;
-
-
-document
-.getElementById(
-"pDukkan"
-)
-.innerText=
-money(
-platforms["Dükkan"]
-);
-
-
-document
-.getElementById(
-"pWhatsapp"
-)
-.innerText=
-money(
-platforms["WhatsApp"]
-);
-
-
-document
-.getElementById(
-"pTrendyol"
-)
-.innerText=
-money(
-platforms["Trendyol"]
-);
-
-
-document
-.getElementById(
-"pYemeksepeti"
-)
-.innerText=
-money(
-platforms["Yemeksepeti"]
-);
-
-
-document
-.getElementById(
-"pMigros"
-)
-.innerText=
-money(
-platforms["Migros"]
-);
+.innerText =
+filtered.length;
 
 }
 
 
 /* =========================
-   CARİ KARTLARI
+   KATEGORİ TOPLAMLARI
 ========================= */
 
-function renderCaris(){
+function renderCategoryTotals(){
 
-const list=
+const container =
 document.getElementById(
-"cariList"
+"categoryTotals"
 );
 
-list.innerHTML="";
+
+container.innerHTML="";
 
 
-caris.forEach(cari=>{
-
-
-const movements=
+const filtered =
 transactions.filter(
-x=>
-Number(x.cariId)===
-cari.id
+x=>inFilter(x.date)
 );
 
 
-let income=0;
+expenseCategories.forEach(category=>{
 
-let expense=0;
+const total =
+filtered
+.filter(
+x =>
+x.type==="Gider"
+&&
+x.category===category
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount),
+0
+);
 
 
-movements.forEach(item=>{
+const div =
+document.createElement("div");
 
-if(item.type==="Gelir"){
+div.className=
+"category-card";
 
-income+=
-Number(item.amount);
 
-}else{
+div.innerHTML=`
 
-expense+=
-Number(item.amount);
+<h4>${category}</h4>
 
-}
+<strong class="red">
+${money(total)}
+</strong>
+
+`;
+
+
+container.appendChild(div);
 
 });
 
 
-const balance=
-income-expense;
+incomeCategories.forEach(category=>{
 
-
-const card=
-document.createElement(
-"div"
+const total =
+filtered
+.filter(
+x =>
+x.type==="Gelir"
+&&
+x.category===category
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount),
+0
 );
 
-card.className=
-"cari-card";
+
+const div =
+document.createElement("div");
+
+div.className=
+"category-card";
 
 
-card.innerHTML=`
+div.innerHTML=`
 
-<div class="cari-head">
+<h4>${category}</h4>
+
+<strong class="green">
+${money(total)}
+</strong>
+
+`;
+
+
+container.appendChild(div);
+
+});
+
+}
+
+
+/* =========================
+   ALT HESAPLARI GÖSTER
+========================= */
+
+function renderSubAccountList(){
+
+const container =
+document.getElementById(
+"subAccountList"
+);
+
+
+container.innerHTML="";
+
+
+subAccounts.forEach(item=>{
+
+const div =
+document.createElement("div");
+
+div.className=
+"subaccount";
+
+
+div.innerHTML=`
 
 <div>
 
-<div class="cari-name">
-${cari.name}
-</div>
+<strong>
+${item.name}
+</strong>
+
+<br>
 
 <small>
-${cari.type}
-${cari.phone
-?
-" · "+cari.phone
-:
-""
-}
+${item.category}
 </small>
 
-${cari.note
-?
-"<br><small>"+
-cari.note+
-"</small>"
-:
-""
-}
-
 </div>
-
 
 <button
 class="delete"
-onclick="deleteCari(${cari.id})">
+onclick="deleteSubAccount(${item.id})">
 Sil
 </button>
 
-</div>
-
-
-<div class="cari-stats">
-
-<div class="cari-stat">
-
-<small>Gelir</small>
-
-<strong class="green">
-${money(income)}
-</strong>
-
-</div>
-
-
-<div class="cari-stat">
-
-<small>Gider</small>
-
-<strong class="red">
-${money(expense)}
-</strong>
-
-</div>
-
-
-<div class="cari-stat">
-
-<small>Bakiye</small>
-
-<strong class="${
-balance>=0
-?
-"green"
-:
-"red"
-}">
-${money(balance)}
-</strong>
-
-</div>
-
-</div>
-
 `;
 
 
-list.appendChild(card);
+container.appendChild(div);
 
 });
+
+
+renderSubAccountOptions();
 
 }
 
 
 /* =========================
-   CARİ EKSTRE
-========================= */
-
-function renderStatement(){
-
-const cariId=
-Number(
-document.getElementById(
-"statementCari"
-).value
-);
-
-
-const list=
-document.getElementById(
-"statementList"
-);
-
-
-list.innerHTML="";
-
-
-if(!cariId){
-
-document
-.getElementById(
-"statementIncome"
-)
-.innerText=money(0);
-
-document
-.getElementById(
-"statementExpense"
-)
-.innerText=money(0);
-
-document
-.getElementById(
-"statementBalance"
-)
-.innerText=money(0);
-
-return;
-
-}
-
-
-const movements=
-transactions
-.filter(
-x=>
-Number(x.cariId)===
-cariId
-)
-.sort(
-(a,b)=>
-b.date.localeCompare(
-a.date
-)
-);
-
-
-let income=0;
-
-let expense=0;
-
-
-movements.forEach(item=>{
-
-if(item.type==="Gelir"){
-
-income+=
-Number(item.amount);
-
-}else{
-
-expense+=
-Number(item.amount);
-
-}
-
-
-const row=
-document.createElement(
-"tr"
-);
-
-
-row.innerHTML=`
-
-<td>
-${item.date}
-</td>
-
-<td>
-${item.type==="Gelir"
-?
-"🟢 Gelir"
-:
-"🔴 Gider"
-}
-</td>
-
-<td>
-${item.category}
-</td>
-
-<td>
-${item.note || "-"}
-</td>
-
-<td>
-${money(item.amount)}
-</td>
-
-`;
-
-
-list.appendChild(row);
-
-});
-
-
-const balance=
-income-expense;
-
-
-document
-.getElementById(
-"statementIncome"
-)
-.innerText=
-money(income);
-
-
-document
-.getElementById(
-"statementExpense"
-)
-.innerText=
-money(expense);
-
-
-const balanceElement=
-document.getElementById(
-"statementBalance"
-);
-
-
-balanceElement.innerText=
-money(balance);
-
-
-balanceElement.className=
-balance>=0
-?
-"green"
-:
-"red";
-
-}
-
-
-/* =========================
-   HAREKET TABLOSU
+   İŞLEM TABLOSU
 ========================= */
 
 function renderTransactions(){
 
-const filtered=
-transactions
-.filter(
-item=>
-itemInFilter(
-item.date
-)
-)
-.sort(
-(a,b)=>
-b.id-a.id
-);
-
-
-const list=
+const list =
 document.getElementById(
 "transactionList"
 );
@@ -1915,33 +1303,20 @@ document.getElementById(
 list.innerHTML="";
 
 
+const filtered =
+transactions
+.filter(
+x=>inFilter(x.date)
+)
+.sort(
+(a,b)=>b.id-a.id
+);
+
+
 filtered.forEach(item=>{
 
-
-let net=0;
-
-
-if(item.type==="Gelir"){
-
-net=
-Number(item.amount)
--
-Number(
-item.commission || 0
-);
-
-}else{
-
-net=
--Number(item.amount);
-
-}
-
-
-const row=
-document.createElement(
-"tr"
-);
+const row =
+document.createElement("tr");
 
 
 row.innerHTML=`
@@ -1960,33 +1335,25 @@ ${item.type==="Gelir"
 </td>
 
 <td>
-${getCariName(
-item.cariId
-)}
-</td>
-
-<td>
 ${item.category}
 </td>
 
 <td>
+${item.subAccount || "-"}
+</td>
+
+<td>
 ${item.note || "-"}
-${item.commissionRate
+</td>
+
+<td class="${
+item.type==="Gelir"
 ?
-"<br><small>Komisyon %"+
-item.commissionRate+
-"</small>"
+"green"
 :
-""
-}
-</td>
-
-<td>
+"red"
+}">
 ${money(item.amount)}
-</td>
-
-<td>
-${money(net)}
 </td>
 
 <td>
@@ -2010,25 +1377,27 @@ list.appendChild(row);
 
 
 /* =========================
-   TÜMÜNÜ ÇİZ
+   TÜMÜ
 ========================= */
 
 function render(){
 
-renderCariOptions();
-
 renderDashboard();
 
-renderCaris();
+renderCategoryTotals();
+
+renderSubAccountList();
 
 renderTransactions();
-
-renderStatement();
 
 }
 
 
-/* BAŞLANGIÇ */
+/* =========================
+   BAŞLANGIÇ
+========================= */
+
+renderNewSubCategories();
 
 renderCategoryOptions();
 
