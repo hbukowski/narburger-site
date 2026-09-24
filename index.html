@@ -1653,103 +1653,68 @@ function updateSummary(){
 async function sendWhatsApp(){
 
   if(!cart.length){
-
     alert("Sepetin boş.");
-
     return;
-
   }
 
+  const name =
+    document.getElementById("name").value.trim();
 
-  const name=
-  document
-  .getElementById("name")
-  .value.trim();
+  const phone =
+    document.getElementById("phone").value.trim();
 
+  const district =
+    document.getElementById("district").value.trim();
 
-  const phone=
-  document
-  .getElementById("phone")
-  .value.trim();
+  const address =
+    document.getElementById("address").value.trim();
 
+  const note =
+    document.getElementById("note").value.trim() || "-";
 
-  const district=
-  document
-  .getElementById("district")
-  .value.trim();
+  const payment =
+    document.getElementById("payment").value || "-";
 
-
-  const address=
-  document
-  .getElementById("address")
-  .value.trim();
-
-
-  const payment=
-  document
-  .getElementById("payment")
-  .value;
-
-
-  if(
-    !name ||
-    !phone ||
-    !district ||
-    !address ||
-    !payment
-  ){
-
-    alert(
-      "Lütfen ad soyad, telefon, mahalle, açık adres ve ödeme bilgilerini doldurun."
-    );
-
+  if(!name || !phone || !district || !address){
+    alert("Lütfen ad, telefon, mahalle ve adres bilgilerini doldurun.");
     return;
-
   }
 
-const note =
-  document
-    .getElementById("note")
-    .value.trim() || "";
-  const total =
-  cart.reduce(
-    (s,x)=>s+x.price*x.qty,
+  const total = cart.reduce(
+    (s,x) => s + x.price * x.qty,
     0
   );
 
-  await supabaseClient
+  const { error } = await supabaseClient
     .from("orders")
     .insert([{
-      customer_name:name,
-      phone:phone,
-      address:district + " - " + address,
-      items:cart,
-      total:total,
-      payment:payment,
-      note:note,
-      status:"new"
+      customer_name: name,
+      phone: phone,
+      address: district + " - " + address,
+      items: cart,
+      total: total,
+      payment: payment,
+      note: note,
+      status: "new"
     }]);
 
+  if(error){
+    alert("Sipariş kaydedilemedi: " + error.message);
+    console.error(error);
+    return;
+  }
 
-  const whatsappNumber=
-  "904622030606";
+  const whatsappNumber = "904622030606";
 
-
-  const text=
-  encodeURIComponent(
+  const text = encodeURIComponent(
     orderText()
   );
 
+  const url =
+    `https://wa.me/${whatsappNumber}?text=${text}`;
 
-  const url=
-  `https://wa.me/${whatsappNumber}?text=${text}`;
-
-
-  window.location.href=url;
-
+  window.location.href = url;
 }
-
-
 document
 .getElementById("openCart")
 .onclick=()=>{
@@ -2433,7 +2398,7 @@ async function loadCategoryButtons(){
    BAŞLAT
 ================================== */
 
-async function startDynamicMenu(){
+ startDynamicMenu(){
 
   await loadMenuProducts();
 
@@ -2442,7 +2407,7 @@ async function startDynamicMenu(){
 }
 
 startDynamicMenu();
-async function showStoreStatus() {
+ showStoreStatus() {
   const oldBadge = document.getElementById("storeStatusBadge");
   if (oldBadge) oldBadge.remove();
 
