@@ -9,13 +9,17 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   background:#090909;
   color:#fff;
   font-family:Arial,sans-serif;
 }
-.hidden{display:none!important}
+
+.hidden{
+  display:none!important;
+}
 
 #loginScreen{
   min-height:100vh;
@@ -24,6 +28,7 @@ body{
   justify-content:center;
   padding:20px;
 }
+
 .loginBox{
   width:100%;
   max-width:390px;
@@ -33,7 +38,12 @@ body{
   padding:30px;
   text-align:center;
 }
-.logo{max-width:190px;margin-bottom:15px}
+
+.logo{
+  max-width:190px;
+  margin-bottom:15px;
+}
+
 input{
   width:100%;
   padding:15px;
@@ -44,6 +54,7 @@ input{
   color:white;
   font-size:16px;
 }
+
 button{
   cursor:pointer;
   border:0;
@@ -51,6 +62,7 @@ button{
   padding:12px 15px;
   font-weight:bold;
 }
+
 .loginButton{
   width:100%;
   margin-top:8px;
@@ -58,6 +70,7 @@ button{
   color:white;
   font-size:16px;
 }
+
 #error{
   color:#ff6b6b;
   margin-top:12px;
@@ -68,6 +81,7 @@ header{
   padding:15px;
   border-bottom:1px solid #333;
 }
+
 .headerInner{
   max-width:1100px;
   margin:auto;
@@ -76,14 +90,22 @@ header{
   justify-content:space-between;
   gap:15px;
 }
-.headerInner img{width:150px}
-.logout{background:#333;color:#fff}
+
+.headerInner img{
+  width:150px;
+}
+
+.logout{
+  background:#333;
+  color:#fff;
+}
 
 .orders{
   max-width:1100px;
   margin:20px auto;
   padding:0 15px;
 }
+
 .order{
   background:#171717;
   border:1px solid #333;
@@ -92,8 +114,15 @@ header{
   padding:18px;
   margin-bottom:18px;
 }
-.order h2{margin-top:0}
-.info{line-height:1.7}
+
+.order h2{
+  margin-top:0;
+}
+
+.info{
+  line-height:1.7;
+}
+
 .items{
   background:#0d0d0d;
   padding:12px;
@@ -101,21 +130,48 @@ header{
   margin:12px 0;
   white-space:pre-wrap;
 }
+
 .total{
   font-size:22px;
   font-weight:bold;
   margin:12px 0;
 }
+
 .actions{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
 }
-.preparing{background:#ff9800}
-.road{background:#2196f3;color:white}
-.done{background:#2e7d32;color:white}
-.cancel{background:#c62828;color:white}
-.empty{text-align:center;padding:50px;color:#aaa}
+
+.preparing{
+  background:#ff9800;
+}
+
+.road{
+  background:#2196f3;
+  color:white;
+}
+
+.done{
+  background:#2e7d32;
+  color:white;
+}
+
+.cancel{
+  background:#c62828;
+  color:white;
+}
+
+.print{
+  background:#f5f5f5;
+  color:#111;
+}
+
+.empty{
+  text-align:center;
+  padding:50px;
+  color:#aaa;
+}
 </style>
 </head>
 
@@ -123,34 +179,96 @@ header{
 
 <div id="loginScreen">
   <div class="loginBox">
-    <img class="logo" src="logo-full.png" alt="Narburger">
+
+    <img
+      class="logo"
+      src="logo-full.png"
+      alt="Narburger"
+    >
+
     <h2>Sipariş Yönetimi</h2>
 
-    <input id="email" type="email" placeholder="E-posta">
-    <input id="password" type="password" placeholder="Şifre">
+    <input
+      id="email"
+      type="email"
+      placeholder="E-posta"
+    >
 
-    <button class="loginButton" onclick="login()">Giriş Yap</button>
+    <input
+      id="password"
+      type="password"
+      placeholder="Şifre"
+    >
+
+    <button
+      class="loginButton"
+      onclick="login()"
+    >
+      Giriş Yap
+    </button>
+
     <div id="error"></div>
+
   </div>
 </div>
+
 
 <div id="panel" class="hidden">
+
 <header>
+
   <div class="headerInner">
-    <img src="logo-full.png" alt="Narburger">
+
+    <img
+      src="logo-full.png"
+      alt="Narburger"
+    >
+
     <div>
-<button id="orderStoreStatus" onclick="toggleOrderStoreStatus()" style="border:0;border-radius:10px;padding:12px 18px;color:white;font-weight:bold;font-size:16px;cursor:pointer;">🟢 SİPARİŞ SİSTEMİ AÇIK</button>
-      <button class="logout" onclick="logout()">Çıkış</button>
+
+      <button
+        id="orderStoreStatus"
+        onclick="toggleOrderStoreStatus()"
+        style="
+        border:0;
+        border-radius:10px;
+        padding:12px 18px;
+        color:white;
+        font-weight:bold;
+        font-size:16px;
+        cursor:pointer;
+        "
+      >
+        🟢 SİPARİŞ SİSTEMİ AÇIK
+      </button>
+
+      <button
+        class="logout"
+        onclick="logout()"
+      >
+        Çıkış
+      </button>
+
     </div>
+
   </div>
+
 </header>
 
+
 <div id="orders" class="orders">
-  <div class="empty">Siparişler yükleniyor...</div>
-</div>
+
+  <div class="empty">
+    Siparişler yükleniyor...
+  </div>
+
 </div>
 
+</div>
+
+
 <script>
+
 const SUPABASE_URL =
 "https://ffztqlyodruwcjtsyekj.supabase.co";
 
@@ -161,7 +279,10 @@ const db = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+
+
 async function loadOrderStoreStatus(){
+
   const {data,error}=await db
     .from("store_status")
     .select("*")
@@ -169,22 +290,41 @@ async function loadOrderStoreStatus(){
     .single();
 
   if(error){
+
     console.error(error);
+
     return;
+
   }
 
-  const status=document.getElementById("orderStoreStatus");
+  const status =
+    document.getElementById(
+      "orderStoreStatus"
+    );
 
   if(data.is_open){
-    status.innerHTML="🟢 SİPARİŞ SİSTEMİ AÇIK";
-    status.style.background="#19a75a";
+
+    status.innerHTML =
+      "🟢 SİPARİŞ SİSTEMİ AÇIK";
+
+    status.style.background =
+      "#19a75a";
+
   }else{
-    status.innerHTML="🔴 SİPARİŞ SİSTEMİ KAPALI";
-    status.style.background="#e51d48";
+
+    status.innerHTML =
+      "🔴 SİPARİŞ SİSTEMİ KAPALI";
+
+    status.style.background =
+      "#e51d48";
+
   }
+
 }
 
+
 async function toggleOrderStoreStatus(){
+
   const {data,error}=await db
     .from("store_status")
     .select("*")
@@ -192,279 +332,931 @@ async function toggleOrderStoreStatus(){
     .single();
 
   if(error){
+
     alert(error.message);
+
     return;
+
   }
 
-  const newStatus=!data.is_open;
+  const newStatus =
+    !data.is_open;
 
   const result=await db
     .from("store_status")
     .update({
+
       is_open:newStatus,
+
       message:newStatus
         ? "Sipariş sistemi açık"
         : "Şu anda sipariş alamıyoruz."
+
     })
     .eq("id",1);
 
   if(result.error){
+
     alert(result.error.message);
+
     return;
+
   }
 
   await loadOrderStoreStatus();
+
 }
+
+
 async function login(){
 
   const email =
-    document.getElementById("email").value.trim();
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
   const password =
-    document.getElementById("password").value;
+    document
+      .getElementById("password")
+      .value;
 
   const errorBox =
-    document.getElementById("error");
+    document
+      .getElementById("error");
 
   errorBox.textContent = "";
 
   if(!email || !password){
+
     errorBox.textContent =
       "E-posta ve şifreyi gir.";
+
     return;
+
   }
 
   const {error} =
-    await db.auth.signInWithPassword({
-      email:email,
-      password:password
-    });
+    await db.auth
+      .signInWithPassword({
+
+        email:email,
+        password:password
+
+      });
 
   if(error){
+
     errorBox.textContent =
-      "Giriş başarısız: " + error.message;
+      "Giriş başarısız: "
+      + error.message;
+
     return;
+
   }
 
   showPanel();
+
 }
 
+
 async function logout(){
+
   await db.auth.signOut();
 
   document
     .getElementById("panel")
-    .classList.add("hidden");
+    .classList
+    .add("hidden");
 
   document
     .getElementById("loginScreen")
-    .classList.remove("hidden");
+    .classList
+    .remove("hidden");
+
 }
+
 
 function showPanel(){
 
   document
     .getElementById("loginScreen")
-    .classList.add("hidden");
+    .classList
+    .add("hidden");
 
   document
     .getElementById("panel")
-    .classList.remove("hidden");
+    .classList
+    .remove("hidden");
 
   loadOrders();
+
 }
 
+
 function esc(value){
-  const div=document.createElement("div");
-  div.textContent=value ?? "";
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    value ?? "";
+
   return div.innerHTML;
+
 }
+
 
 function showItems(items){
 
-  if(!items) return "-";
+  if(!items){
 
-  if(typeof items==="string"){
+    return "-";
+
+  }
+
+  if(typeof items === "string"){
+
     try{
-      items=JSON.parse(items);
+
+      items =
+        JSON.parse(items);
+
     }catch(e){
+
       return esc(items);
+
     }
+
   }
 
   if(Array.isArray(items)){
-    return items.map(item=>{
-      const name =
-        item.name ||
-        item.product ||
-        item.title ||
-        "Ürün";
 
-      const qty =
-        item.quantity ||
-        item.qty ||
-        item.adet ||
-        1;
+    return items
+      .map(item=>{
 
-      const price =
-        item.price ?? "";
+        const name =
+          item.name ||
+          item.product ||
+          item.title ||
+          "Ürün";
 
-      return `${esc(qty)} x ${esc(name)} ${price!=="" ? "- "+esc(price)+"₺" : ""}`;
-    }).join("<br>");
+        const qty =
+          item.quantity ||
+          item.qty ||
+          item.adet ||
+          1;
+
+        const price =
+          item.price ?? "";
+
+        return `
+          ${esc(qty)}
+          x
+          ${esc(name)}
+          ${
+            price !== ""
+            ? "- "+esc(price)+"₺"
+            : ""
+          }
+        `;
+
+      })
+      .join("<br>");
+
   }
 
-  return esc(JSON.stringify(items));
+  return esc(
+    JSON.stringify(items)
+  );
+
 }
+
 
 async function loadOrders(){
 
-  const box=document.getElementById("orders");
+  const box =
+    document.getElementById(
+      "orders"
+    );
 
   const {data,error}=
     await db
       .from("orders")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
-    box.innerHTML =
-      `<div class="empty">Siparişler yüklenemedi.<br>${esc(error.message)}</div>`;
-    return;
-  }
 
-  if(!data || !data.length){
-    box.innerHTML =
-      '<div class="empty">Henüz sipariş yok.</div>';
-    return;
-  }
+    box.innerHTML = `
+      <div class="empty">
 
-  box.innerHTML=data.map(order=>{
-
-    const date=order.created_at
-      ? new Date(order.created_at).toLocaleString("tr-TR")
-      : "";
-
-    return `
-      <div class="order">
-        <h2>Sipariş #${esc(order.id)}</h2>
-
-        <div class="info">
-          <b>Müşteri:</b>
-          ${esc(order.customer_name || "-")}<br>
-
-          <b>Telefon:</b>
-          ${esc(order.phone || "-")}<br>
-
-          <b>Adres:</b>
-          ${esc(order.address || "-")}<br>
-
-          <b>Ödeme:</b>
-          ${esc(order.payment || "-")}<br>
-
-          <b>Tarih:</b>
-          ${esc(date)}
-        </div>
-
-        <div class="items">
-          ${showItems(order.items)}
-        </div>
-
-        <div class="total">
-          Toplam: ${esc(order.total || 0)} ₺
-        </div>
-
-        <div>
-          Durum:
-          <b>${esc(order.status || "Yeni")}</b>
-        </div>
+        Siparişler yüklenemedi.
 
         <br>
 
-        <div class="actions">
-          <button class="preparing"
-            onclick="changeStatus('${order.id}','Hazırlanıyor')">
-            Hazırlanıyor
-          </button>
+        ${esc(error.message)}
 
-          <button class="road"
-            onclick="changeStatus('${order.id}','Yola Çıktı')">
-            Yola Çıktı
-          </button>
-
-          <button class="done"
-            onclick="changeStatus('${order.id}','Tamamlandı')">
-            Tamamlandı
-          </button>
-
-          <button class="cancel"
-            onclick="changeStatus('${order.id}','İptal')">
-            İptal
-          </button>
-          <button class="cancel" onclick="deleteOrder('${order.id}')">
-  SİL
-</button>
-        </div>
       </div>
     `;
-  }).join("");
+
+    return;
+
+  }
+
+  if(!data || !data.length){
+
+    box.innerHTML = `
+      <div class="empty">
+        Henüz sipariş yok.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  box.innerHTML =
+    data
+    .map(order=>{
+
+      const date =
+        order.created_at
+
+        ? new Date(
+            order.created_at
+          )
+          .toLocaleString(
+            "tr-TR"
+          )
+
+        : "";
+
+      return `
+
+        <div class="order">
+
+          <h2>
+            Sipariş #${esc(order.id)}
+          </h2>
+
+
+          <div class="info">
+
+            <b>Müşteri:</b>
+
+            ${esc(
+              order.customer_name
+              || "-"
+            )}
+
+            <br>
+
+
+            <b>Telefon:</b>
+
+            ${esc(
+              order.phone
+              || "-"
+            )}
+
+            <br>
+
+
+            <b>Adres:</b>
+
+            ${esc(
+              order.address
+              || "-"
+            )}
+
+            <br>
+
+
+            <b>Sipariş Notu:</b>
+
+            ${esc(
+              order.note
+              || "-"
+            )}
+
+            <br>
+
+
+            <b>Ödeme:</b>
+
+            ${esc(
+              order.payment
+              || "-"
+            )}
+
+            <br>
+
+
+            <b>Tarih:</b>
+
+            ${esc(date)}
+
+          </div>
+
+
+          <div class="items">
+
+            ${showItems(
+              order.items
+            )}
+
+          </div>
+
+
+          <div class="total">
+
+            Toplam:
+
+            ${esc(
+              order.total || 0
+            )}
+
+            ₺
+
+          </div>
+
+
+          <div>
+
+            Durum:
+
+            <b>
+              ${esc(
+                order.status
+                || "Yeni"
+              )}
+            </b>
+
+          </div>
+
+
+          <br>
+
+
+          <div class="actions">
+
+
+            <button
+              class="preparing"
+              onclick="
+              changeStatus(
+                '${order.id}',
+                'Hazırlanıyor'
+              )
+              "
+            >
+              Hazırlanıyor
+            </button>
+
+
+            <button
+              class="road"
+              onclick="
+              changeStatus(
+                '${order.id}',
+                'Yola Çıktı'
+              )
+              "
+            >
+              Yola Çıktı
+            </button>
+
+
+            <button
+              class="done"
+              onclick="
+              changeStatus(
+                '${order.id}',
+                'Tamamlandı'
+              )
+              "
+            >
+              Tamamlandı
+            </button>
+
+
+            <button
+              class="cancel"
+              onclick="
+              changeStatus(
+                '${order.id}',
+                'İptal'
+              )
+              "
+            >
+              İptal
+            </button>
+
+
+            <button
+              class="cancel"
+              onclick="
+              deleteOrder(
+                '${order.id}'
+              )
+              "
+            >
+              SİL
+            </button>
+
+
+            <button
+              class="print"
+              onclick="
+              printOrder(
+                '${order.id}'
+              )
+              "
+            >
+              FİŞ YAZDIR
+            </button>
+
+
+          </div>
+
+        </div>
+
+      `;
+
+    })
+    .join("");
+
 }
 
-async function changeStatus(id,status){
+
+async function printOrder(id){
+
+  const {
+    data:order,
+    error
+  }=
+    await db
+      .from("orders")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+  if(error){
+
+    alert(
+      "Sipariş alınamadı: "
+      + error.message
+    );
+
+    return;
+
+  }
+
+
+  const date =
+    order.created_at
+
+    ? new Date(
+        order.created_at
+      )
+      .toLocaleString(
+        "tr-TR"
+      )
+
+    : "";
+
+
+  const itemsHtml =
+    showItems(
+      order.items
+    );
+
+
+  const win =
+    window.open(
+      "",
+      "_blank",
+      "width=420,height=700"
+    );
+
+
+  if(!win){
+
+    alert(
+      "Yazdırma penceresi açılamadı. Açılır pencerelere izin verin."
+    );
+
+    return;
+
+  }
+
+
+  win.document.write(`
+
+<!DOCTYPE html>
+
+<html lang="tr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+Sipariş #${esc(order.id)}
+</title>
+
+
+<style>
+
+body{
+
+  font-family:
+  Arial,
+  sans-serif;
+
+  color:#000;
+
+  margin:0;
+
+  padding:16px;
+
+  font-size:14px;
+
+}
+
+
+.receipt{
+
+  width:300px;
+
+  margin:auto;
+
+}
+
+
+h2{
+
+  text-align:center;
+
+  margin:
+  0 0 14px;
+
+}
+
+
+.line{
+
+  border-top:
+  1px dashed #000;
+
+  margin:
+  10px 0;
+
+}
+
+
+.label{
+
+  font-weight:bold;
+
+  margin-top:8px;
+
+}
+
+
+.value{
+
+  margin-top:3px;
+
+  white-space:
+  pre-wrap;
+
+}
+
+
+.total{
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  margin-top:12px;
+
+}
+
+
+@media print{
+
+  body{
+
+    padding:0;
+
+  }
+
+
+  .receipt{
+
+    width:100%;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="receipt">
+
+
+<h2>
+NARBURGER
+</h2>
+
+
+<div>
+
+<b>
+Sipariş #:
+</b>
+
+${esc(order.id)}
+
+</div>
+
+
+<div>
+
+<b>
+Tarih:
+</b>
+
+${esc(date)}
+
+</div>
+
+
+<div class="line">
+</div>
+
+
+<div class="label">
+MÜŞTERİ:
+</div>
+
+<div class="value">
+
+${esc(
+  order.customer_name
+  || "-"
+)}
+
+</div>
+
+
+<div class="label">
+TELEFON:
+</div>
+
+<div class="value">
+
+${esc(
+  order.phone
+  || "-"
+)}
+
+</div>
+
+
+<div class="label">
+ADRES:
+</div>
+
+<div class="value">
+
+${esc(
+  order.address
+  || "-"
+)}
+
+</div>
+
+
+<div class="label">
+SİPARİŞ NOTU:
+</div>
+
+<div class="value">
+
+${esc(
+  order.note
+  || "-"
+)}
+
+</div>
+
+
+<div class="line">
+</div>
+
+
+<div class="label">
+ÜRÜNLER:
+</div>
+
+
+<div class="value">
+
+${itemsHtml}
+
+</div>
+
+
+<div class="line">
+</div>
+
+
+<div>
+
+<b>
+ÖDEME:
+</b>
+
+${esc(
+  order.payment
+  || "-"
+)}
+
+</div>
+
+
+<div class="total">
+
+TOPLAM:
+
+${esc(
+  order.total
+  || 0
+)}
+
+₺
+
+</div>
+
+
+</div>
+
+
+<script>
+
+window.onload=function(){
+
+  window.print();
+
+};
+
+<\/script>
+
+
+</body>
+
+</html>
+
+  `);
+
+
+  win.document.close();
+
+}
+
+
+async function changeStatus(
+  id,
+  status
+){
 
   const {error}=
     await db
       .from("orders")
-      .update({status:status})
-      .eq("id",id);
+      .update({
+        status:status
+      })
+      .eq(
+        "id",
+        id
+      );
 
   if(error){
-    alert("Durum değiştirilemedi: "+error.message);
+
+    alert(
+      "Durum değiştirilemedi: "
+      + error.message
+    );
+
     return;
+
   }
 
   loadOrders();
-}
-async function deleteOrder(id){
-  if(!confirm("Bu siparişi kalıcı olarak silmek istiyor musunuz?")) return;
 
-  const {error}=await db
-    .from("orders")
-    .delete()
-    .eq("id",id);
+}
+
+
+async function deleteOrder(id){
+
+  if(
+    !confirm(
+      "Bu siparişi kalıcı olarak silmek istiyor musunuz?"
+    )
+  ){
+
+    return;
+
+  }
+
+  const {error}=
+    await db
+      .from("orders")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
 
   if(error){
-    alert("Sipariş silinemedi: "+error.message);
+
+    alert(
+      "Sipariş silinemedi: "
+      + error.message
+    );
+
     return;
+
   }
 
   await loadOrders();
+
 }
+
+
 async function start(){
 
   const {
-    data:{session}
-  }=await db.auth.getSession();
+    data:{
+      session
+    }
+  }=
+    await db.auth
+      .getSession();
 
   if(session){
+
     showPanel();
+
   }
+
 }
+
 
 start();
 
-setInterval(async()=>{
 
-  const {
-    data:{session}
-  }=await db.auth.getSession();
+setInterval(
+  async()=>{
 
-  if(session){
-    loadOrders();
-  }
+    const {
+      data:{
+        session
+      }
+    }=
+      await db.auth
+        .getSession();
 
-},5000);
+    if(session){
+
+      loadOrders();
+
+    }
+
+  },
+
+  5000
+
+);
+
+
 loadOrderStoreStatus();
+
 </script>
 
 </body>
+
 </html>
