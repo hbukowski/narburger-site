@@ -1707,7 +1707,10 @@ async function sendWhatsApp(){
 
   }
 
-
+const note =
+  document
+    .getElementById("note")
+    .value.trim() || "";
   const total =
   cart.reduce(
     (s,x)=>s+x.price*x.qty,
