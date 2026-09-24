@@ -199,7 +199,7 @@ th, td{
   font-size:13px;
 }
 
-/* TOPLAM LİSTELERİ */
+/* KATEGORİ TOPLAMLARI */
 
 .total-block{
   margin-top:14px;
@@ -251,75 +251,78 @@ th, td{
   font-weight:800;
 }
 
+/* GELİR - GİDER YAN YANA */
+
+.totals-two-column{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.totals-two-column .total-block{
+  margin-top:10px;
+}
+
+.totals-two-column .total-row{
+  min-height:48px;
+}
+
 /* BORÇ DEFTERİ */
 
 .debt-card{
   background:#fafafa;
   border:1px solid #e7e7e7;
   border-radius:15px;
-  padding:15px;
-  margin-top:12px;
+  padding:12px 14px;
+  margin-top:10px;
 }
 
-.debt-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
+.debt-line{
+  display:grid;
+  grid-template-columns:
+    minmax(150px,1.35fr)
+    repeat(3,minmax(115px,.8fr))
+    auto;
   gap:10px;
-  flex-wrap:wrap;
+  align-items:center;
 }
 
 .debt-name{
-  font-size:19px;
+  font-size:18px;
   font-weight:700;
+}
+
+.debt-name-wrap small{
+  display:block;
+  color:#777;
+  margin-top:3px;
+}
+
+.debt-inline-stat{
+  background:#fff;
+  border-radius:10px;
+  padding:9px 11px;
+  min-width:0;
+}
+
+.debt-inline-stat small{
+  display:block;
+  color:#777;
+  font-size:12px;
+  margin-bottom:3px;
+}
+
+.debt-inline-stat strong{
+  display:block;
+  white-space:nowrap;
 }
 
 .debt-actions{
   display:flex;
   gap:6px;
-  flex-wrap:wrap;
-}
-
-.debt-stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:8px;
-  margin-top:13px;
-}
-
-.debt-stat{
-  background:#fff;
-  border-radius:10px;
-  padding:10px;
-}
-
-.debt-stat small{
-  color:#777;
-}
-
-.debt-stat strong{
-  display:block;
-  margin-top:4px;
-}
-
-.debt-history{
-  margin-top:12px;
-  background:#fff;
-  border-radius:10px;
-  padding:10px;
-}
-
-.debt-move{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  padding:8px 0;
-  border-bottom:1px solid #eee;
-  font-size:13px;
-}
-
-.debt-move:last-child{
-  border-bottom:0;
+  justify-content:flex-end;
+  flex-wrap:nowrap;
 }
 
 /* AYARLAR */
@@ -349,7 +352,27 @@ th, td{
   border-top:0;
 }
 
+/* TABLET / TELEFON */
+
+@media(max-width:800px){
+
+  .debt-line{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .debt-name-wrap{
+    grid-column:1 / -1;
+  }
+
+  .debt-actions{
+    grid-column:1 / -1;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+  }
+}
+
 @media(max-width:700px){
+
   .container{
     padding:10px;
   }
@@ -361,37 +384,15 @@ th, td{
   table{
     min-width:720px;
   }
-}
-/* GELİR - GİDER YAN YANA */
 
-.totals-two-column{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-  align-items:start;
-}
-
-.totals-two-column .total-block{
-  margin-top:10px;
-}
-
-.totals-two-column .total-row{
-  min-height:48px;
-}
-
-@media(max-width:700px){
   .totals-two-column{
     grid-template-columns:1fr;
   }
 }
-/* BORÇ DEFTERİ - HAREKETLERİ GİZLE */
-.debt-movements,
-.debt-history,
-.movement-list{
-  display:none !important;
-}  
+
 </style>
 </head>
+
 <body>
 
 <header>
@@ -402,15 +403,33 @@ th, td{
 <div class="container">
 
   <!-- TARİH FİLTRE -->
+
   <div class="filters">
-    <button class="filter-btn active" onclick="setFilter('today',this)">Bugün</button>
-    <button class="filter-btn" onclick="setFilter('week',this)">Bu Hafta</button>
-    <button class="filter-btn" onclick="setFilter('month',this)">Bu Ay</button>
-    <button class="filter-btn" onclick="setFilter('all',this)">Tümü</button>
+    <button class="filter-btn active"
+      onclick="setFilter('today',this)">
+      Bugün
+    </button>
+
+    <button class="filter-btn"
+      onclick="setFilter('week',this)">
+      Bu Hafta
+    </button>
+
+    <button class="filter-btn"
+      onclick="setFilter('month',this)">
+      Bu Ay
+    </button>
+
+    <button class="filter-btn"
+      onclick="setFilter('all',this)">
+      Tümü
+    </button>
   </div>
 
   <!-- ANA PANEL -->
+
   <div class="cards">
+
     <div class="card">
       <small>Toplam Gelir</small>
       <h2 class="green" id="totalIncome">0 ₺</h2>
@@ -435,64 +454,116 @@ th, td{
       <small>Kalan Geçmiş Borç</small>
       <h2 class="orange" id="totalOldDebt">0 ₺</h2>
     </div>
+
   </div>
 
   <!-- İŞLEM EKLE -->
+
   <div class="section">
+
     <h3>➕ İşlem Ekle</h3>
 
     <div class="type-box">
-      <button id="incomeBtn" class="type-btn income" onclick="setType('Gelir')">💰 Gelir</button>
-      <button id="expenseBtn" class="type-btn expense active" onclick="setType('Gider')">💸 Gider</button>
+
+      <button
+        id="incomeBtn"
+        class="type-btn income"
+        onclick="setType('Gelir')">
+        💰 Gelir
+      </button>
+
+      <button
+        id="expenseBtn"
+        class="type-btn expense active"
+        onclick="setType('Gider')">
+        💸 Gider
+      </button>
+
     </div>
 
     <div class="form-grid">
-      <input type="date" id="transactionDate">
 
-      <select id="category" onchange="renderSubAccountOptions()"></select>
+      <input
+        type="date"
+        id="transactionDate">
+
+      <select
+        id="category"
+        onchange="renderSubAccountOptions()">
+      </select>
 
       <select id="subAccount">
         <option value="">Alt hesap seç</option>
       </select>
 
-      <input type="number" id="amount" placeholder="Tutar ₺">
+      <input
+        type="text"
+        inputmode="decimal"
+        id="amount"
+        placeholder="Tutar ₺">
 
-      <input type="text" id="note" placeholder="Açıklama">
+      <input
+        type="text"
+        id="note"
+        placeholder="Açıklama">
 
-      <button id="addButton" class="btn-red" onclick="addTransaction()">Gider Ekle</button>
+      <button
+        id="addButton"
+        class="btn-red"
+        onclick="addTransaction()">
+        Gider Ekle
+      </button>
+
     </div>
 
-    <p class="note">Tarih otomatik bugünü gösterir. İstersen değiştirebilirsin.</p>
-  </div>
-<!-- KATEGORİ TOPLAMLARI -->
-<div class="section">
-
-  <h3>📊 Kategori Toplamları</h3>
-
-  <div class="totals-two-column">
-
-    <div class="total-block">
-      <div class="total-block-title red">
-        🔴 Gider Dağılımı
-      </div>
-
-      <div class="total-list" id="expenseTotals"></div>
-    </div>
-
-    <div class="total-block">
-      <div class="total-block-title green">
-        🟢 Gelir Dağılımı
-      </div>
-
-      <div class="total-list" id="incomeTotals"></div>
-    </div>
+    <p class="note">
+      Tarih otomatik bugünü gösterir. İstersen değiştirebilirsin.
+    </p>
 
   </div>
 
-</div>
+  <!-- KATEGORİ TOPLAMLARI -->
+
+  <div class="section">
+
+    <h3>📊 Kategori Toplamları</h3>
+
+    <div class="totals-two-column">
+
+      <div class="total-block">
+
+        <div class="total-block-title red">
+          🔴 Gider Dağılımı
+        </div>
+
+        <div
+          class="total-list"
+          id="expenseTotals">
+        </div>
+
+      </div>
+
+      <div class="total-block">
+
+        <div class="total-block-title green">
+          🟢 Gelir Dağılımı
+        </div>
+
+        <div
+          class="total-list"
+          id="incomeTotals">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
   <!-- BORÇ DEFTERİ -->
+
   <div class="section">
+
     <h3>📕 Borç Defteri</h3>
 
     <p class="note" style="margin-bottom:15px">
@@ -501,18 +572,37 @@ th, td{
     </p>
 
     <div class="form-grid">
-      <input type="text" id="debtName" placeholder="Kime / Firma">
 
-      <input type="number" id="debtOpening" placeholder="Mevcut borç ₺">
+      <input
+        type="text"
+        id="debtName"
+        placeholder="Kime / Firma">
 
-      <input type="date" id="debtDate">
+      <input
+        type="text"
+        inputmode="decimal"
+        id="debtOpening"
+        placeholder="Mevcut borç ₺">
 
-      <input type="text" id="debtNote" placeholder="Açıklama">
+      <input
+        type="date"
+        id="debtDate">
 
-      <button class="btn-dark" onclick="addDebtAccount()">+ Borç Kaydı Aç</button>
+      <input
+        type="text"
+        id="debtNote"
+        placeholder="Açıklama">
+
+      <button
+        class="btn-dark"
+        onclick="addDebtAccount()">
+        + Borç Kaydı Aç
+      </button>
+
     </div>
 
     <div class="cards" style="margin-top:18px">
+
       <div class="card">
         <small>Borçlu Olduğumuz Hesap</small>
         <h2 id="debtAccountCount">0</h2>
@@ -532,17 +622,23 @@ th, td{
         <small>Kalan Borç</small>
         <h2 class="orange" id="debtRemainingTotal">0 ₺</h2>
       </div>
+
     </div>
 
     <div id="debtList"></div>
+
   </div>
 
   <!-- İŞLEM GEÇMİŞİ -->
+
   <div class="section">
+
     <h3>📋 İşlem Geçmişi</h3>
 
     <div class="table-wrap">
+
       <table>
+
         <thead>
           <tr>
             <th>Tarih</th>
@@ -554,16 +650,23 @@ th, td{
             <th></th>
           </tr>
         </thead>
+
         <tbody id="transactionList"></tbody>
+
       </table>
+
     </div>
+
   </div>
 
   <!-- AYARLAR -->
+
   <div class="section">
+
     <h3>⚙️ Kategori ve Alt Hesap Ayarları</h3>
 
     <div class="form-grid">
+
       <select id="newSubCategory"></select>
 
       <input
@@ -571,15 +674,22 @@ th, td{
         id="newSubName"
         placeholder="Örn: Barış, Kasap Ali, Ayasofya">
 
-      <button class="btn-dark" onclick="addSubAccount()">+ Alt Hesap Ekle</button>
+      <button
+        class="btn-dark"
+        onclick="addSubAccount()">
+        + Alt Hesap Ekle
+      </button>
+
     </div>
 
     <div id="subAccountList"></div>
+
   </div>
 
 </div>
 
 <script>
+
 /* =========================
    KATEGORİLER
 ========================= */
@@ -632,10 +742,17 @@ let activeFilter = "today";
 ========================= */
 
 function today(){
+
   const d = new Date();
+
   const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,"0");
-  const day = String(d.getDate()).padStart(2,"0");
+
+  const m =
+    String(d.getMonth()+1).padStart(2,"0");
+
+  const day =
+    String(d.getDate()).padStart(2,"0");
+
   return y + "-" + m + "-" + day;
 }
 
@@ -647,6 +764,7 @@ document.getElementById("debtDate").value = today();
 ========================= */
 
 function money(number){
+
   return Number(number || 0).toLocaleString(
     "tr-TR",
     {
@@ -657,43 +775,134 @@ function money(number){
   );
 }
 
+/* 50.000 / 50,000 / 50000 girişlerini doğru okur */
+
+function parseMoney(value){
+
+  if(typeof value === "number"){
+    return value;
+  }
+
+  let text = String(value || "")
+    .trim()
+    .replace(/\s/g,"")
+    .replace(/₺/g,"");
+
+  if(!text){
+    return 0;
+  }
+
+  const dotCount = (text.match(/\./g) || []).length;
+  const commaCount = (text.match(/,/g) || []).length;
+
+  if(dotCount > 0 && commaCount > 0){
+
+    const lastDot = text.lastIndexOf(".");
+    const lastComma = text.lastIndexOf(",");
+
+    if(lastComma > lastDot){
+      text = text.replace(/\./g,"");
+      text = text.replace(",",".");
+    }else{
+      text = text.replace(/,/g,"");
+    }
+
+  }else if(dotCount > 0){
+
+    const parts = text.split(".");
+
+    if(
+      parts.length > 1 &&
+      parts.slice(1).every(x => x.length === 3)
+    ){
+      text = parts.join("");
+    }
+
+  }else if(commaCount > 0){
+
+    const parts = text.split(",");
+
+    if(
+      parts.length > 1 &&
+      parts.slice(1).every(x => x.length === 3)
+    ){
+      text = parts.join("");
+    }else{
+      text = text.replace(",",".");
+    }
+  }
+
+  text = text.replace(/[^\d.-]/g,"");
+
+  const result = Number(text);
+
+  return Number.isFinite(result) ? result : 0;
+}
+
 /* =========================
    GELİR / GİDER
 ========================= */
 
 function setType(type){
+
   transactionType = type;
 
-  document.getElementById("incomeBtn").classList.remove("active");
-  document.getElementById("expenseBtn").classList.remove("active");
+  document
+    .getElementById("incomeBtn")
+    .classList.remove("active");
 
-  if(type==="Gelir"){
-    document.getElementById("incomeBtn").classList.add("active");
-    document.getElementById("addButton").className = "btn-green";
-    document.getElementById("addButton").innerText = "Gelir Ekle";
+  document
+    .getElementById("expenseBtn")
+    .classList.remove("active");
+
+  if(type === "Gelir"){
+
+    document
+      .getElementById("incomeBtn")
+      .classList.add("active");
+
+    document.getElementById("addButton").className =
+      "btn-green";
+
+    document.getElementById("addButton").innerText =
+      "Gelir Ekle";
+
   }else{
-    document.getElementById("expenseBtn").classList.add("active");
-    document.getElementById("addButton").className = "btn-red";
-    document.getElementById("addButton").innerText = "Gider Ekle";
+
+    document
+      .getElementById("expenseBtn")
+      .classList.add("active");
+
+    document.getElementById("addButton").className =
+      "btn-red";
+
+    document.getElementById("addButton").innerText =
+      "Gider Ekle";
   }
 
   renderCategoryOptions();
 }
-
-/* =========================
+  /* =========================
    KATEGORİLER
 ========================= */
 
 function renderCategoryOptions(){
+
   const select = document.getElementById("category");
   select.innerHTML = "";
 
-  const categories = transactionType==="Gelir" ? incomeCategories : expenseCategories;
+  const categories =
+    transactionType === "Gelir"
+      ? incomeCategories
+      : expenseCategories;
 
   categories.forEach(category=>{
+
     const option = document.createElement("option");
+
     option.value = category;
     option.textContent = category;
+
     select.appendChild(option);
   });
 
@@ -701,17 +910,26 @@ function renderCategoryOptions(){
 }
 
 function renderSubAccountOptions(){
-  const category = document.getElementById("category").value;
-  const select = document.getElementById("subAccount");
 
-  select.innerHTML = '<option value="">Alt hesap seç</option>';
+  const category =
+    document.getElementById("category").value;
+
+  const select =
+    document.getElementById("subAccount");
+
+  select.innerHTML =
+    '<option value="">Alt hesap seç</option>';
 
   subAccounts
     .filter(x=>x.category===category)
     .forEach(item=>{
-      const option = document.createElement("option");
+
+      const option =
+        document.createElement("option");
+
       option.value = item.name;
       option.textContent = item.name;
+
       select.appendChild(option);
     });
 }
@@ -721,31 +939,46 @@ function renderSubAccountOptions(){
 ========================= */
 
 function addTransaction(){
-  const date = document.getElementById("transactionDate").value;
-  const category = document.getElementById("category").value;
-  const subAccount = document.getElementById("subAccount").value;
-  const amount = Number(document.getElementById("amount").value);
-  const note = document.getElementById("note").value.trim();
+
+  const date =
+    document.getElementById("transactionDate").value;
+
+  const category =
+    document.getElementById("category").value;
+
+  const subAccount =
+    document.getElementById("subAccount").value;
+
+  const amount =
+    parseMoney(
+      document.getElementById("amount").value
+    );
+
+  const note =
+    document.getElementById("note").value.trim();
 
   if(amount<=0){
+
     alert("Tutar gir.");
     return;
   }
 
   transactions.push({
-    id: Date.now(),
-    date: date,
-    type: transactionType,
-    category: category,
-    subAccount: subAccount,
-    amount: amount,
-    note: note
+
+    id:Date.now(),
+    date:date,
+    type:transactionType,
+    category:category,
+    subAccount:subAccount,
+    amount:amount,
+    note:note
+
   });
 
   saveTransactions();
 
-  document.getElementById("amount").value = "";
-  document.getElementById("note").value = "";
+  document.getElementById("amount").value="";
+  document.getElementById("note").value="";
 }
 
 /* =========================
@@ -753,140 +986,236 @@ function addTransaction(){
 ========================= */
 
 function addDebtAccount(){
-  const name = document.getElementById("debtName").value.trim();
-  const amount = Number(document.getElementById("debtOpening").value);
-  const date = document.getElementById("debtDate").value;
-  const note = document.getElementById("debtNote").value.trim();
+
+  const name =
+    document.getElementById("debtName").value.trim();
+
+  const amount =
+    parseMoney(
+      document.getElementById("debtOpening").value
+    );
+
+  const date =
+    document.getElementById("debtDate").value;
+
+  const note =
+    document.getElementById("debtNote").value.trim();
 
   if(!name){
+
     alert("Kişi veya firma adı gir.");
     return;
   }
 
   if(amount<=0){
+
     alert("Borç tutarı gir.");
     return;
   }
 
   debts.push({
-    id: Date.now(),
-    name: name,
-    created: date,
-    note: note,
-    movements: [
+
+    id:Date.now(),
+
+    name:name,
+
+    created:date,
+
+    note:note,
+
+    movements:[
       {
-        id: Date.now()+1,
-        date: date,
-        type: "debt",
-        amount: amount,
-        note: "Başlangıç borcu"
+        id:Date.now()+1,
+        date:date,
+        type:"debt",
+        amount:amount,
+        note:"Başlangıç borcu"
       }
     ]
+
   });
 
   saveDebts();
 
-  document.getElementById("debtName").value = "";
-  document.getElementById("debtOpening").value = "";
-  document.getElementById("debtNote").value = "";
+  document.getElementById("debtName").value="";
+  document.getElementById("debtOpening").value="";
+  document.getElementById("debtNote").value="";
 }
+
+/* YENİ BORÇ EKLE */
 
 function addDebtMovement(id){
-  const debt = debts.find(x=>x.id===id);
-  if(!debt) return;
 
-  let amount = Number(prompt(debt.name + " için eklenecek yeni borç tutarı:"));
-  if(amount<=0) return;
+  const debt =
+    debts.find(x=>x.id===id);
 
-  let note = prompt("Açıklama / ne alındı?") || "Yeni borç";
+  if(!debt){
+    return;
+  }
+
+  const entered =
+    prompt(
+      debt.name +
+      " için eklenecek yeni borç tutarı:"
+    );
+
+  const amount =
+    parseMoney(entered);
+
+  if(amount<=0){
+    return;
+  }
+
+  const note =
+    prompt("Açıklama / ne alındı?") ||
+    "Yeni borç";
 
   debt.movements.push({
-    id: Date.now(),
-    date: today(),
-    type: "debt",
-    amount: amount,
-    note: note
+
+    id:Date.now(),
+    date:today(),
+    type:"debt",
+    amount:amount,
+    note:note
+
   });
 
   saveDebts();
 }
 
-function payDebt(id){
-  const debt = debts.find(x=>x.id===id);
-  if(!debt) return;
+/* BORÇ ÖDE */
 
-  const balance = getDebtBalance(debt);
+function payDebt(id){
+
+  const debt =
+    debts.find(x=>x.id===id);
+
+  if(!debt){
+    return;
+  }
+
+  const balance =
+    getDebtBalance(debt);
 
   if(balance<=0){
+
     alert("Bu hesabın kalan borcu yok.");
     return;
   }
 
-  let amount = Number(
+  const entered =
     prompt(
       debt.name +
-      "\nKalan borç: " + money(balance) +
+      "\nKalan borç: " +
+      money(balance) +
       "\n\nÖdeme tutarı:"
-    )
-  );
+    );
 
-  if(amount<=0) return;
+  const amount =
+    parseMoney(entered);
 
-  if(amount>balance){
-    alert("Ödeme kalan borçtan fazla olamaz.");
+  if(amount<=0){
     return;
   }
 
-  let note = prompt("Ödeme açıklaması:") || "Borç ödemesi";
+  if(amount>balance){
+
+    alert(
+      "Ödeme kalan borçtan fazla olamaz."
+    );
+
+    return;
+  }
+
+  const note =
+    prompt("Ödeme açıklaması:") ||
+    "Borç ödemesi";
+
+  const movementId = Date.now();
 
   debt.movements.push({
-    id: Date.now(),
-    date: today(),
-    type: "payment",
-    amount: amount,
-    note: note
+
+    id:movementId,
+    date:today(),
+    type:"payment",
+    amount:amount,
+    note:note
+
   });
 
   transactions.push({
-    id: Date.now()+1,
-    date: today(),
-    type: "Gider",
-    category: "Borç Ödemesi",
-    subAccount: debt.name,
-    amount: amount,
-    note: note,
-    debtPayment: true
+
+    id:movementId+1,
+    date:today(),
+    type:"Gider",
+    category:"Borç Ödemesi",
+    subAccount:debt.name,
+    amount:amount,
+    note:note,
+    debtPayment:true,
+    debtId:debt.id,
+    debtMovementId:movementId
+
   });
 
   saveDebts();
   saveTransactions();
 }
 
+/* BORÇ HESAPLARI */
+
 function getDebtTotal(debt){
+
   return debt.movements
     .filter(x=>x.type==="debt")
-    .reduce((sum,x)=>sum+Number(x.amount),0);
+    .reduce(
+      (sum,x)=>sum+Number(x.amount),
+      0
+    );
 }
 
 function getDebtPaid(debt){
+
   return debt.movements
     .filter(x=>x.type==="payment")
-    .reduce((sum,x)=>sum+Number(x.amount),0);
+    .reduce(
+      (sum,x)=>sum+Number(x.amount),
+      0
+    );
 }
 
 function getDebtBalance(debt){
-  return Math.max(0, getDebtTotal(debt) - getDebtPaid(debt));
+
+  return Math.max(
+    0,
+    getDebtTotal(debt) -
+    getDebtPaid(debt)
+  );
 }
 
-function deleteDebt(id){
-  const debt = debts.find(x=>x.id===id);
-  if(!debt) return;
+/* BORÇ KAYDI SİL */
 
-  if(!confirm(debt.name + " borç kaydını tamamen silmek istiyor musun?")){
+function deleteDebt(id){
+
+  const debt =
+    debts.find(x=>x.id===id);
+
+  if(!debt){
     return;
   }
 
-  debts = debts.filter(x=>x.id!==id);
+  if(
+    !confirm(
+      debt.name +
+      " borç kaydını tamamen silmek istiyor musun?"
+    )
+  ){
+    return;
+  }
+
+  debts =
+    debts.filter(x=>x.id!==id);
+
   saveDebts();
 }
 
@@ -895,56 +1224,95 @@ function deleteDebt(id){
 ========================= */
 
 function renderNewSubCategories(){
-  const select = document.getElementById("newSubCategory");
-  select.innerHTML = "";
 
-  [...expenseCategories, ...incomeCategories].forEach(category=>{
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
+  const select =
+    document.getElementById("newSubCategory");
+
+  select.innerHTML="";
+
+  [
+    ...expenseCategories,
+    ...incomeCategories
+  ].forEach(category=>{
+
+    const option =
+      document.createElement("option");
+
+    option.value=category;
+    option.textContent=category;
+
     select.appendChild(option);
   });
 }
 
 function addSubAccount(){
-  const category = document.getElementById("newSubCategory").value;
-  const name = document.getElementById("newSubName").value.trim();
+
+  const category =
+    document.getElementById(
+      "newSubCategory"
+    ).value;
+
+  const name =
+    document.getElementById(
+      "newSubName"
+    ).value.trim();
 
   if(!name){
+
     alert("Alt hesap adı gir.");
     return;
   }
 
-  const exists = subAccounts.some(
-    x =>
-    x.category===category &&
-    x.name.toLocaleLowerCase("tr-TR")===name.toLocaleLowerCase("tr-TR")
-  );
+  const exists =
+    subAccounts.some(
+      x=>
+        x.category===category &&
+        x.name.toLocaleLowerCase("tr-TR") ===
+        name.toLocaleLowerCase("tr-TR")
+    );
 
   if(exists){
+
     alert("Bu alt hesap zaten var.");
     return;
   }
 
   subAccounts.push({
-    id: Date.now(),
-    category: category,
-    name: name
+
+    id:Date.now(),
+    category:category,
+    name:name
+
   });
 
   saveSubAccounts();
-  document.getElementById("newSubName").value = "";
+
+  document.getElementById(
+    "newSubName"
+  ).value="";
 }
 
 function deleteSubAccount(id){
-  const item = subAccounts.find(x=>x.id===id);
-  if(!item) return;
 
-  if(!confirm(item.name + " alt hesabını silmek istiyor musun?")){
+  const item =
+    subAccounts.find(x=>x.id===id);
+
+  if(!item){
     return;
   }
 
-  subAccounts = subAccounts.filter(x=>x.id!==id);
+  if(
+    !confirm(
+      item.name +
+      " alt hesabını silmek istiyor musun?"
+    )
+  ){
+    return;
+  }
+
+  subAccounts =
+    subAccounts.filter(x=>x.id!==id);
+
   saveSubAccounts();
 }
 
@@ -953,11 +1321,18 @@ function deleteSubAccount(id){
 ========================= */
 
 function deleteTransaction(id){
-  if(!confirm("Bu işlemi silmek istiyor musun?")){
+
+  if(
+    !confirm(
+      "Bu işlemi silmek istiyor musun?"
+    )
+  ){
     return;
   }
 
-  transactions = transactions.filter(x=>x.id!==id);
+  transactions =
+    transactions.filter(x=>x.id!==id);
+
   saveTransactions();
 }
 
@@ -966,17 +1341,32 @@ function deleteTransaction(id){
 ========================= */
 
 function saveTransactions(){
-  localStorage.setItem("nar_transactions_v3", JSON.stringify(transactions));
+
+  localStorage.setItem(
+    "nar_transactions_v3",
+    JSON.stringify(transactions)
+  );
+
   render();
 }
 
 function saveSubAccounts(){
-  localStorage.setItem("nar_subaccounts_v3", JSON.stringify(subAccounts));
+
+  localStorage.setItem(
+    "nar_subaccounts_v3",
+    JSON.stringify(subAccounts)
+  );
+
   render();
 }
 
 function saveDebts(){
-  localStorage.setItem("nar_debtbook_v1", JSON.stringify(debts));
+
+  localStorage.setItem(
+    "nar_debtbook_v1",
+    JSON.stringify(debts)
+  );
+
   render();
 }
 
@@ -985,26 +1375,44 @@ function saveDebts(){
 ========================= */
 
 function setFilter(filter,button){
-  activeFilter = filter;
 
-  document.querySelectorAll(".filter-btn").forEach(
-    x=>x.classList.remove("active")
-  );
+  activeFilter=filter;
+
+  document
+    .querySelectorAll(".filter-btn")
+    .forEach(
+      x=>x.classList.remove("active")
+    );
 
   button.classList.add("active");
+
   render();
 }
 
 function startOfWeek(dateObj){
-  const d = new Date(dateObj);
-  const day = d.getDay();
-  const diff = day===0 ? -6 : 1-day;
-  d.setDate(d.getDate()+diff);
-  d.setHours(0,0,0,0);
+
+  const d =
+    new Date(dateObj);
+
+  const day =
+    d.getDay();
+
+  const diff =
+    day===0 ? -6 : 1-day;
+
+  d.setDate(
+    d.getDate()+diff
+  );
+
+  d.setHours(
+    0,0,0,0
+  );
+
   return d;
 }
 
 function inFilter(date){
+
   if(activeFilter==="all"){
     return true;
   }
@@ -1013,20 +1421,40 @@ function inFilter(date){
     return date===today();
   }
 
-  const now = new Date();
-  const d = new Date(date + "T12:00:00");
+  const now =
+    new Date();
+
+  const d =
+    new Date(
+      date+"T12:00:00"
+    );
 
   if(activeFilter==="week"){
-    const start = startOfWeek(now);
-    const end = new Date(now);
-    end.setHours(23,59,59,999);
-    return d>=start && d<=end;
+
+    const start =
+      startOfWeek(now);
+
+    const end =
+      new Date(now);
+
+    end.setHours(
+      23,59,59,999
+    );
+
+    return (
+      d>=start &&
+      d<=end
+    );
   }
 
   if(activeFilter==="month"){
+
     return (
-      d.getFullYear()===now.getFullYear() &&
-      d.getMonth()===now.getMonth()
+      d.getFullYear()===
+      now.getFullYear()
+      &&
+      d.getMonth()===
+      now.getMonth()
     );
   }
 
@@ -1038,32 +1466,71 @@ function inFilter(date){
 ========================= */
 
 function renderDashboard(){
-  const filtered = transactions.filter(x=>inFilter(x.date));
 
-  let income = 0;
-  let expense = 0;
+  const filtered =
+    transactions.filter(
+      x=>inFilter(x.date)
+    );
+
+  let income=0;
+  let expense=0;
 
   filtered.forEach(item=>{
+
     if(item.type==="Gelir"){
-      income += Number(item.amount);
+
+      income+=
+        Number(item.amount);
+
     }else{
-      expense += Number(item.amount);
+
+      expense+=
+        Number(item.amount);
     }
   });
 
-  const net = income - expense;
+  const net =
+    income-expense;
 
-  document.getElementById("totalIncome").innerText = money(income);
-  document.getElementById("totalExpense").innerText = money(expense);
+  document.getElementById(
+    "totalIncome"
+  ).innerText=
+    money(income);
 
-  const netElement = document.getElementById("netResult");
-  netElement.innerText = money(net);
-  netElement.className = net>=0 ? "green" : "red";
+  document.getElementById(
+    "totalExpense"
+  ).innerText=
+    money(expense);
 
-  document.getElementById("transactionCount").innerText = filtered.length;
+  const netElement =
+    document.getElementById(
+      "netResult"
+    );
 
-  const totalOldDebt = debts.reduce((sum,d)=>sum+getDebtBalance(d),0);
-  document.getElementById("totalOldDebt").innerText = money(totalOldDebt);
+  netElement.innerText=
+    money(net);
+
+  netElement.className=
+    net>=0
+      ? "green"
+      : "red";
+
+  document.getElementById(
+    "transactionCount"
+  ).innerText=
+    filtered.length;
+
+  const totalOldDebt =
+    debts.reduce(
+      (sum,d)=>
+        sum+getDebtBalance(d),
+      0
+    );
+
+  document.getElementById(
+    "totalOldDebt"
+  ).innerText=
+    money(totalOldDebt);
 }
 
 /* =========================
@@ -1071,154 +1538,287 @@ function renderDashboard(){
 ========================= */
 
 function renderCategoryTotals(){
-  const expenseContainer = document.getElementById("expenseTotals");
-  const incomeContainer = document.getElementById("incomeTotals");
 
-  expenseContainer.innerHTML = "";
-  incomeContainer.innerHTML = "";
+  const expenseContainer =
+    document.getElementById(
+      "expenseTotals"
+    );
 
-  const filtered = transactions.filter(x=>inFilter(x.date));
+  const incomeContainer =
+    document.getElementById(
+      "incomeTotals"
+    );
 
-  let totalExpense = 0;
-  let totalIncome = 0;
+  expenseContainer.innerHTML="";
+  incomeContainer.innerHTML="";
 
-  expenseCategories.forEach(category=>{
-    const total = filtered
-      .filter(x=>x.type==="Gider" && x.category===category)
-      .reduce((sum,x)=>sum+Number(x.amount),0);
+  const filtered =
+    transactions.filter(
+      x=>inFilter(x.date)
+    );
 
-    totalExpense += total;
+  let totalExpense=0;
+  let totalIncome=0;
 
-    const row = document.createElement("div");
-    row.className = "total-row";
-    row.innerHTML = `
-      <div class="total-label">${category}</div>
-      <div class="total-value red">${money(total)}</div>
-    `;
-    expenseContainer.appendChild(row);
-  });
+  expenseCategories.forEach(
+    category=>{
 
-  const expenseFooter = document.createElement("div");
-  expenseFooter.className = "total-footer";
-  expenseFooter.innerHTML = `
+      const total =
+        filtered
+          .filter(
+            x=>
+              x.type==="Gider" &&
+              x.category===category
+          )
+          .reduce(
+            (sum,x)=>
+              sum+Number(x.amount),
+            0
+          );
+
+      totalExpense+=total;
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+      row.className=
+        "total-row";
+
+      row.innerHTML=`
+        <div class="total-label">
+          ${category}
+        </div>
+
+        <div class="total-value red">
+          ${money(total)}
+        </div>
+      `;
+
+      expenseContainer
+        .appendChild(row);
+    }
+  );
+
+  const expenseFooter =
+    document.createElement(
+      "div"
+    );
+
+  expenseFooter.className=
+    "total-footer";
+
+  expenseFooter.innerHTML=`
     <div>TOPLAM GİDER</div>
-    <div class="red">${money(totalExpense)}</div>
+    <div class="red">
+      ${money(totalExpense)}
+    </div>
   `;
-  expenseContainer.appendChild(expenseFooter);
 
-  incomeCategories.forEach(category=>{
-    const total = filtered
-      .filter(x=>x.type==="Gelir" && x.category===category)
-      .reduce((sum,x)=>sum+Number(x.amount),0);
+  expenseContainer
+    .appendChild(expenseFooter);
 
-    totalIncome += total;
+  incomeCategories.forEach(
+    category=>{
 
-    const row = document.createElement("div");
-    row.className = "total-row";
-    row.innerHTML = `
-      <div class="total-label">${category}</div>
-      <div class="total-value green">${money(total)}</div>
-    `;
-    incomeContainer.appendChild(row);
-  });
+      const total =
+        filtered
+          .filter(
+            x=>
+              x.type==="Gelir" &&
+              x.category===category
+          )
+          .reduce(
+            (sum,x)=>
+              sum+Number(x.amount),
+            0
+          );
 
-  const incomeFooter = document.createElement("div");
-  incomeFooter.className = "total-footer";
-  incomeFooter.innerHTML = `
+      totalIncome+=total;
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+      row.className=
+        "total-row";
+
+      row.innerHTML=`
+        <div class="total-label">
+          ${category}
+        </div>
+
+        <div class="total-value green">
+          ${money(total)}
+        </div>
+      `;
+
+      incomeContainer
+        .appendChild(row);
+    }
+  );
+
+  const incomeFooter =
+    document.createElement(
+      "div"
+    );
+
+  incomeFooter.className=
+    "total-footer";
+
+  incomeFooter.innerHTML=`
     <div>TOPLAM GELİR</div>
-    <div class="green">${money(totalIncome)}</div>
+
+    <div class="green">
+      ${money(totalIncome)}
+    </div>
   `;
-  incomeContainer.appendChild(incomeFooter);
+
+  incomeContainer
+    .appendChild(incomeFooter);
 }
 
 /* =========================
-   BORÇ DEFTERİ GÖSTER
+   BORÇ DEFTERİ
 ========================= */
 
 function renderDebts(){
-  const list = document.getElementById("debtList");
-  list.innerHTML = "";
 
-  let debtGrandTotal = 0;
-  let debtPaidTotal = 0;
-  let debtRemainingTotal = 0;
+  const list =
+    document.getElementById(
+      "debtList"
+    );
+
+  list.innerHTML="";
+
+  let debtGrandTotal=0;
+  let debtPaidTotal=0;
+  let debtRemainingTotal=0;
 
   debts.forEach(debt=>{
-    const total = getDebtTotal(debt);
-    const paid = getDebtPaid(debt);
-    const balance = getDebtBalance(debt);
 
-    debtGrandTotal += total;
-    debtPaidTotal += paid;
-    debtRemainingTotal += balance;
+    const total =
+      getDebtTotal(debt);
 
-    const card = document.createElement("div");
-    card.className = "debt-card";
+    const paid =
+      getDebtPaid(debt);
 
-    let history = "";
+    const balance =
+      getDebtBalance(debt);
 
-    [...debt.movements]
-      .reverse()
-      .slice(0,6)
-      .forEach(move=>{
-        history += `
-          <div class="debt-move">
-            <div>
-              <strong>${move.type==="debt" ? "🔴 Borç" : "🟢 Ödeme"}</strong>
-              <br>
-              <small>${move.date} · ${move.note || ""}</small>
-            </div>
-            <strong class="${move.type==="debt" ? "red" : "green"}">
-              ${move.type==="debt" ? "+" : "-"}${money(move.amount)}
-            </strong>
+    debtGrandTotal+=total;
+    debtPaidTotal+=paid;
+    debtRemainingTotal+=balance;
+
+    const card =
+      document.createElement(
+        "div"
+      );
+
+    card.className=
+      "debt-card";
+
+    card.innerHTML=`
+
+      <div class="debt-line">
+
+        <div class="debt-name-wrap">
+
+          <div class="debt-name">
+            ${debt.name}
           </div>
-        `;
-      });
 
-    card.innerHTML = `
-      <div class="debt-head">
-        <div>
-          <div class="debt-name">${debt.name}</div>
-          <small>${debt.note || ""}</small>
+          ${
+            debt.note
+              ? `<small>${debt.note}</small>`
+              : ""
+          }
+
+        </div>
+
+        <div class="debt-inline-stat">
+
+          <small>Toplam Borç</small>
+
+          <strong class="red">
+            ${money(total)}
+          </strong>
+
+        </div>
+
+        <div class="debt-inline-stat">
+
+          <small>Ödenen</small>
+
+          <strong class="green">
+            ${money(paid)}
+          </strong>
+
+        </div>
+
+        <div class="debt-inline-stat">
+
+          <small>Kalan</small>
+
+          <strong class="${
+            balance>0
+              ? "red"
+              : "green"
+          }">
+            ${money(balance)}
+          </strong>
+
         </div>
 
         <div class="debt-actions">
-          <button class="btn-orange" onclick="addDebtMovement(${debt.id})">+ Borç</button>
-          <button class="btn-green" onclick="payDebt(${debt.id})">Ödeme Yap</button>
-          <button class="delete" onclick="deleteDebt(${debt.id})">Sil</button>
-        </div>
-      </div>
 
-      <div class="debt-stats">
-        <div class="debt-stat">
-          <small>Toplam Borç</small>
-          <strong class="red">${money(total)}</strong>
+          <button
+            class="btn-orange"
+            onclick="addDebtMovement(${debt.id})">
+            + Borç
+          </button>
+
+          <button
+            class="btn-green"
+            onclick="payDebt(${debt.id})">
+            Ödeme Yap
+          </button>
+
+          <button
+            class="delete"
+            onclick="deleteDebt(${debt.id})">
+            Sil
+          </button>
+
         </div>
 
-        <div class="debt-stat">
-          <small>Ödenen</small>
-          <strong class="green">${money(paid)}</strong>
-        </div>
-
-        <div class="debt-stat">
-          <small>Kalan</small>
-          <strong class="${balance>0 ? "red" : "green"}">${money(balance)}</strong>
-        </div>
-      </div>
-
-      <div class="debt-history">
-        <strong>Son Hareketler</strong>
-        ${history}
       </div>
     `;
 
     list.appendChild(card);
   });
 
-  document.getElementById("debtAccountCount").innerText = debts.length;
-  document.getElementById("debtGrandTotal").innerText = money(debtGrandTotal);
-  document.getElementById("debtPaidTotal").innerText = money(debtPaidTotal);
-  document.getElementById("debtRemainingTotal").innerText = money(debtRemainingTotal);
+  document.getElementById(
+    "debtAccountCount"
+  ).innerText=
+    debts.length;
+
+  document.getElementById(
+    "debtGrandTotal"
+  ).innerText=
+    money(debtGrandTotal);
+
+  document.getElementById(
+    "debtPaidTotal"
+  ).innerText=
+    money(debtPaidTotal);
+
+  document.getElementById(
+    "debtRemainingTotal"
+  ).innerText=
+    money(debtRemainingTotal);
 }
 
 /* =========================
@@ -1226,25 +1826,70 @@ function renderDebts(){
 ========================= */
 
 function renderTransactions(){
-  const list = document.getElementById("transactionList");
-  list.innerHTML = "";
 
-  const filtered = transactions
-    .filter(x=>inFilter(x.date))
-    .sort((a,b)=>b.id-a.id);
+  const list =
+    document.getElementById(
+      "transactionList"
+    );
+
+  list.innerHTML="";
+
+  const filtered =
+    transactions
+      .filter(
+        x=>inFilter(x.date)
+      )
+      .sort(
+        (a,b)=>b.id-a.id
+      );
 
   filtered.forEach(item=>{
-    const row = document.createElement("tr");
 
-    row.innerHTML = `
-      <td>${item.date}</td>
-      <td>${item.type==="Gelir" ? "🟢 Gelir" : "🔴 Gider"}</td>
-      <td>${item.category}</td>
-      <td>${item.subAccount || "-"}</td>
-      <td>${item.note || "-"}</td>
-      <td class="${item.type==="Gelir" ? "green" : "red"}">${money(item.amount)}</td>
+    const row =
+      document.createElement(
+        "tr"
+      );
+
+    row.innerHTML=`
+
       <td>
-        <button class="delete" onclick="deleteTransaction(${item.id})">Sil</button>
+        ${item.date}
+      </td>
+
+      <td>
+        ${
+          item.type==="Gelir"
+            ? "🟢 Gelir"
+            : "🔴 Gider"
+        }
+      </td>
+
+      <td>
+        ${item.category}
+      </td>
+
+      <td>
+        ${item.subAccount || "-"}
+      </td>
+
+      <td>
+        ${item.note || "-"}
+      </td>
+
+      <td class="${
+        item.type==="Gelir"
+          ? "green"
+          : "red"
+      }">
+        ${money(item.amount)}
+      </td>
+
+      <td>
+        <button
+          class="delete"
+          onclick="deleteTransaction(${item.id})">
+          Sil
+        </button>
       </td>
     `;
 
@@ -1257,31 +1902,61 @@ function renderTransactions(){
 ========================= */
 
 function renderSubAccountList(){
-  const container = document.getElementById("subAccountList");
-  container.innerHTML = "";
 
-  [...expenseCategories, ...incomeCategories].forEach(category=>{
-    const items = subAccounts.filter(x=>x.category===category);
+  const container =
+    document.getElementById(
+      "subAccountList"
+    );
+
+  container.innerHTML="";
+
+  [
+    ...expenseCategories,
+    ...incomeCategories
+  ].forEach(category=>{
+
+    const items =
+      subAccounts.filter(
+        x=>x.category===category
+      );
 
     if(items.length===0){
       return;
     }
 
-    const group = document.createElement("div");
-    group.className = "settings-group";
+    const group =
+      document.createElement(
+        "div"
+      );
 
-    let html = `<h4>${category}</h4>`;
+    group.className=
+      "settings-group";
+
+    let html =
+      `<h4>${category}</h4>`;
 
     items.forEach(item=>{
-      html += `
+
+      html+=`
+
         <div class="subaccount-item">
-          <strong>${item.name}</strong>
-          <button class="delete" onclick="deleteSubAccount(${item.id})">Sil</button>
+
+          <strong>
+            ${item.name}
+          </strong>
+
+          <button
+            class="delete"
+            onclick="deleteSubAccount(${item.id})">
+            Sil
+          </button>
+
         </div>
       `;
     });
 
-    group.innerHTML = html;
+    group.innerHTML=html;
+
     container.appendChild(group);
   });
 
@@ -1293,10 +1968,15 @@ function renderSubAccountList(){
 ========================= */
 
 function render(){
+
   renderDashboard();
+
   renderCategoryTotals();
+
   renderDebts();
+
   renderTransactions();
+
   renderSubAccountList();
 }
 
@@ -1305,8 +1985,11 @@ function render(){
 ========================= */
 
 renderNewSubCategories();
+
 renderCategoryOptions();
+
 render();
+
 </script>
 
 </body>
