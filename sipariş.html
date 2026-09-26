@@ -1309,7 +1309,71 @@ setInterval(
 
 );
 
+async function setDiscount(percent){
 
+  const { error } = await db
+    .from("store_status")
+    .update({
+      discount_percent: percent
+    })
+    .eq("id", 1);
+
+  if(error){
+    alert("HATA: " + error.message);
+    console.error(error);
+    return;
+  }
+
+  await loadDiscount();
+
+  alert(
+    percent === 0
+      ? "İndirim kapatıldı."
+      : "%" + percent + " indirim aktif."
+  );
+}
+
+
+async function loadDiscount(){
+
+  const { data, error } = await db
+    .from("store_status")
+    .select("discount_percent")
+    .eq("id", 1)
+    .single();
+
+  if(error){
+    console.error("İndirim okunamadı:", error);
+    return;
+  }
+
+  const percent = Number(
+    data.discount_percent || 0
+  );
+
+  const box =
+    document.getElementById("discountStatus");
+
+  if(!box) return;
+
+  if(percent > 0){
+
+    box.textContent =
+      "Aktif indirim: %" + percent;
+
+    box.style.color =
+      "#4caf50";
+
+  }else{
+
+    box.textContent =
+      "Aktif indirim: YOK";
+
+    box.style.color =
+      "#aaa";
+
+  }
+}
 loadOrderStoreStatus();
 loadDiscount();
 </script>
