@@ -1017,16 +1017,25 @@ async function loadActiveDiscount(){
 
 function isDiscountCategory(category){
 
-  const allowed = [
-    "Burgerler",
-    "Double Burgerler",
-    "Tostlar",
-    "Hot Dog",
-    "İçecekler"
-  ];
+  const c = String(category || "")
+    .trim()
+    .toLocaleLowerCase("tr-TR");
 
-  return allowed.includes(
-    String(category || "").trim()
+  if(
+    c.includes("atıştırmalık") ||
+    c.includes("atistirmalik") ||
+    c.includes("sos") ||
+    c.includes("içecek") ||
+    c.includes("icecek")
+  ){
+    return false;
+  }
+
+  return (
+    c.includes("burger") ||
+    c.includes("tost") ||
+    c.includes("hot dog") ||
+    c.includes("hotdog")
   );
 }
 
