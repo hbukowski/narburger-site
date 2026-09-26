@@ -248,7 +248,64 @@ header{
       >
         Çıkış
       </button>
+<div style="
+  margin-top:14px;
+  padding:14px;
+  background:#181818;
+  border:1px solid #333;
+  border-radius:14px;
+">
 
+  <div style="
+    font-weight:900;
+    margin-bottom:10px;
+  ">
+    TOPLU İNDİRİM
+  </div>
+
+  <div style="
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  ">
+
+    <button onclick="setDiscount(10)">
+      %10
+    </button>
+
+    <button onclick="setDiscount(20)">
+      %20
+    </button>
+
+    <button onclick="setDiscount(30)">
+      %30
+    </button>
+
+    <button onclick="setDiscount(50)">
+      %50
+    </button>
+
+    <button
+      onclick="setDiscount(0)"
+      style="background:#c62828;color:white;"
+    >
+      İNDİRİMİ KAPAT
+    </button>
+
+  </div>
+
+  <div
+    id="discountStatus"
+    style="
+      margin-top:10px;
+      font-weight:bold;
+      color:#aaa;
+    "
+  >
+    Aktif indirim: YOK
+  </div>
+
+</div>
     </div>
 
   </div>
@@ -1254,7 +1311,7 @@ setInterval(
 
 
 loadOrderStoreStatus();
-
+loadDiscount();
 </script>
 
 </body>
